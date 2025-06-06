@@ -11,8 +11,10 @@ export default function App() {
     tg?.expand();
   }, []);
 
+  console.log(user);
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 text-center">
+    <div className="max-w-md mx-auto w-full h-full p-4">
       {user ? (
         <div>
           <h1 className="text-2xl font-bold">Привет, {user.first_name}!</h1>
