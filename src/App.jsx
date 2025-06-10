@@ -1,42 +1,34 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { Router } from "./router";
 import { Layout } from "./components";
+import { LoadingPage } from "./pages";
+import { BrowserRouter } from "react-router-dom";
+import { useWebAppStore } from "./store";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [date, setDate] = useState(null);
+  const { loading, error, init } = useWebAppStore();
 
   useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initDataUnsafe?.user) {
-      setUser(tg.initDataUnsafe.user);
-      setDate(tg.initDataUnsafe);
-    }
-    tg?.expand();
-  }, []);
+    init();
+  }, [init]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-600">
+        <p>Ошибка: {error}</p>
+      </div>
+    );
+  }
 
   return (
-    <Layout>
-      <div className="max-w-md mx-auto w-full h-full p-4">
-        {user ? (
-          <div>
-            <h1 className="text-2xl font-bold">Привет, {user.first_name}!</h1>
-
-            <p className="text-gray-600 text-sm">Ваш Telegram ID: {user.id}</p>
-
-            <div className="mt-4 p-4 rounded-lg bg-gray-50">
-              <h2 className="text-lg font-semibold mb-2">
-                Данные пользователя:
-              </h2>
-
-              <pre className="text-sm whitespace-pre-wrap">
-                {JSON.stringify(date, null, 2)}
-              </pre>
-            </div>
-          </div>
-        ) : (
-          <p className="text-gray-500">Ожидаем загрузку Telegram WebApp...</p>
-        )}
-      </div>
-    </Layout>
+    <BrowserRouter>
+      <Layout className="flex flex-col items-center justify-start p-4">
+        <Router />
+      </Layout>
+    </BrowserRouter>
   );
 }
