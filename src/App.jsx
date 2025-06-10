@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout className="flex flex-col items-center justify-start p-4">
+      <Layout className="flex flex-col items-center justify-start">
         <Router />
       </Layout>
     </BrowserRouter>

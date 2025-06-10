@@ -1,3 +1,4 @@
+import React from "react";
 import { useWebAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 
@@ -5,15 +6,12 @@ export const InstagramConnectPage = () => {
   const { user, loading } = useWebAppStore();
   const navigate = useNavigate();
 
-  console.log(user, loading);
-  console.log("INSTAGRAM PAGE");
-
   const handleNext = () => {
     navigate("/user-data");
   };
 
   return (
-    <div className="flex flex-col items-center justify-start p-4">
+    <div className="flex flex-col items-center justify-start">
       <h1 className="text-4xl font-bold mb-8 text-black">
         Luvo<span className="text-red-500">❤</span>
       </h1>

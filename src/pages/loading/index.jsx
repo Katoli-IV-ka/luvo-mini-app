@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useWebAppStore } from "@/store";
 
 export const LoadingPage = () => {
@@ -10,7 +10,7 @@ export const LoadingPage = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center p-4">
+      <div className="flex items-center justify-center">
         <p className="text-red-600 text-center">Ошибка загрузки: {error}</p>
       </div>
     );

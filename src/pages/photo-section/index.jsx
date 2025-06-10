@@ -3,12 +3,12 @@ import { FiCamera } from "react-icons/fi";
 
 export const PhotoSelectionPage = () => {
   return (
-    <div className="flex flex-col items-center justify-start p-4">
+    <div className="flex flex-col items-center justify-start">
       <h1 className="text-4xl font-bold mb-8 text-black">
         Luvo<span className="text-red-500">❤</span>
       </h1>
 
-      <div className="flex flex-col items-center justify-center flex-grow w-full max-w-md">
+      <div className="flex flex-col items-center justify-center flex-grow w-full">
         <h2 className="text-2xl font-bold mb-8 text-center">Выберите фото</h2>
 
         <div className="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center mb-8 border border-gray-300">

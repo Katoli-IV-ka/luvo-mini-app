@@ -9,7 +9,7 @@ export const UserDataPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start p-4">
+    <div className="flex flex-col items-center justify-start">
       <h1 className="text-4xl font-bold mb-8 text-black">
         Luvo<span className="text-red-500">❤</span>
       </h1>
