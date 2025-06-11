@@ -18,7 +18,11 @@ export const Header = () => {
 
   return (
     <div className="w-full py-7 px-5 border-b-2 bg-white/90 border-[#A29C9B4D]">
-      <img src={LogoIcon} alt="logo-icon" onClick={() => navigate("/")} />
+      <img
+        src={LogoIcon || LogoDarkIcon}
+        alt="logo-icon"
+        onClick={() => navigate("/")}
+      />
     </div>
   );
 };
