@@ -13,7 +13,7 @@ const excludedPaths = [
 ];
 
 const sidebarData = [
-  { icon: HomeIcon, url: "home" },
+  { icon: HomeIcon, url: "feed" },
   { icon: HeartIcon, url: "likes" },
   { icon: BarChartIcon, url: "statistic" },
   { icon: UserIcon, url: "user" },
@@ -27,8 +27,9 @@ export const Sidebar = () => {
 
   return (
     <div className="w-full pt-3.5 px-5 pb-[34px] flex justify-between border-t-2 bg-white/90 border-[#A29C9B4D]">
-      {sidebarData.map((item) => (
+      {sidebarData.map((item, index) => (
         <img
+          key={index}
           src={item.icon}
           alt="sidebar-icon"
           onClick={() => navigate(`/${item.url}`)}

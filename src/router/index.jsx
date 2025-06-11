@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 // import { AuthenticatedRoute, UnauthenticatedRoute } from "../components";
 import {
   FeedPage,
+  LikesPage,
   LoadingPage,
   UserDataPage,
   PhotoSelectionPage,
@@ -12,6 +13,7 @@ export const Router = () => {
   return (
     <Routes>
       <Route path="feed" element={<FeedPage />} />
+      <Route path="likes" element={<LikesPage />} />
       <Route path="loading" element={<LoadingPage />} />
       <Route path="user-data" element={<UserDataPage />} />
       <Route path="photo-selection" element={<PhotoSelectionPage />} />

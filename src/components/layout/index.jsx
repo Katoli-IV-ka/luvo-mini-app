@@ -24,7 +24,7 @@ export const Layout = ({ children, className = "" }) => {
 
   return (
     <div
-      className={classnames("min-h-screen", "w-full", "bg-white", className)}
+      className={classnames(className, "fixed min-h-screen w-full bg-white")}
       style={{
         height: isTelegramWebApp ? "100%" : viewportHeight,
         paddingTop: isTelegramWebApp ? "0" : "env(safe-area-inset-top)",
