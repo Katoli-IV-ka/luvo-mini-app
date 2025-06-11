@@ -16,7 +16,7 @@ const sidebarData = [
   { icon: HomeIcon, url: "feed" },
   { icon: HeartIcon, url: "likes" },
   { icon: BarChartIcon, url: "statistic" },
-  { icon: UserIcon, url: "user" },
+  { icon: UserIcon, url: "profile" },
 ];
 
 export const Sidebar = () => {

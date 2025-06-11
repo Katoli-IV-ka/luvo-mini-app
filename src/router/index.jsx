@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import {
   FeedPage,
   LikesPage,
+  ProfilePage,
   LoadingPage,
   UserDataPage,
   PhotoSelectionPage,
@@ -15,6 +16,7 @@ export const Router = () => {
       <Route path="feed" element={<FeedPage />} />
       <Route path="likes" element={<LikesPage />} />
       <Route path="loading" element={<LoadingPage />} />
+      <Route path="profile" element={<ProfilePage />} />
       <Route path="user-data" element={<UserDataPage />} />
       <Route path="photo-selection" element={<PhotoSelectionPage />} />
       <Route path="instagram-connect" element={<InstagramConnectPage />} />
