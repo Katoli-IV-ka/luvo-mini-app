@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useWebAppStore } from "@/store";
 
 import SpinnerIcon from "./spinner.svg";

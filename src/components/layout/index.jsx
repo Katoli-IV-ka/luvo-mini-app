@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import classnames from "classnames";
-import { Header } from "@/components";
+import { Header, Sidebar } from "@/components";
 
 export const Layout = ({ children, className = "" }) => {
   const [isTelegramWebApp, setIsTelegramWebApp] = useState(false);
@@ -34,6 +34,8 @@ export const Layout = ({ children, className = "" }) => {
       <Header />
 
       {children}
+
+      <Sidebar />
     </div>
   );
 };

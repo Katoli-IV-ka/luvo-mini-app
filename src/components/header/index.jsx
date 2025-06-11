@@ -4,6 +4,8 @@ import { useWebAppStore } from "@/store";
 import LogoDarkIcon from "./logo-dark.svg";
 import LogoLightIcon from "./logo-light.svg";
 
+const excludedPaths = ["loading"];
+
 export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -12,10 +14,10 @@ export const Header = () => {
   const isDark = webApp?.colorScheme === "dark";
   const LogoIcon = isDark ? LogoLightIcon : LogoDarkIcon;
 
-  if (location.pathname == "/loading") return null;
+  if (excludedPaths.includes(location.pathname.substring(1))) return null;
 
   return (
-    <div className="w-full py-7 px-5 border-b border-[#A29C9B4D]">
+    <div className="w-full py-7 px-5 border-b-2 bg-white/90 border-[#A29C9B4D]">
       <img src={LogoIcon} alt="logo-icon" onClick={() => navigate("/")} />
     </div>
   );

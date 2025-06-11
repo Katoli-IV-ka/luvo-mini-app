@@ -1,8 +1,15 @@
 import { Button } from "@/ui";
+import { useNavigate } from "react-router-dom";
 
 import CameraIcon from "./camera.svg";
 
 export const PhotoSelectionPage = () => {
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    navigate("/feed");
+  };
+
   return (
     <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
       <div className="container mx-auto max-w-md p-5">
@@ -12,7 +19,9 @@ export const PhotoSelectionPage = () => {
           <img src={CameraIcon} alt="camera-icon" className="size-[130px]" />
         </div>
 
-        <Button className="mt-3 w-full">Готово</Button>
+        <Button className="mt-3 w-full" onClick={handleNext}>
+          Готово
+        </Button>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
-import React from "react";
-import { Input, Button } from "@/ui";
 import { useNavigate } from "react-router-dom";
+import { Input, Button } from "@/ui";
 
 export const InstagramConnectPage = () => {
   const navigate = useNavigate();

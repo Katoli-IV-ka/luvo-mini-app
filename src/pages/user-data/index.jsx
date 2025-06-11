@@ -1,7 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Input, Button } from "@/ui";
-import { Textarea } from "../../ui/textarea";
+import { Input, Button, Textarea } from "@/ui";
 
 export const UserDataPage = () => {
   const navigate = useNavigate();
@@ -17,7 +15,7 @@ export const UserDataPage = () => {
 
         <div className="mt-10">
           <Input placeholder="Имя" />
-          <Input className="mt-3" placeholder="Возраст" />
+          <Input className="mt-3" type="number" placeholder="Возраст" />
           <Textarea className="mt-3" placeholder="О себе" />
         </div>
 
