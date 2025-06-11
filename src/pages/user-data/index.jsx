@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Input, Button } from "@/ui";
+import { Textarea } from "../../ui/textarea";
 
 export const UserDataPage = () => {
   const navigate = useNavigate();
@@ -9,38 +11,19 @@ export const UserDataPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start">
-      <h1 className="text-4xl font-bold mb-8 text-black">
-        Luvo<span className="text-red-500">❤</span>
-      </h1>
+    <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
+      <div className="container mx-auto max-w-md p-5">
+        <h2 className="text-[32px] font-bold text-black">Данные о Вас</h2>
 
-      <div className="flex flex-col items-center justify-center flex-grow w-full">
-        <h2 className="text-2xl font-bold mb-8 text-center">Данные о Вас</h2>
+        <div className="mt-10">
+          <Input placeholder="Имя" />
+          <Input className="mt-3" placeholder="Возраст" />
+          <Textarea className="mt-3" placeholder="О себе" />
+        </div>
 
-        <input
-          type="text"
-          placeholder="Имя"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-300"
-        />
-
-        <input
-          type="number"
-          placeholder="Возраст"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-300"
-        />
-
-        <textarea
-          placeholder="О себе"
-          rows="4"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-300 resize-none"
-        ></textarea>
-
-        <button
-          className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
-          onClick={handleNext}
-        >
+        <Button className="mt-3 w-full" onClick={handleNext}>
           Далее
-        </button>
+        </Button>
       </div>
     </div>
   );

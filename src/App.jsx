@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Router } from "./router";
 import { Layout } from "./components";
 import { LoadingPage } from "./pages";

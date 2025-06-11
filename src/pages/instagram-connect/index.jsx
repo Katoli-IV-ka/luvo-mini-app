@@ -1,9 +1,8 @@
 import React from "react";
-import { useWebAppStore } from "@/store";
+import { Input, Button } from "@/ui";
 import { useNavigate } from "react-router-dom";
 
 export const InstagramConnectPage = () => {
-  const { user, loading } = useWebAppStore();
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -11,28 +10,17 @@ export const InstagramConnectPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start">
-      <h1 className="text-4xl font-bold mb-8 text-black">
-        Luvo<span className="text-red-500">❤</span>
-      </h1>
-
-      <div className="flex flex-col items-center justify-center flex-grow w-full">
-        <h2 className="text-2xl font-bold mb-8 text-center">
+    <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
+      <div className="container mx-auto max-w-md p-5">
+        <h2 className="text-[32px] font-bold leading-none text-black">
           Привяжите свой Instagram профиль
         </h2>
 
-        <input
-          type="text"
-          placeholder="Ваш username в Instagram"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-300"
-        />
+        <Input className="mt-10" placeholder="Ваш username в Intstagram" />
 
-        <button
-          className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
-          onClick={handleNext}
-        >
+        <Button className="mt-3 w-full" onClick={handleNext}>
           Далее
-        </button>
+        </Button>
       </div>
     </div>
   );

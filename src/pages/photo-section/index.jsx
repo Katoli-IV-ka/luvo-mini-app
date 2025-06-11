@@ -1,23 +1,18 @@
-import React from "react";
-import { FiCamera } from "react-icons/fi";
+import { Button } from "@/ui";
+
+import CameraIcon from "./camera.svg";
 
 export const PhotoSelectionPage = () => {
   return (
-    <div className="flex flex-col items-center justify-start">
-      <h1 className="text-4xl font-bold mb-8 text-black">
-        Luvo<span className="text-red-500">❤</span>
-      </h1>
+    <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
+      <div className="container mx-auto max-w-md p-5">
+        <h2 className="text-[32px] font-bold text-black">Выберите фото</h2>
 
-      <div className="flex flex-col items-center justify-center flex-grow w-full">
-        <h2 className="text-2xl font-bold mb-8 text-center">Выберите фото</h2>
-
-        <div className="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center mb-8 border border-gray-300">
-          <FiCamera size={64} className="text-gray-400" />
+        <div className="mt-10 w-full aspect-square mx-auto flex items-center justify-center border-4 border-primary-gray/30 bg-gray-light rounded-[20px]">
+          <img src={CameraIcon} alt="camera-icon" className="size-[130px]" />
         </div>
 
-        <button className="w-full bg-red-600 text-white p-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
-          Готово
-        </button>
+        <Button className="mt-3 w-full">Готово</Button>
       </div>
     </div>
   );

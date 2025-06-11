@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import classnames from "classnames";
+import { Header } from "@/components";
 
 export const Layout = ({ children, className = "" }) => {
   const [isTelegramWebApp, setIsTelegramWebApp] = useState(false);
@@ -22,13 +24,15 @@ export const Layout = ({ children, className = "" }) => {
 
   return (
     <div
-      className={`min-h-screen w-full bg-white ${className}`}
+      className={classnames("min-h-screen", "w-full", "bg-white", className)}
       style={{
         height: isTelegramWebApp ? "100%" : viewportHeight,
         paddingTop: isTelegramWebApp ? "0" : "env(safe-area-inset-top)",
         paddingBottom: isTelegramWebApp ? "0" : "env(safe-area-inset-bottom)",
       }}
     >
+      <Header />
+
       {children}
     </div>
   );
