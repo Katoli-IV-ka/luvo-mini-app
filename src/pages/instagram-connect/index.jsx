@@ -4,7 +4,23 @@ import { Input, Button } from "@/ui";
 export const InstagramConnectPage = () => {
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    const initData = window.Telegram?.WebApp?.initData;
+
+    if (initData) {
+      try {
+        await navigator.clipboard.writeText(initData);
+        window.Telegram.WebApp.showAlert(
+          "Держи initData Максик! Данные скопирована в буфер обмена<3"
+        );
+      } catch (err) {
+        console.error("Не удалось скопировать initData:", err);
+        window.Telegram.WebApp.showAlert("Ошибка при копировании initData.");
+      }
+    } else {
+      window.Telegram.WebApp.showAlert("initData недоступно.");
+    }
+
     navigate("/user-data");
   };
 
