@@ -11,6 +11,8 @@ export default {
         "primary-red": "#A62739",
         "primary-gray": "#B8BFC7",
         "gray-light": "#EEF1F6",
+        "primary-yellow": "#FFE668",
+        "orange-light": "#FFE3AC",
         //
         "primary-10": "rgba(255, 255, 255, 0.1)",
         "icon-white": "#FFFFFF",

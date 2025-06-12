@@ -3,9 +3,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import {
   FeedPage,
   LikesPage,
-  ProfilePage,
+  RatingPage,
   LoadingPage,
   UserDataPage,
+  UserProfilePage,
+  OtherProfilePage,
   PhotoSelectionPage,
   InstagramConnectPage,
 } from "../pages";
@@ -15,9 +17,11 @@ export const Router = () => {
     <Routes>
       <Route path="feed" element={<FeedPage />} />
       <Route path="likes" element={<LikesPage />} />
+      <Route path="rating" element={<RatingPage />} />
       <Route path="loading" element={<LoadingPage />} />
-      <Route path="profile" element={<ProfilePage />} />
       <Route path="user-data" element={<UserDataPage />} />
+      <Route path="user-profile" element={<UserProfilePage />} />
+      <Route path="other-profile" element={<OtherProfilePage />} />
       <Route path="photo-selection" element={<PhotoSelectionPage />} />
       <Route path="instagram-connect" element={<InstagramConnectPage />} />
 

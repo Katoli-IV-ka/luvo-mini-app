@@ -3,7 +3,7 @@ import { Input, Button, Textarea } from "@/ui";
 
 import LikesImage from "./likes.png";
 
-export const ProfilePage = () => {
+export const UserProfilePage = () => {
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-scroll">
