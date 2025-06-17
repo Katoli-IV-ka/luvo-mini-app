@@ -23,7 +23,7 @@ const stepSchemas = [
     about: yup.string().optional(),
   }),
   yup.object({
-    photo: yup
+    file: yup
       .mixed()
       .required("Фото обязательно")
       .test(
@@ -48,7 +48,7 @@ export const RegistrationPage = () => {
       instagram_username: "",
       first_name: "",
       birthdate: "",
-      photo: null,
+      file: null,
     },
   });
 
@@ -60,7 +60,7 @@ export const RegistrationPage = () => {
     formState: { errors },
   } = methods;
 
-  const photoFile = watch("photo");
+  const photoFile = watch("file");
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
@@ -172,7 +172,7 @@ export const RegistrationPage = () => {
                   accept="image/*"
                   className="absolute inset-0 opacity-0 cursor-pointer rounded-[20px]"
                   onChange={(e) =>
-                    setValue("photo", e.target.files?.[0], {
+                    setValue("file", e.target.files?.[0], {
                       shouldValidate: true,
                     })
                   }
@@ -193,9 +193,9 @@ export const RegistrationPage = () => {
                 )}
               </div>
 
-              {errors.photo && (
+              {errors.file && (
                 <p className="mt-2 text-red-600 text-sm">
-                  {errors.photo.message}
+                  {errors.file.message}
                 </p>
               )}
 

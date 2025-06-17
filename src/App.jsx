@@ -10,7 +10,7 @@ import { useWebAppStore } from "./store";
 export const App = () => {
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
-  const { init, setAccessToken, error, loading, setUser } = useWebAppStore();
+  const { init, error, loading, setUser } = useWebAppStore();
 
   useEffect(() => {
     initializeApp();
@@ -38,9 +38,7 @@ export const App = () => {
   const loginSuccess = (token, isRegister) => {
     try {
       const { user_id } = decodeJWT(token);
-
       setUser({ id: user_id, accessToken: token, isRegister });
-      setAccessToken(token);
 
       navigate(isRegister ? "/feed" : "/registration");
     } catch (error) {

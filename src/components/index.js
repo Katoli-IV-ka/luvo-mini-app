@@ -7,6 +7,7 @@ import { LikesList } from "./likes-list";
 import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
 import { ProfilePhotosList } from "./profile-photos-list";
+import { AuthenticatedRoute } from "./auth-route";
 
 export {
   Layout,
@@ -18,4 +19,5 @@ export {
   RatingList,
   MetchModal,
   ProfilePhotosList,
+  AuthenticatedRoute,
 };
