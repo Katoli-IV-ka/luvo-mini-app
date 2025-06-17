@@ -1,33 +1,25 @@
 import axios from "axios";
 import { API_URL } from "@/constants";
-import { useQuery } from "@tanstack/react-query";
-// import { queryClient } from "@/App";
+import { queryClient } from "../../main";
+import { useMutation } from "@tanstack/react-query";
 
-// export const useNewApiKey = () =>
-//   useMutation({
-//     mutationFn: (body) =>
-//       axiosInstance.post(`${API_URL}/external/merchants/api-keys`, body),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["api-keys"] });
-//     },
-//   });
-
-export const useApiKeys = () =>
-  useQuery({
-    queryKey: ["api-keys"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/external/merchants/api-keys`
-      );
-      return data;
+export const useCreateProfile = () =>
+  useMutation({
+    mutationFn: (body) =>
+      axios.post(`${API_URL}/profile/`, body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 
-// export const useDeleteApiKey = () =>
-//   useMutation({
-//     mutationFn: (id) =>
-//       axiosInstance.delete(`${API_URL}/external/merchants/api-keys/${id}`),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["api-keys"] });
-//     },
-//   });
+export const useProfile = () => {
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`${API_URL}/profile/me`);
+      return data;
+    },
+  });
+};

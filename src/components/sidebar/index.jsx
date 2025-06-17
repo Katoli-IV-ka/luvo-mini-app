@@ -1,9 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
-
 import { HomeIcon } from "./home.jsx";
 import { UserIcon } from "./user.jsx";
 import { HeartIcon } from "./heart.jsx";
 import { BarChartIcon } from "./bar-chart.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const excludedPaths = [
   "loading",
