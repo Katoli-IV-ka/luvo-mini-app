@@ -10,10 +10,13 @@ import { useWebAppStore } from "./store";
 export const App = () => {
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
-  const { init, error, loading, setUser } = useWebAppStore();
+  const { user, init, error, loading, setUser, isInitialized, setInitialized } =
+    useWebAppStore();
 
   useEffect(() => {
-    initializeApp();
+    if (!isInitialized && !user?.accessToken) {
+      initializeApp();
+    }
   }, []);
 
   const initializeApp = async () => {
@@ -39,6 +42,8 @@ export const App = () => {
     try {
       const { user_id } = decodeJWT(token);
       setUser({ id: user_id, accessToken: token, isRegister });
+
+      setInitialized(true);
 
       navigate(isRegister ? "/feed" : "/registration");
     } catch (error) {

@@ -8,7 +8,7 @@ import {
   LikesPage,
   RatingPage,
   LoadingPage,
-  UserProfilePage,
+  ProfilePage,
   RegistrationPage,
   OtherProfilePage,
 } from "../pages";
@@ -23,10 +23,10 @@ export const Router = () => {
         <Route path="likes" element={<LikesPage />} />
         <Route path="rating" element={<RatingPage />} />
         <Route path="loading" element={<LoadingPage />} />
-        <Route path="user-profile" element={<UserProfilePage />} />
+        <Route path="user-profile" element={<ProfilePage />} />
         <Route path="other-profile" element={<OtherProfilePage />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="" replace />} />
         {/* <Route element={<UnauthenticatedRoute />}></Routes> */}
       </Route>
     </Routes>

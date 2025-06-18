@@ -14,12 +14,12 @@ const stepSchemas = [
   }),
   yup.object({
     first_name: yup.string().required("Имя обязательно"),
-    birthdate: yup
-      .number()
-      .typeError("Возраст должен быть числом")
-      .required("Возраст обязателен")
-      .min(0, "Возраст не может быть меньше 0")
-      .max(150, "Возраст слишком большой"),
+    // birthdate: yup
+    //   .number()
+    //   .typeError("Возраст должен быть числом")
+    //   .required("Возраст обязателен")
+    //   .min(0, "Возраст не может быть меньше 0")
+    //   .max(150, "Возраст слишком большой"),
     about: yup.string().optional(),
   }),
   yup.object({
@@ -47,7 +47,7 @@ export const RegistrationPage = () => {
     defaultValues: {
       instagram_username: "",
       first_name: "",
-      birthdate: "",
+      birthdate: "1995-08-17T00:00:00Z",
       file: null,
     },
   });
@@ -86,6 +86,23 @@ export const RegistrationPage = () => {
         Object.entries(data).forEach(([key, value]) => {
           formData.append(key, value);
         });
+
+        // Парсим telegram username из initData
+        let telegramUsername = "";
+        try {
+          const params = new URLSearchParams(initData);
+          const userRaw = params.get("user");
+          if (userRaw) {
+            const parsedUser = JSON.parse(userRaw);
+            telegramUsername = parsedUser.username || "";
+          }
+        } catch (e) {
+          console.warn("Не удалось получить Telegram username:", e);
+        }
+
+        // Добавляем в форму
+        formData.append("telegram_username", telegramUsername);
+        formData.append("gender", "male");
 
         await mutateAsync(formData);
 
@@ -140,7 +157,7 @@ export const RegistrationPage = () => {
 
                 <Input
                   {...register("birthdate")}
-                  type="number"
+                  type="date"
                   className="mt-3"
                   placeholder="Возраст"
                   error={errors.birthdate}

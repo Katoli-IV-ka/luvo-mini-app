@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useFeeds } from "@/api/feed";
 import { FeedCard, MetchModal } from "@/components";
 
 import FeedImage from "./feed.png";
 
 export const FeedPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data, isLoading } = useFeeds();
 
   const onCloseModal = () => {
     setIsOpen(false);
@@ -13,6 +16,8 @@ export const FeedPage = () => {
   const handleLiked = () => {
     setIsOpen(true);
   };
+
+  if (isLoading) return null;
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center justify-center">

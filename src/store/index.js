@@ -9,7 +9,12 @@ const isMockMode = () => {
 
 export const useWebAppStore = create((set) => {
   const storedUser = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {};
-  const { user = null, webApp = null, initData = null } = storedUser;
+  const {
+    user = null,
+    webApp = null,
+    initData = null,
+    isInitialized = false,
+  } = storedUser;
 
   const updateStorage = (updates) => {
     const current = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {};
@@ -18,12 +23,11 @@ export const useWebAppStore = create((set) => {
     return updated;
   };
 
-  console.log(storedUser);
-
   return {
     user,
     webApp,
     initData,
+    isInitialized,
 
     setUser: (user) =>
       set(() => {
@@ -40,7 +44,11 @@ export const useWebAppStore = create((set) => {
         const updated = updateStorage({ initData });
         return { initData: updated.initData };
       }),
-
+    setInitialized: (isInitialized) =>
+      set(() => {
+        const updated = updateStorage({ isInitialized });
+        return { isInitialized: updated.isInitialized };
+      }),
     init: async () => {
       set({ loading: true, error: null });
       try {

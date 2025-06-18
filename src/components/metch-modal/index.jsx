@@ -39,7 +39,7 @@ export const MetchModal = ({ isOpen, onClose, className }) => {
     >
       <div
         className={classnames(
-          "fixed left-1/2 bottom-0 -translate-x-1/2 overflow-y-auto w-full py-6 px-5 rounded-t-[28px] bg-[#F9FBFA] text-center",
+          "fixed left-1/2 bottom-0 -translate-x-1/2 overflow-y-auto scrollbar-hidden w-full py-6 px-5 rounded-t-[28px] bg-[#F9FBFA] text-center",
           className
         )}
       >

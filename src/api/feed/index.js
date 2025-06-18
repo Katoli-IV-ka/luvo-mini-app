@@ -1,7 +1,7 @@
 import { API_URL } from "@/constants";
 import { queryClient } from "@/main";
-import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/utils/axios.util";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useLiked = (id) =>
   useMutation({
@@ -16,7 +16,7 @@ export const useFeeds = () => {
   return useQuery({
     queryKey: ["feeds"],
     queryFn: async () => {
-      const { data } = await axiosInstance.get(`${API_URL}/feed/batch`);
+      const { data } = await axiosInstance.get(`${API_URL}/feed/`);
       return data;
     },
   });
