@@ -13,12 +13,12 @@ export const ProfilePhotosList = ({ photos }) => {
       <h3 className="font-bold text-2xl text-black">Мои фото</h3>
 
       <div className="mt-5 grid grid-cols-3 gap-2.5">
-        {paddedPhotos.map((item, index) => (
+        {paddedPhotos.map((src, index) => (
           <div key={index} className="relative aspect-square rounded-[20px]">
-            {item ? (
+            {src ? (
               <>
                 <img
-                  src={item.image}
+                  src={src}
                   alt="likes-image"
                   className="w-full h-full object-cover rounded-[20px]"
                 />
@@ -30,7 +30,7 @@ export const ProfilePhotosList = ({ photos }) => {
                     className="ml-auto"
                   />
 
-                  {index == 1 && (
+                  {index == 0 && (
                     <div className="font-bold text-[10px]">Главное фото</div>
                   )}
                 </div>

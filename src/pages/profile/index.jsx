@@ -71,14 +71,7 @@ export const ProfilePage = () => {
         className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ProfilePhotosList
-          photos={[
-            { image: `${LikesImage}` },
-            { image: `${LikesImage}` },
-            { image: `${LikesImage}` },
-            { image: `${LikesImage}` },
-          ]}
-        />
+        <ProfilePhotosList photos={[LikesImage, LikesImage, LikesImage]} />
 
         <div className="mt-10">
           <h2 className="text-2xl font-bold leading-none text-black">

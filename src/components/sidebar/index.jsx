@@ -25,7 +25,7 @@ export const Sidebar = () => {
   if (excludedPaths.includes(location.pathname.substring(1))) return null;
 
   return (
-    <div className="w-full pt-3.5 px-5 pb-[34px] flex justify-between border-t-2 bg-white/90 border-[#A29C9B4D]">
+    <div className="mt-auto w-full pt-3.5 px-5 pb-[34px] flex justify-between border-t-2 bg-white/90 border-[#A29C9B4D]">
       {sidebarData.map((item, index) => {
         const Icon = item.icon;
         const active = location.pathname.includes(item.url);

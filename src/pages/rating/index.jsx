@@ -1,6 +1,11 @@
+import { useRating } from "@/api/rating";
 import { Pedestal, RatingList } from "@/components";
 
 export const RatingPage = () => {
+  const { data, isLoading } = useRating();
+
+  if (isLoading) return null;
+
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
