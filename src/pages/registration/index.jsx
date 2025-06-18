@@ -47,7 +47,7 @@ export const RegistrationPage = () => {
     defaultValues: {
       instagram_username: "",
       first_name: "",
-      birthdate: "1995-08-17T00:00:00Z",
+      birthdate: "",
       file: null,
     },
   });
