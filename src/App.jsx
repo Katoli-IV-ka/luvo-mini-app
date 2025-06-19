@@ -74,15 +74,12 @@ export const App = () => {
 
   const loginSuccess = (token, isRegister) => {
     try {
-      const {
-        //  exp,
-        user_id,
-      } = decodeJWT(token);
+      const { user_id, expires_in_ms } = decodeJWT(token);
       setUser({
         id: user_id,
-        accessToken: token,
+        exp: expires_in_ms,
         isRegister,
-        //  exp
+        accessToken: token,
       });
       setInitialized(true);
       navigate(isRegister ? "/feed" : "/registration");

@@ -6,7 +6,7 @@ export const checkTokenExpiration = () => {
 
   if (!user) return false;
 
-  const currentTime = Math.floor(Date.now() / 1000);
+  const currentTime = Date.now();
 
   if (user.exp < currentTime) {
     localStorage.removeItem(USER_STORAGE_KEY);

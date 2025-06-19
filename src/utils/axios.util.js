@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useLogin } from "../api/auth";
 import { getAccessToken } from "./get-auth-tokens.util";
-// import { checkTokenExpiration } from "./check-token.util";
+import { checkTokenExpiration } from "./check-token.util";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -12,9 +12,9 @@ axiosInstance.interceptors.request.use(
     try {
       const token = getAccessToken();
       if (token) {
-        // if (!checkTokenExpiration()) {
-        //   return Promise.reject(new Error("Token expired"));
-        // }
+        if (!checkTokenExpiration()) {
+          return Promise.reject(new Error("Token expired"));
+        }
         config.headers.Authorization = token;
       }
       return config;
