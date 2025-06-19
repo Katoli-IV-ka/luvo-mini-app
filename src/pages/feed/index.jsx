@@ -19,6 +19,8 @@ export const FeedPage = () => {
 
   if (isLoading) return null;
 
+  console.log(data);
+
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center justify-center">
       <div className="container h-full mx-auto max-w-md p-5">

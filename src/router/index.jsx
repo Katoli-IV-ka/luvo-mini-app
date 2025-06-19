@@ -17,16 +17,16 @@ export const Router = () => {
   return (
     <Routes>
       <Route element={<AuthenticatedRoute />}>
-        <Route path="feed" element={<FeedPage />} />
-        <Route path="registration" element={<RegistrationPage />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
 
-        <Route path="likes" element={<LikesPage />} />
-        <Route path="rating" element={<RatingPage />} />
-        <Route path="loading" element={<LoadingPage />} />
-        <Route path="user-profile" element={<ProfilePage />} />
-        <Route path="other-profile" element={<OtherProfilePage />} />
+        <Route path="/likes" element={<LikesPage />} />
+        <Route path="/rating" element={<RatingPage />} />
+        <Route path="/loading" element={<LoadingPage />} />
+        <Route path="/user-profile" element={<ProfilePage />} />
+        <Route path="/other-profile" element={<OtherProfilePage />} />
 
-        <Route path="*" element={<Navigate to="" replace />} />
+        <Route path="*" element={<Navigate to="/feed" replace />} />
         {/* <Route element={<UnauthenticatedRoute />}></Routes> */}
       </Route>
     </Routes>

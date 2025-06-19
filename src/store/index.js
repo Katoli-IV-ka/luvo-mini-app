@@ -51,11 +51,7 @@ export const useWebAppStore = create((set) => {
         const updated = updateStorage({ initData });
         return { initData: updated.initData };
       }),
-    setInitialized: (isInitialized) =>
-      set(() => {
-        const updated = updateStorage({ isInitialized });
-        return { isInitialized: updated.isInitialized };
-      }),
+    setInitialized: (isInitialized) => set(() => ({ isInitialized })),
     init: async () => {
       set({ loading: true, error: null });
       try {
