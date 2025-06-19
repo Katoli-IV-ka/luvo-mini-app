@@ -14,7 +14,10 @@ export const App = () => {
     useWebAppStore();
 
   useEffect(() => {
-    if (!isInitialized && !user?.accessToken) {
+    if (
+      // !isInitialized &&
+      !user?.accessToken
+    ) {
       initializeApp();
     }
   }, []);
