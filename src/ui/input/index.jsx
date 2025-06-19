@@ -32,7 +32,7 @@ export const Input = React.forwardRef(
             onChange={onChange}
             placeholder={placeholder}
             className={classnames(
-              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl text-primary-gray border-2 border-primary-gray/30 bg-gray-light",
+              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl text-black border-2 border-primary-gray/30 bg-gray-light",
               inputClassName
             )}
             disabled={disabled}

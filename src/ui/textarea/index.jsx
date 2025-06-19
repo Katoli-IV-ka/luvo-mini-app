@@ -27,12 +27,13 @@ export const Textarea = React.forwardRef(
         <div className="relative flex items-center rounded-lg bg-white/10">
           <textarea
             ref={ref}
+            rows={4}
             type={type}
             value={value}
             onChange={onChange}
             placeholder={placeholder}
             className={classnames(
-              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl text-primary-gray border-2 border-primary-gray/30 bg-gray-light",
+              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl text-black border-2 border-primary-gray/30 bg-gray-light resize-none",
               inputClassName
             )}
             disabled={disabled}
