@@ -38,7 +38,7 @@ export const ProfilePhotosList = ({ photos }) => {
                 </div>
               </>
             ) : (
-              <div className="w-full aspect-square mx-auto flex items-center justify-center border border-primary-gray/70 dark:border-white/70 dark:transparent bg-gray-light rounded-[20px]">
+              <div className="w-full aspect-square mx-auto flex items-center justify-center border border-primary-gray/70 dark:border-white/70 bg-gray-light dark:bg-transparent rounded-[20px]">
                 <img src={CameraIcon} alt="camera-icon" className="size-10" />
               </div>
             )}
