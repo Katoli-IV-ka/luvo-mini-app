@@ -25,7 +25,7 @@ export const ProfilePhotosList = ({ photos }) => {
 
                 <div className="w-full h-full pb-1.5 absolute top-0 left-0 flex flex-col items-center justify-between bg-gradient-to-t from-[#56484E] to-[#56484E]/0 rounded-[20px]">
                   <img
-                    src={index == 2 ? CloseIcon : EditIcon}
+                    src={index == 0 ? EditIcon : CloseIcon}
                     alt="action-icon"
                     className="ml-auto"
                   />
@@ -38,7 +38,7 @@ export const ProfilePhotosList = ({ photos }) => {
                 </div>
               </>
             ) : (
-              <div className="w-full aspect-square mx-auto flex items-center justify-center border border-primary-gray/30 bg-gray-light rounded-[20px]">
+              <div className="w-full aspect-square mx-auto flex items-center justify-center border border-primary-gray/70 dark:border-white/70 dark:transparent bg-gray-light rounded-[20px]">
                 <img src={CameraIcon} alt="camera-icon" className="size-10" />
               </div>
             )}

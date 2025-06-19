@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { USER_STORAGE_KEY } from "../constants";
+import { THEME, USER_STORAGE_KEY } from "../constants";
 
 const isMockMode = () => {
   if (typeof window === "undefined") return false;
@@ -11,7 +11,7 @@ export const useWebAppStore = create((set) => {
   const storedUser = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {};
   const {
     user = null,
-    theme = "light",
+    theme = THEME.LIGHT,
     webApp = null,
     initData = null,
     isInitialized = false,
