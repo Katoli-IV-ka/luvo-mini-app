@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { THEME } from "./constants";
 import { Router } from "./router";
 import { Layout } from "./components";
 import { useLogin } from "./api/auth";
@@ -10,15 +11,41 @@ import { useWebAppStore } from "./store";
 export const App = () => {
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
-  const { user, init, error, loading, setUser, isInitialized, setInitialized } =
-    useWebAppStore();
-
-  const theme = useWebAppStore((state) => state.theme);
+  const {
+    user,
+    init,
+    error,
+    theme,
+    loading,
+    setUser,
+    setTheme,
+    isInitialized,
+    setInitialized,
+  } = useWebAppStore();
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.toggle("dark", theme === "dark");
+    root.classList.toggle(THEME.DARK, theme === THEME.DARK);
   }, [theme]);
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+
+    if (tg?.onEvent) {
+      const handler = () => {
+        const newTheme =
+          tg.colorScheme === THEME.DARK ? THEME.DARK : THEME.LIGHT;
+        setTheme(newTheme);
+      };
+
+      handler();
+      tg.onEvent("themeChanged", handler);
+
+      return () => {
+        tg.offEvent?.("themeChanged", handler);
+      };
+    }
+  }, [setTheme]);
 
   useEffect(() => {
     if (!isInitialized && !user?.accessToken) {
@@ -49,9 +76,7 @@ export const App = () => {
     try {
       const { user_id } = decodeJWT(token);
       setUser({ id: user_id, accessToken: token, isRegister });
-
       setInitialized(true);
-
       navigate(isRegister ? "/feed" : "/registration");
     } catch (error) {
       console.error("Error during login process:", error);
