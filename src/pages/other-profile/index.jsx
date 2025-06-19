@@ -17,7 +17,7 @@ export const OtherProfilePage = () => {
           }}
         />
 
-        <div className="mt-10 text-black">
+        <div className="mt-10">
           <h2 className="font-bold text-2xl">Диана, 16</h2>
 
           <div className="mt-3 text-base">
@@ -29,12 +29,12 @@ export const OtherProfilePage = () => {
         <div className="mt-10">
           <div className="flex">
             <img src={InstragramIcon} alt="instagram-icon" className="size-8" />
-            <div className="ml-2 font-bold text-black text-2xl">@diana</div>
+            <div className="ml-2 font-bold text-2xl">@diana</div>
           </div>
 
           <div className="mt-3 flex">
             <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
-            <div className="ml-2 font-bold text-black text-2xl">@diana</div>
+            <div className="ml-2 font-bold text-2xl">@diana</div>
           </div>
         </div>
       </div>

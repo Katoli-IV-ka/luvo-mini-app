@@ -92,9 +92,7 @@ export const ProfilePage = () => {
         <ProfilePhotosList photos={[LikesImage, LikesImage, LikesImage]} />
 
         <div className="mt-10">
-          <h2 className="text-2xl font-bold leading-none text-black">
-            Инстаграм
-          </h2>
+          <h2 className="text-2xl font-bold leading-none">Инстаграм</h2>
 
           <Input
             {...register("instagram_username")}
@@ -105,7 +103,7 @@ export const ProfilePage = () => {
         </div>
 
         <div className="mt-5">
-          <h2 className="text-2xl font-bold text-black">О себе</h2>
+          <h2 className="text-2xl font-bold">О себе</h2>
 
           <div className="mt-5">
             <Input

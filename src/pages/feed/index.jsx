@@ -3,11 +3,15 @@ import { useFeeds } from "@/api/feed";
 import { FeedCard, MetchModal } from "@/components";
 
 import FeedImage from "./feed.png";
+import { useWebAppStore } from "../../store";
 
 export const FeedPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { theme } = useWebAppStore();
   const { data, isLoading } = useFeeds();
+
+  console.log(theme);
 
   const onCloseModal = () => {
     setIsOpen(false);

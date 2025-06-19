@@ -20,11 +20,11 @@ export const RatingList = ({ data }) => {
               className="ml-2 size-[60px] object-cover rounded-full"
             />
 
-            <h4 className="ml-2 font-bold text-base text-black">{item.name}</h4>
+            <h4 className="ml-2 font-bold text-base">{item.name}</h4>
           </div>
 
           <div className="flex items-center">
-            <h2 className="font-bold text-lg text-black">{item.likesAmount}</h2>
+            <h2 className="font-bold text-lg">{item.likesAmount}</h2>
 
             <img src={HeartIcon} alt="heart-icon" className="ml-2 size-5" />
           </div>

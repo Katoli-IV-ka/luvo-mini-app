@@ -11,6 +11,7 @@ export const useWebAppStore = create((set) => {
   const storedUser = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {};
   const {
     user = null,
+    theme = "light",
     webApp = null,
     initData = null,
     isInitialized = false,
@@ -25,6 +26,7 @@ export const useWebAppStore = create((set) => {
 
   return {
     user,
+    theme,
     webApp,
     initData,
     isInitialized,
@@ -33,6 +35,11 @@ export const useWebAppStore = create((set) => {
       set(() => {
         const updated = updateStorage({ user });
         return { user: updated.user };
+      }),
+    setTheme: (theme) =>
+      set(() => {
+        const updated = updateStorage({ theme });
+        return { theme: updated.theme };
       }),
     setWebApp: (webApp) =>
       set(() => {
@@ -60,12 +67,21 @@ export const useWebAppStore = create((set) => {
         if (isTelegram && !mockEnabled) {
           tg.ready();
           tg.expand();
+
+          const theme = tg.colorScheme === "dark" ? "dark" : "light";
+          set({ theme });
+
+          tg.onEvent("themeChanged", () => {
+            const newTheme = tg.colorScheme === "dark" ? "dark" : "light";
+            set({ theme: newTheme });
+          });
+
           set({
             webApp: tg,
             user: tg.initDataUnsafe.user,
             initData: tg.initData,
           });
-          return tg.initData; // вернём initData для запроса токена
+          return tg.initData;
         }
 
         if (isDev || mockEnabled) {

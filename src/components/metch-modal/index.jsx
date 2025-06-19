@@ -39,15 +39,13 @@ export const MetchModal = ({ isOpen, onClose, className }) => {
     >
       <div
         className={classnames(
-          "fixed left-1/2 bottom-0 -translate-x-1/2 overflow-y-auto scrollbar-hidden w-full py-6 px-5 rounded-t-[28px] bg-[#F9FBFA] text-center",
+          "fixed left-1/2 bottom-0 -translate-x-1/2 overflow-y-auto scrollbar-hidden w-full py-6 px-5 rounded-t-[28px] bg-[#F9FBFA] dark:bg-black text-center",
           className
         )}
       >
-        <h3 className="font-bold text-xl text-black">
-          💌 У вас взаимная симпатия!
-        </h3>
+        <h3 className="font-bold text-xl">💌 У вас взаимная симпатия!</h3>
 
-        <h1 className="mt-5 font-bold text-[32px] text-black">Александр, 24</h1>
+        <h1 className="mt-5 font-bold text-[32px]">Александр, 24</h1>
 
         <Button className="mt-5 w-full" onClick={onClose}>
           Супер!

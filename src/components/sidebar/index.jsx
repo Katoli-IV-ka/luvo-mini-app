@@ -25,7 +25,7 @@ export const Sidebar = () => {
   if (excludedPaths.includes(location.pathname.substring(1))) return null;
 
   return (
-    <div className="mt-auto w-full pt-3.5 px-5 pb-[34px] flex justify-between border-t-2 bg-white/90 border-[#A29C9B4D]">
+    <div className="relative z-10 mt-auto w-full pt-3.5 px-5 pb-[34px] flex justify-between border-t-2 bg-white/90 border-[#A29C9B4D] dark:bg-black/90">
       {sidebarData.map((item, index) => {
         const Icon = item.icon;
         const active = location.pathname.includes(item.url);
@@ -38,7 +38,7 @@ export const Sidebar = () => {
           >
             <Icon
               className={`w-8 h-8 transition-colors duration-200 ${
-                active ? "text-[#A62739]" : "text-[#1E1E1E]"
+                active ? "text-[#A62739]" : "text-[#1E1E1E] dark:text-white"
               }`}
             />
           </button>

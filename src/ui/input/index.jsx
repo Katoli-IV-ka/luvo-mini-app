@@ -21,10 +21,12 @@ export const Input = React.forwardRef(
     return (
       <div className={classnames("w-full", className)}>
         {label && (
-          <label className="inline-block mb-2 text-white/40">{label}</label>
+          <label className="inline-block mb-2 text-white dark:text-black">
+            {label}
+          </label>
         )}
 
-        <div className="relative flex items-center rounded-lg bg-white/10">
+        <div className="relative flex items-center rounded-[30px] bg-white/10">
           <input
             ref={ref}
             type={type}
@@ -32,7 +34,7 @@ export const Input = React.forwardRef(
             onChange={onChange}
             placeholder={placeholder}
             className={classnames(
-              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl text-black border-2 border-primary-gray/30 bg-gray-light",
+              "w-full py-[18px] px-4 rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light text-black dark:bg-transparent dark:text-white",
               inputClassName
             )}
             disabled={disabled}

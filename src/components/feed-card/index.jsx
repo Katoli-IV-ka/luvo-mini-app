@@ -6,7 +6,10 @@ import HeartIcon from "./heart.svg";
 export const FeedCard = ({ card, onClick, className }) => {
   return (
     <div
-      className={classnames(className, "relative w-full h-full rounded-[20px]")}
+      className={classnames(
+        className,
+        "relative w-full h-full rounded-[20px] text-white"
+      )}
     >
       <img
         src={card.image}

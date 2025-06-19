@@ -13,11 +13,15 @@ export const App = () => {
   const { user, init, error, loading, setUser, isInitialized, setInitialized } =
     useWebAppStore();
 
+  const theme = useWebAppStore((state) => state.theme);
+
   useEffect(() => {
-    if (
-      // !isInitialized &&
-      !user?.accessToken
-    ) {
+    const root = document.documentElement;
+    root.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
+  useEffect(() => {
+    if (!isInitialized && !user?.accessToken) {
       initializeApp();
     }
   }, []);
@@ -64,7 +68,7 @@ export const App = () => {
     );
 
   return (
-    <Layout className="flex flex-col items-center justify-start">
+    <Layout className="flex flex-col items-center justify-start bg-white text-black dark:bg-black dark:text-white">
       <Router />
     </Layout>
   );

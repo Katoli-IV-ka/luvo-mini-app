@@ -11,10 +11,10 @@ export const Pedestal = () => {
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base text-black">Александра</h4>
+        <h4 className="mt-1 font-bold text-base">Александра</h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-lg text-black">2,8k</h2>
+          <h2 className="font-bold text-lg">2,8k</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-5" />
         </div>
@@ -31,10 +31,10 @@ export const Pedestal = () => {
           className="size-[100px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-lg text-black">Александра</h4>
+        <h4 className="mt-1 font-bold text-lg">Александра</h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-2xl text-black">3,2k</h2>
+          <h2 className="font-bold text-2xl">3,2k</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-7" />
         </div>
@@ -51,10 +51,10 @@ export const Pedestal = () => {
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base text-black">Александра</h4>
+        <h4 className="mt-1 font-bold text-base">Александра</h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-lg text-black">1,4k</h2>
+          <h2 className="font-bold text-lg">1,4k</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-5" />
         </div>

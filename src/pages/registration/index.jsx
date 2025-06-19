@@ -127,7 +127,7 @@ export const RegistrationPage = () => {
         >
           {step === 0 && (
             <>
-              <h2 className="text-[32px] font-bold leading-none text-black">
+              <h2 className="text-[32px] font-bold leading-none">
                 Привяжите свой Instagram профиль
               </h2>
 
@@ -146,7 +146,7 @@ export const RegistrationPage = () => {
 
           {step === 1 && (
             <>
-              <h2 className="text-[32px] font-bold text-black">Данные о Вас</h2>
+              <h2 className="text-[32px] font-bold">Данные о Вас</h2>
 
               <div className="mt-10">
                 <Input
@@ -179,9 +179,7 @@ export const RegistrationPage = () => {
 
           {step === 2 && (
             <>
-              <h2 className="text-[32px] font-bold text-black">
-                Выберите фото
-              </h2>
+              <h2 className="text-[32px] font-bold">Выберите фото</h2>
 
               <div className="mt-10 w-full aspect-square mx-auto flex items-center justify-center border-4 border-primary-gray/30 bg-gray-light rounded-[20px] relative">
                 <input

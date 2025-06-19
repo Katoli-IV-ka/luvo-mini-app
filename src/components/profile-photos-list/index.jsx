@@ -10,7 +10,7 @@ export const ProfilePhotosList = ({ photos }) => {
 
   return (
     <>
-      <h3 className="font-bold text-2xl text-black">Мои фото</h3>
+      <h3 className="font-bold text-2xl">Мои фото</h3>
 
       <div className="mt-5 grid grid-cols-3 gap-2.5">
         {paddedPhotos.map((src, index) => (
@@ -23,7 +23,7 @@ export const ProfilePhotosList = ({ photos }) => {
                   className="w-full h-full object-cover rounded-[20px]"
                 />
 
-                <div className="w-full h-full pb-1.5 absolute top-0 left-0 flex flex-col items-center justify-between">
+                <div className="w-full h-full pb-1.5 absolute top-0 left-0 flex flex-col items-center justify-between bg-gradient-to-t from-[#56484E] to-[#56484E]/0 rounded-[20px]">
                   <img
                     src={index == 2 ? CloseIcon : EditIcon}
                     alt="action-icon"
@@ -31,7 +31,9 @@ export const ProfilePhotosList = ({ photos }) => {
                   />
 
                   {index == 0 && (
-                    <div className="font-bold text-[10px]">Главное фото</div>
+                    <div className="font-bold text-[10px] text-white">
+                      Главное фото
+                    </div>
                   )}
                 </div>
               </>

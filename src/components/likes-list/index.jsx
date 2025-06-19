@@ -7,9 +7,7 @@ export const LikesList = ({ likes }) => {
         <Link key={index} to="/other-profile">
           <img src={like.image} alt="likes-image" className="rounded-[20px]" />
 
-          <div className="mt-[5px] font-bold text-xl text-black">
-            {like.name}
-          </div>
+          <div className="mt-[5px] font-bold text-xl">{like.name}</div>
         </Link>
       ))}
     </div>
