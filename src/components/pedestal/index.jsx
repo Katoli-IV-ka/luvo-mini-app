@@ -1,20 +1,30 @@
 import HeartIcon from "./heart.svg";
 import PedestalImage from "./pedestal.png";
 
-export const Pedestal = () => {
+export const Pedestal = ({ data }) => {
+  const topFirst = data[0];
+  const topSecond = data[1];
+  const topThird = data[2];
+
   return (
     <div className="mt-10 grid grid-cols-3 items-center">
       <div className="flex flex-col items-center">
         <img
-          src={PedestalImage}
+          src={
+            topSecond.photos && topSecond.photos[0]
+              ? topSecond.photos[0]
+              : PedestalImage
+          }
           alt="rating-image"
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base">Александра</h4>
+        <h4 className="mt-1 font-bold text-base">
+          {topSecond.instagram_username}
+        </h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-lg">2,8k</h2>
+          <h2 className="font-bold text-lg">{topSecond.likes_count}</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-5" />
         </div>
@@ -26,15 +36,21 @@ export const Pedestal = () => {
 
       <div className="flex flex-col items-center">
         <img
-          src={PedestalImage}
+          src={
+            topFirst.photos && topFirst.photos[0]
+              ? topFirst.photos[0]
+              : PedestalImage
+          }
           alt="rating-image"
           className="size-[100px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-lg">Александра</h4>
+        <h4 className="mt-1 font-bold text-lg">
+          {topFirst.instagram_username}
+        </h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-2xl">3,2k</h2>
+          <h2 className="font-bold text-2xl">{topFirst.likes_count}</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-7" />
         </div>
@@ -46,15 +62,21 @@ export const Pedestal = () => {
 
       <div className="flex flex-col items-center">
         <img
-          src={PedestalImage}
+          src={
+            topThird.photos && topThird.photos[0]
+              ? topThird.photos[0]
+              : PedestalImage
+          }
           alt="rating-image"
           className="size-[70px] object-cover rounded-full"
         />
 
-        <h4 className="mt-1 font-bold text-base">Александра</h4>
+        <h4 className="mt-1 font-bold text-base">
+          {topThird.instagram_username}
+        </h4>
 
         <div className="mt-1 flex items-center">
-          <h2 className="font-bold text-lg">1,4k</h2>
+          <h2 className="font-bold text-lg">{topThird.likes_count}</h2>
 
           <img src={HeartIcon} alt="heart-icon" className="size-5" />
         </div>
