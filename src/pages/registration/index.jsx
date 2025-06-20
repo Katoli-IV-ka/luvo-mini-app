@@ -203,7 +203,7 @@ export const RegistrationPage = () => {
               </div>
 
               {errors.file && (
-                <p className="mt-2 text-red-600 text-sm">
+                <p className="mt-2 text-light-red text-sm">
                   {errors.file.message}
                 </p>
               )}

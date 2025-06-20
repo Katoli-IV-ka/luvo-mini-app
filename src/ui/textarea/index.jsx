@@ -45,7 +45,7 @@ export const Textarea = React.forwardRef(
           {children}
         </div>
 
-        {error && <p className="mt-2 text-additional-red">{error.message}</p>}
+        {error && <p className="mt-2 text-light-red">{error.message}</p>}
       </div>
     );
   }

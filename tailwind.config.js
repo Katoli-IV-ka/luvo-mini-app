@@ -22,6 +22,7 @@ export default {
         "gray-light": "#EEF1F6",
         "primary-yellow": "#FFE668",
         "orange-light": "#FFE3AC",
+        "light-red": "#DB324D",
       },
     },
     animation: {

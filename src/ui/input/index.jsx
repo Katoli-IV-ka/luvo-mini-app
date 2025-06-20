@@ -45,9 +45,7 @@ export const Input = React.forwardRef(
         </div>
 
         {error && (
-          <p className="mt-2 font-semibold text-additional-red">
-            {error.message}
-          </p>
+          <p className="mt-2 font-semibold text-light-red">{error.message}</p>
         )}
       </div>
     );
