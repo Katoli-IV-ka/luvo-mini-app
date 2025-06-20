@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MetchModal, LikesCard, LikesList } from "@/components";
 
 const data = [
@@ -13,7 +13,27 @@ const data = [
     user_id: 0,
     telegram_username: "string",
     instagram_username: "string",
-    photos: ["https://picsum.photos/300", "https://picsum.photos/300"],
+    photos: [
+      "https://picsum.photos/300?random=1",
+      "https://picsum.photos/300?random=2",
+    ],
+    created_at: "2025-06-20T05:42:36.694Z",
+  },
+  {
+    first_name: "string",
+    birthdate: "2025-06-20",
+    gender: "string",
+    about: "string",
+    latitude: 0,
+    longitude: 0,
+    id: 5,
+    user_id: 0,
+    telegram_username: "string",
+    instagram_username: "string",
+    photos: [
+      "https://picsum.photos/300?random=1",
+      "https://picsum.photos/300?random=2",
+    ],
     created_at: "2025-06-20T05:42:36.694Z",
   },
   {
@@ -27,7 +47,11 @@ const data = [
     user_id: 0,
     telegram_username: "string",
     instagram_username: "dfsf",
-    photos: ["https://picsum.photos/300", "https://picsum.photos/300"],
+    photos: [
+      "https://picsum.photos/300?random=1",
+      "https://picsum.photos/300?random=2",
+      "https://picsum.photos/300?random=3",
+    ],
     created_at: "2025-06-20T05:42:36.694Z",
   },
   {
@@ -41,29 +65,64 @@ const data = [
     user_id: 0,
     telegram_username: "string",
     instagram_username: "232",
-    photos: ["https://picsum.photos/300", "https://picsum.photos/300"],
+    photos: ["https://picsum.photos/300"],
     created_at: "2025-06-20T05:42:36.694Z",
   },
 ];
 
 export const LikesPage = () => {
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
 
-  const handleLiked = () => {
-    setIsOpen(true);
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].clientX;
   };
 
-  const onCloseModal = () => {
-    setIsOpen(false);
+  const handleTouchEnd = (e) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    handleSwipe();
   };
+
+  const handleSwipe = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+
+    if (diff > threshold) {
+      setCurrentCardIndex((prev) => (prev < data.length - 1 ? prev + 1 : prev));
+    } else if (diff < -threshold) {
+      setCurrentCardIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const onCloseModal = () => setIsOpen(false);
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        <LikesCard
-          card={data[0]}
-          // onClick={handleLiked}
-        />
+        <div
+          className="relative"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <LikesCard card={data[currentCardIndex]} />
+        </div>
+
+        <div className="flex justify-center mt-4 space-x-2">
+          {data.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full ${
+                index === currentCardIndex ? "bg-primary-red" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
 
         <LikesList data={data} />
       </div>
