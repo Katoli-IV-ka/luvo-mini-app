@@ -5,8 +5,15 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useLiked = (id) =>
   useMutation({
-    mutationFn: (body) =>
-      axiosInstance.post(`${API_URL}/profiles/${id}/like`, body),
+    mutationFn: (body) => axiosInstance.post(`${API_URL}/like/${id}`, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feeds"] });
+    },
+  });
+
+export const useIgnored = (id) =>
+  useMutation({
+    mutationFn: (body) => axiosInstance.post(`${API_URL}/ignore/${id}`, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
     },

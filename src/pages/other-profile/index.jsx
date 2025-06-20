@@ -1,4 +1,4 @@
-import { FeedCard } from "@/components";
+import { LikesCard } from "@/components";
 
 import LikesImage from "./likes.png";
 import TelegramIcon from "./telegram.png";
@@ -8,7 +8,7 @@ export const OtherProfilePage = () => {
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        <FeedCard
+        <LikesCard
           card={{
             age: 16,
             name: "Диана",
