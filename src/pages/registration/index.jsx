@@ -14,12 +14,6 @@ const stepSchemas = [
   }),
   yup.object({
     first_name: yup.string().required("Имя обязательно"),
-    // birthdate: yup
-    //   .number()
-    //   .typeError("Возраст должен быть числом")
-    //   .required("Возраст обязателен")
-    //   .min(0, "Возраст не может быть меньше 0")
-    //   .max(150, "Возраст слишком большой"),
     about: yup.string().optional(),
   }),
   yup.object({
@@ -225,18 +219,6 @@ export const RegistrationPage = () => {
               </Button>
             </>
           )}
-
-          <div className="mt-4">
-            {step > 0 && (
-              <button
-                type="button"
-                onClick={onBack}
-                className="btn btn-secondary"
-              >
-                Назад
-              </button>
-            )}
-          </div>
         </form>
       </div>
     </FormProvider>

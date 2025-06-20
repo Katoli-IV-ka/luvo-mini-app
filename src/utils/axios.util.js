@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useLogin } from "../api/auth";
+import { useWebAppStore } from "../store";
 import { getAccessToken } from "./get-auth-tokens.util";
+import { loginByInitData } from "./login-by-init-data.util";
 import { checkTokenExpiration } from "./check-token.util";
 
 export const axiosInstance = axios.create({
@@ -49,9 +50,7 @@ axiosInstance.interceptors.response.use(
 
         if (!initData) throw new Error("Не удалось получить initData");
 
-        const { mutateAsync } = useLogin();
-
-        const { data } = await mutateAsync({ init_data: initData });
+        const data = await loginByInitData(initData);
         const { access_token, has_profile } = data;
 
         if (!access_token) throw new Error("Токен отсутствует");
