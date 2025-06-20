@@ -49,34 +49,40 @@ export const RatingList = ({ data }) => {
         </div>
       )}
 
-      {data.map((item, index) => (
-        <div
-          key={item.id}
-          className="mt-3 first:mt-0 flex items-center justify-between"
-        >
-          <div className="flex items-center">
-            <div className="h-10 w-10 flex items-center justify-center bg-[#F7FAFF] border-2 border-primary-gray/30 font-bold text-black rounded-xl">
-              {index + 1}
+      {data.map((item, index) => {
+        console.log(item);
+
+        return (
+          <div
+            key={item.id}
+            className="mt-3 first:mt-0 flex items-center justify-between"
+          >
+            <div className="flex items-center">
+              <div className="h-10 w-10 flex items-center justify-center bg-[#F7FAFF] border-2 border-primary-gray/30 font-bold text-black rounded-xl">
+                {index + 1}
+              </div>
+
+              <img
+                src={
+                  item.photos && item.photos[0] ? item.photos[0] : RatingImage
+                }
+                alt="rating-image"
+                className="ml-2 size-[60px] object-cover rounded-full"
+              />
+
+              <h4 className="ml-2 font-bold text-base">
+                {item.instagram_username}
+              </h4>
             </div>
 
-            <img
-              src={item.photos && item.photos[0] ? item.photos[0] : RatingImage}
-              alt="rating-image"
-              className="ml-2 size-[60px] object-cover rounded-full"
-            />
+            <div className="flex items-center">
+              <h2 className="font-bold text-lg">{item.likes_count}</h2>
 
-            <h4 className="ml-2 font-bold text-base">
-              {item.instagram_username}
-            </h4>
+              <img src={HeartIcon} alt="heart-icon" className="ml-2 size-5" />
+            </div>
           </div>
-
-          <div className="flex items-center">
-            <h2 className="font-bold text-lg">{item.likes_count}</h2>
-
-            <img src={HeartIcon} alt="heart-icon" className="ml-2 size-5" />
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
