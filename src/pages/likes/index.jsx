@@ -60,7 +60,10 @@ export const LikesPage = () => {
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        <LikesCard card={data[0]} onClick={handleLiked} />
+        <LikesCard
+          card={data[0]}
+          // onClick={handleLiked}
+        />
 
         <LikesList data={data} />
       </div>

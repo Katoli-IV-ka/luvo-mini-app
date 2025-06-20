@@ -24,5 +24,17 @@ export default {
         "orange-light": "#FFE3AC",
       },
     },
+    animation: {
+      insta: "instaHeart 800ms ease",
+    },
+    keyframes: {
+      instaHeart: {
+        "0%": { transform: "scale(0.7)", opacity: "0" },
+        "30%": { transform: "scale(1.2)", opacity: "1" },
+        "60%": { transform: "scale(1)", opacity: "1" },
+        "100%": { transform: "scale(1)", opacity: "0" },
+      },
+    },
   },
+  plagins: [],
 };
