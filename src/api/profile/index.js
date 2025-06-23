@@ -36,10 +36,39 @@ export const useUpdateProfile = () => {
 
 export const useOtherProfile = () => {
   return useQuery({
-    queryKey: ["profiles"],
+    queryKey: ["profile"],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`${API_URL}/profiles`);
       return data;
     },
   });
 };
+
+export const useCreateProfilePhotos = () =>
+  useMutation({
+    mutationFn: (body) =>
+      axiosInstance.post(`${API_URL}/photo/`, body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["photo"] });
+    },
+  });
+
+export const useProfilePhotos = () => {
+  return useQuery({
+    queryKey: ["photo"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`${API_URL}/photo/`);
+      return data;
+    },
+  });
+};
+
+export const useDeleteProfilePhotos = () =>
+  useMutation({
+    mutationFn: (id) => axiosInstance.delete(`${API_URL}/photo/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["photo"] });
+    },
+  });

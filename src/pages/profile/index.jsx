@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfilePhotosList } from "@/components";
 import { Input, Button, Textarea } from "@/ui";
-import { useProfile, useUpdateProfile } from "@/api/profile";
-
-import LikesImage from "./likes.png";
+import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
 
 const schema = yup.object({
   instagram_username: yup.string().required("Введите имя пользователя"),
@@ -15,7 +13,8 @@ const schema = yup.object({
 });
 
 export const ProfilePage = () => {
-  const { data, isLoading } = useProfile();
+  const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
+  const { data: profileData, isLoading: profileIsLoading } = useProfile();
 
   const { mutateAsync } = useUpdateProfile();
 
@@ -71,17 +70,17 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (profileData) {
       reset({
-        instagram_username: data.instagram_username || "",
-        first_name: data.first_name || "",
-        about: data.about || "",
-        birthdate: data.birthdate || "",
+        instagram_username: profileData.instagram_username || "",
+        first_name: profileData.first_name || "",
+        about: profileData.about || "",
+        birthdate: profileData.birthdate || "",
       });
     }
-  }, [data, reset]);
+  }, [profileData, reset]);
 
-  if (isLoading) return null;
+  if (profileIsLoading || photosIsLoading) return null;
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
@@ -89,7 +88,7 @@ export const ProfilePage = () => {
         className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ProfilePhotosList photos={[LikesImage, LikesImage, LikesImage]} />
+        <ProfilePhotosList photos={photosData} />
 
         <div className="mt-10">
           <h2 className="text-2xl font-bold leading-none">Инстаграм</h2>

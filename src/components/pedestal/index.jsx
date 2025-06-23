@@ -10,11 +10,12 @@ export const Pedestal = ({ data }) => {
     <div className="mt-10 grid grid-cols-3 items-center">
       <div className="flex flex-col items-center">
         <img
-          src={
-            topSecond.photos && topSecond.photos[0]
-              ? topSecond.photos[0]
-              : PedestalImage
-          }
+          // src={
+          //   topSecond.photos && topSecond.photos[0]
+          //     ? topSecond.photos[0]
+          //     : PedestalImage
+          // }
+          src={PedestalImage}
           alt="rating-image"
           className="size-[70px] object-cover rounded-full"
         />
@@ -36,11 +37,12 @@ export const Pedestal = ({ data }) => {
 
       <div className="flex flex-col items-center">
         <img
-          src={
-            topFirst.photos && topFirst.photos[0]
-              ? topFirst.photos[0]
-              : PedestalImage
-          }
+          // src={
+          //   topFirst.photos && topFirst.photos[0]
+          //     ? topFirst.photos[0]
+          //     : PedestalImage
+          // }
+          src={PedestalImage}
           alt="rating-image"
           className="size-[100px] object-cover rounded-full"
         />
@@ -62,11 +64,12 @@ export const Pedestal = ({ data }) => {
 
       <div className="flex flex-col items-center">
         <img
-          src={
-            topThird.photos && topThird.photos[0]
-              ? topThird.photos[0]
-              : PedestalImage
-          }
+          // src={
+          //   topThird.photos && topThird.photos[0]
+          //     ? topThird.photos[0]
+          //     : PedestalImage
+          // }
+          src={PedestalImage}
           alt="rating-image"
           className="size-[70px] object-cover rounded-full"
         />

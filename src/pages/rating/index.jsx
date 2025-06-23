@@ -1,71 +1,13 @@
 import { useRating } from "@/api/rating";
 import { Pedestal, RatingList } from "@/components";
 
-// const data = [
-//   {
-//     id: 0,
-//     user_id: 0,
-//     first_name: "string",
-//     birthdate: "2025-06-20",
-//     gender: "string",
-//     about: "string",
-//     telegram_username: "string",
-//     instagram_username: "string",
-//     photos: ["string"],
-//     created_at: "2025-06-20T04:59:21.966Z",
-//     likes_count: 0,
-//   },
-//   {
-//     id: 1,
-//     user_id: 1,
-//     first_name: "string",
-//     birthdate: "2025-06-20",
-//     gender: "string",
-//     about: "string",
-//     telegram_username: "string",
-//     instagram_username: "string",
-//     photos: ["string"],
-//     created_at: "2025-06-20T04:59:21.966Z",
-//     likes_count: 2,
-//   },
-//   {
-//     id: 2,
-//     user_id: 2,
-//     first_name: "string",
-//     birthdate: "2025-06-20",
-//     gender: "string",
-//     about: "string",
-//     telegram_username: "string",
-//     instagram_username: "string",
-//     photos: ["string"],
-//     created_at: "2025-06-20T04:59:21.966Z",
-//     likes_count: 4,
-//   },
-//   {
-//     id: 41,
-//     user_id: 2,
-//     first_name: "string",
-//     birthdate: "2025-06-20",
-//     gender: "string",
-//     about: "string",
-//     telegram_username: "string",
-//     instagram_username: "sefsefsefes",
-//     photos: ["string"],
-//     created_at: "2025-06-20T04:59:21.966Z",
-//     likes_count: 3,
-//   },
-// ];
-
 export const RatingPage = () => {
   const { data, isLoading } = useRating();
 
-  const sortByLikesDesc = (users) => {
-    return [...users].sort((a, b) => b.likes_count - a.likes_count);
-  };
+  const sortByLikesDesc = (users) =>
+    [...users].sort((a, b) => b.likes_count - a.likes_count);
 
   if (isLoading || !data.length) return null;
-
-  console.log(data.length);
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">

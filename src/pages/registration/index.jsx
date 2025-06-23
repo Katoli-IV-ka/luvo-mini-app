@@ -108,10 +108,6 @@ export const RegistrationPage = () => {
     }
   };
 
-  const onBack = () => {
-    setStep((prev) => Math.max(prev - 1, 0));
-  };
-
   return (
     <FormProvider {...methods}>
       <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
