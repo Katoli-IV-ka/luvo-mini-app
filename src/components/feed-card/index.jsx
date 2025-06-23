@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { useLiked } from "@/api/feed";
 
 import BigHeart from "../../assets/icons/big-heart.svg";
+import FeedImage from "./feed.png";
 import HeartIcon from "./heart.svg";
 
 export const FeedCard = ({ card, className }) => {
@@ -42,25 +43,21 @@ export const FeedCard = ({ card, className }) => {
     }, 1200);
   };
 
-  // Обработчик клика по картинке — листает фото в зависимости от стороны
   const handleImageClick = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
     if (clickX < rect.width / 2) {
-      // Клик слева — листаем назад
       setCurrentPhotoIndex((prevIndex) =>
         prevIndex === 0 ? card.photos.length - 1 : prevIndex - 1
       );
     } else {
-      // Клик справа — листаем вперёд
       setCurrentPhotoIndex((prevIndex) =>
         prevIndex === card.photos.length - 1 ? 0 : prevIndex + 1
       );
     }
   };
 
-  // Для дабл-тапа лайка по touch
   const handleTouchStart = () => {
     const now = Date.now();
     if (now - lastTap.current < 300) {
@@ -78,7 +75,8 @@ export const FeedCard = ({ card, className }) => {
     >
       <div className="relative w-full h-full">
         <img
-          src={card.photos[currentPhotoIndex]}
+          // src={card.photos[currentPhotoIndex]}
+          src={FeedImage}
           alt="feed-image"
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
