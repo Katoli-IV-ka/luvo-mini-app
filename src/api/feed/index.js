@@ -19,11 +19,13 @@ export const useIgnored = (id) =>
     },
   });
 
-export const useFeeds = () => {
+export const useFeeds = (skip = 0, limit = 5) => {
   return useQuery({
-    queryKey: ["feeds"],
+    queryKey: ["feeds", skip, limit],
     queryFn: async () => {
-      const { data } = await axiosInstance.get(`${API_URL}/feed/`);
+      const { data } = await axiosInstance.get(`${API_URL}/feed/`, {
+        params: { skip, limit },
+      });
       return data;
     },
   });

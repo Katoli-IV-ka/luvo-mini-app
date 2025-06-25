@@ -7,15 +7,13 @@ import FeedImage from "./feed.png";
 import HeartIcon from "./heart.svg";
 import EmptyHeartIcon from "./empty-heart.svg";
 
-export const FeedCard = ({ card, className }) => {
-  const [liked, setLiked] = useState(card?.is_liked || false);
-  const [viewed, setViewed] = useState(false);
+export const FeedCard = ({ card, viewed, setViewed, className }) => {
+  const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
-
   const { mutate: likeUser } = useLiked(card.id);
   const { mutate: sendView } = useFeedView();
 
@@ -31,7 +29,6 @@ export const FeedCard = ({ card, className }) => {
     if (!liked) {
       likeUser();
       setLiked(true);
-
       setShowHeart(true);
       setHeartAnim(true);
 
@@ -42,23 +39,20 @@ export const FeedCard = ({ card, className }) => {
 
   const handleImageClick = (e) => {
     markAsViewed();
-
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
-    if (clickX < rect.width / 2) {
-      setCurrentPhotoIndex((prev) =>
-        prev === 0 ? card.photos.length - 1 : prev - 1
-      );
-    } else {
-      setCurrentPhotoIndex((prev) =>
-        prev === card.photos.length - 1 ? 0 : prev + 1
-      );
-    }
+    setCurrentPhotoIndex((prev) => {
+      const isPrev = clickX < rect.width / 2;
+      if (isPrev) {
+        return prev === 0 ? card.photos.length - 1 : prev - 1;
+      } else {
+        return prev === card.photos.length - 1 ? 0 : prev + 1;
+      }
+    });
   };
 
   const handleTouchStart = () => {
-    markAsViewed(); // 👈 3. При любом таче
     const now = Date.now();
     if (now - lastTap.current < 300) {
       handleLike();
@@ -70,11 +64,13 @@ export const FeedCard = ({ card, className }) => {
     const today = new Date();
     const birthDate = new Date(birthDateStr);
     let age = today.getFullYear() - birthDate.getFullYear();
-    const isBirthdayPassed =
+
+    const hasBirthdayPassed =
       today.getMonth() > birthDate.getMonth() ||
       (today.getMonth() === birthDate.getMonth() &&
         today.getDate() >= birthDate.getDate());
-    return isBirthdayPassed ? age : age - 1;
+
+    return hasBirthdayPassed ? age : age - 1;
   };
 
   return (
@@ -86,9 +82,9 @@ export const FeedCard = ({ card, className }) => {
     >
       <div className="relative w-full h-full">
         <img
-          // src={card.photos[currentPhotoIndex]}
           src={FeedImage}
-          alt="feed-image"
+          // src={card.photos[currentPhotoIndex]}
+          alt="profile"
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
         />
