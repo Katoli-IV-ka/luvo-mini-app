@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import classnames from "classnames";
 import { useLiked, useFeedView } from "@/api/feed";
 
@@ -72,6 +72,11 @@ export const FeedCard = ({ card, viewed, setViewed, className }) => {
 
     return hasBirthdayPassed ? age : age - 1;
   };
+
+  useEffect(() => {
+    setLiked(false);
+    setCurrentPhotoIndex(0);
+  }, [card.id]);
 
   return (
     <div
