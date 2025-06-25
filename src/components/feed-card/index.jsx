@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import classnames from "classnames";
-import { useLiked } from "@/api/feed";
+import { useLiked, useFeedView } from "@/api/feed";
 
 import BigHeart from "../../assets/icons/big-heart.svg";
 import FeedImage from "./feed.png";
@@ -9,63 +9,72 @@ import EmptyHeartIcon from "./empty-heart.svg";
 
 export const FeedCard = ({ card, className }) => {
   const [liked, setLiked] = useState(card?.is_liked || false);
+  const [viewed, setViewed] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
+
   const { mutate: likeUser } = useLiked(card.id);
+  const { mutate: sendView } = useFeedView();
 
-  const calculateAge = (birthDateStr) => {
-    const today = new Date();
-    const birthDate = new Date(birthDateStr);
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const isBirthdayPassed =
-      today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() &&
-        today.getDate() >= birthDate.getDate());
-
-    return isBirthdayPassed ? age : age - 1;
+  const markAsViewed = () => {
+    if (!viewed) {
+      sendView({ profile_id: card.id });
+      setViewed(true);
+    }
   };
 
   const handleLike = () => {
-    likeUser();
-    setLiked(true);
+    markAsViewed();
+    if (!liked) {
+      likeUser();
+      setLiked(true);
 
-    setShowHeart(true);
-    setHeartAnim(true);
+      setShowHeart(true);
+      setHeartAnim(true);
 
-    setTimeout(() => {
-      setHeartAnim(false);
-    }, 1000);
-
-    setTimeout(() => {
-      setShowHeart(false);
-    }, 1200);
+      setTimeout(() => setHeartAnim(false), 1000);
+      setTimeout(() => setShowHeart(false), 1200);
+    }
   };
 
   const handleImageClick = (e) => {
+    markAsViewed();
+
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
     if (clickX < rect.width / 2) {
-      setCurrentPhotoIndex((prevIndex) =>
-        prevIndex === 0 ? card.photos.length - 1 : prevIndex - 1
+      setCurrentPhotoIndex((prev) =>
+        prev === 0 ? card.photos.length - 1 : prev - 1
       );
     } else {
-      setCurrentPhotoIndex((prevIndex) =>
-        prevIndex === card.photos.length - 1 ? 0 : prevIndex + 1
+      setCurrentPhotoIndex((prev) =>
+        prev === card.photos.length - 1 ? 0 : prev + 1
       );
     }
   };
 
   const handleTouchStart = () => {
+    markAsViewed(); // 👈 3. При любом таче
     const now = Date.now();
     if (now - lastTap.current < 300) {
       handleLike();
     }
     lastTap.current = now;
+  };
+
+  const calculateAge = (birthDateStr) => {
+    const today = new Date();
+    const birthDate = new Date(birthDateStr);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const isBirthdayPassed =
+      today.getMonth() > birthDate.getMonth() ||
+      (today.getMonth() === birthDate.getMonth() &&
+        today.getDate() >= birthDate.getDate());
+    return isBirthdayPassed ? age : age - 1;
   };
 
   return (
@@ -112,7 +121,7 @@ export const FeedCard = ({ card, className }) => {
                 "w-full h-1 rounded",
                 index === currentPhotoIndex ? "bg-primary-red" : "bg-white/70"
               )}
-            ></div>
+            />
           ))}
         </div>
 

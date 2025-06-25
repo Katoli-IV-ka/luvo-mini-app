@@ -28,3 +28,11 @@ export const useFeeds = () => {
     },
   });
 };
+
+export const useFeedView = () =>
+  useMutation({
+    mutationFn: (body) => axiosInstance.post(`${API_URL}/feed/view`, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feeds"] });
+    },
+  });
