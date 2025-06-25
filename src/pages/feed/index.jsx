@@ -60,7 +60,12 @@ export const FeedPage = () => {
             transform: y.to((y) => `translateY(${y}px)`),
           }}
         >
-          <FeedCard card={currentCard} viewed={viewed} setViewed={setViewed} />
+          <FeedCard
+            card={currentCard}
+            viewed={viewed}
+            setViewed={setViewed}
+            setIsOpen={setIsOpen}
+          />
         </animated.div>
       </div>
 

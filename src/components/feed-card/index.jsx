@@ -7,15 +7,15 @@ import FeedImage from "./feed.png";
 import HeartIcon from "./heart.svg";
 import EmptyHeartIcon from "./empty-heart.svg";
 
-export const FeedCard = ({ card, viewed, setViewed, className }) => {
+export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
-  const { mutate: likeUser } = useLiked(card.id);
   const { mutate: sendView } = useFeedView();
+  const { mutateAsync: likeUser } = useLiked(card.id);
 
   const markAsViewed = () => {
     if (!viewed) {
@@ -24,16 +24,22 @@ export const FeedCard = ({ card, viewed, setViewed, className }) => {
     }
   };
 
-  const handleLike = () => {
+  const handleLike = async () => {
     markAsViewed();
     if (!liked) {
-      likeUser();
-      setLiked(true);
-      setShowHeart(true);
-      setHeartAnim(true);
-
-      setTimeout(() => setHeartAnim(false), 1000);
-      setTimeout(() => setShowHeart(false), 1200);
+      try {
+        const { data } = await likeUser();
+        if (data.matched) {
+          setIsOpen(true);
+        }
+        setLiked(true);
+        setShowHeart(true);
+        setHeartAnim(true);
+        setTimeout(() => setHeartAnim(false), 1000);
+        setTimeout(() => setShowHeart(false), 1200);
+      } catch (e) {
+        console.error("Ошибка лайка:", e);
+      }
     }
   };
 
