@@ -5,14 +5,15 @@ import { useLiked } from "@/api/feed";
 import BigHeart from "../../assets/icons/big-heart.svg";
 import FeedImage from "./feed.png";
 import HeartIcon from "./heart.svg";
+import EmptyHeartIcon from "./empty-heart.svg";
 
 export const FeedCard = ({ card, className }) => {
+  const [liked, setLiked] = useState(card?.is_liked || false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
-
   const { mutate: likeUser } = useLiked(card.id);
 
   const calculateAge = (birthDateStr) => {
@@ -30,6 +31,7 @@ export const FeedCard = ({ card, className }) => {
 
   const handleLike = () => {
     likeUser();
+    setLiked(true);
 
     setShowHeart(true);
     setHeartAnim(true);
@@ -117,11 +119,11 @@ export const FeedCard = ({ card, className }) => {
         <div>
           <div className="pr-3 flex items-center justify-between">
             <h2 className="font-bold text-2xl">
-              {card.instagram_username}, {calculateAge(card.birthdate)}
+              {card.first_name}, {calculateAge(card.birthdate)}
             </h2>
 
             <img
-              src={HeartIcon}
+              src={liked ? HeartIcon : EmptyHeartIcon}
               alt="heart-icon"
               className="size-8 cursor-pointer"
               onClick={handleLike}
