@@ -122,13 +122,13 @@ export const LikesCard = ({ card, className }) => {
                 "w-full h-1 rounded",
                 index === currentPhotoIndex ? "bg-primary-red" : "bg-white/70"
               )}
-            ></div>
+            />
           ))}
         </div>
 
         <div>
           <h2 className="font-bold text-2xl">
-            {card.instagram_username}, {calculateAge(card.birthdate)}
+            {card.first_name}, {calculateAge(card.birthdate)}
           </h2>
 
           {card.about && <p className="mt-3 text-base">{card.about}</p>}

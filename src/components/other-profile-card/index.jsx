@@ -38,10 +38,9 @@ export const OtherProfileCard = ({ card, className }) => {
         />
       </div>
 
-      {/* <div
+      <div
         className={classnames(
-          "absolute top-0 left-0 w-full h-full pt-2 px-3 pb-8 flex flex-col justify-between rounded-[20px]",
-          "bg-gradient-to-t from-[#56484E] to-[#56484E]/0"
+          "absolute top-0 left-0 w-full h-full pt-2 px-3 pb-8 flex flex-col justify-between rounded-[20px]"
         )}
         onClick={handleImageClick}
       >
@@ -56,7 +55,7 @@ export const OtherProfileCard = ({ card, className }) => {
             ></div>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -34,11 +34,11 @@ export const useUpdateProfile = () => {
   });
 };
 
-export const useOtherProfile = () => {
+export const useOtherProfile = (id) => {
   return useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const { data } = await axiosInstance.get(`${API_URL}/profiles`);
+      const { data } = await axiosInstance.get(`${API_URL}/profile/${id}`);
       return data;
     },
   });

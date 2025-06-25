@@ -43,26 +43,30 @@ export const LikesPage = () => {
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        {!likesIsLoading && !likesData && (
-          <div
-            className="relative"
-            onTouchEnd={handleTouchEnd}
-            onTouchStart={handleTouchStart}
-          >
-            <LikesCard card={likesData[currentCardIndex]} />
+        {!likesIsLoading && likesData.length >= 1 && (
+          <div classNames="mb-10">
+            <div
+              className="relative"
+              onTouchEnd={handleTouchEnd}
+              onTouchStart={handleTouchStart}
+            >
+              <LikesCard card={likesData[currentCardIndex]} />
+            </div>
+
+            <div className="flex justify-center mt-4 space-x-2">
+              {likesData.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 rounded-full ${
+                    index === currentCardIndex
+                      ? "bg-primary-red"
+                      : "bg-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         )}
-
-        {/* <div className="flex justify-center mt-4 space-x-2">
-          {likesData.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full ${
-                index === currentCardIndex ? "bg-primary-red" : "bg-gray-300"
-              }`}
-            />
-          ))}
-        </div> */}
 
         {!metchesIsLoading && <MetchesList metches={metchesData} />}
       </div>
