@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { AddPhotoBlock } from "./add-photo-block";
 import { useDeleteProfilePhotos } from "@/api/profile";
 
@@ -6,6 +7,8 @@ import CloseIcon from "./close.svg";
 import LikesImage from "./likes.png";
 
 export const ProfilePhotosList = ({ photos = [] }) => {
+  const [genericError, setGenericError] = useState("");
+
   const safePhotos = Array.isArray(photos) ? photos : [];
   const paddedPhotos = [
     ...safePhotos,
@@ -19,8 +22,19 @@ export const ProfilePhotosList = ({ photos = [] }) => {
       await detelePhotoMutation(id);
     } catch (e) {
       console.error(e);
+      setGenericError(e?.response?.data?.detail);
     }
   };
+
+  useEffect(() => {
+    if (!genericError) return;
+
+    const timeout = setTimeout(() => {
+      setGenericError("");
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [genericError]);
 
   return (
     <>
@@ -61,6 +75,12 @@ export const ProfilePhotosList = ({ photos = [] }) => {
           </div>
         ))}
       </div>
+
+      {genericError && (
+        <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 bg-gray-light rounded-2xl font-semibold text-light-red">
+          {genericError}
+        </div>
+      )}
     </>
   );
 };

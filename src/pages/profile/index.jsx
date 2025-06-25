@@ -7,9 +7,9 @@ import { Input, Button, Textarea } from "@/ui";
 import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
 
 const schema = yup.object({
-  instagram_username: yup.string().required("Введите имя пользователя"),
-  first_name: yup.string().required("Имя обязательно"),
   about: yup.string().optional(),
+  first_name: yup.string().required("Имя обязательно"),
+  instagram_username: yup.string().required("Введите имя пользователя"),
 });
 
 export const ProfilePage = () => {
@@ -48,24 +48,6 @@ export const ProfilePage = () => {
     } catch (err) {
       console.error("Ошибка регистрации", err);
       setGenericError(err?.response?.data?.detail);
-    }
-  };
-
-  const handleInitData = async () => {
-    const initData = window.Telegram?.WebApp?.initData;
-
-    if (initData) {
-      try {
-        await navigator.clipboard.writeText(initData);
-        window.Telegram.WebApp.showAlert(
-          "Держи initData Максик! Данные скопирована в буфер обмена<3"
-        );
-      } catch (err) {
-        console.error("Не удалось скопировать initData:", err);
-        window.Telegram.WebApp.showAlert("Ошибка при копировании initData.");
-      }
-    } else {
-      window.Telegram.WebApp.showAlert("initData недоступно.");
     }
   };
 
@@ -129,14 +111,6 @@ export const ProfilePage = () => {
 
           <Button type="submit" className="mt-3 w-full">
             Сохранить
-          </Button>
-
-          <Button
-            type="button"
-            className="mt-3 w-full"
-            onClick={handleInitData}
-          >
-            GET INIT DATA
           </Button>
         </div>
       </form>

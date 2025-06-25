@@ -24,7 +24,7 @@ export const Router = () => {
         <Route path="/rating" element={<RatingPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/user-profile" element={<ProfilePage />} />
-        <Route path="/other-profile:id" element={<OtherProfilePage />} />
+        <Route path="/other-profile/:id" element={<OtherProfilePage />} />
 
         <Route path="*" element={<Navigate to="/feed" replace />} />
         {/* <Route element={<UnauthenticatedRoute />}></Routes> */}

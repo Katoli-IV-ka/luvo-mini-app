@@ -11,3 +11,13 @@ export const useLikes = () => {
     },
   });
 };
+
+export const useMatches = () => {
+  return useQuery({
+    queryKey: ["matches"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`${API_URL}/matches/`);
+      return data;
+    },
+  });
+};

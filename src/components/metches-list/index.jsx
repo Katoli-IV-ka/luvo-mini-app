@@ -1,18 +1,25 @@
 import { Link } from "react-router-dom";
 
-export const LikesList = ({ data }) => {
+import MetchImage from "./metch.png";
+
+export const MetchesList = ({ metches }) => {
+  console.log(metches);
+
+  if (!metches) return null;
+
   return (
     <div className="mt-10 grid grid-cols-2 gap-3">
-      {data.map((user, index) => (
-        <Link key={index} to="/other-profile">
+      {metches.map((metch, index) => (
+        <Link key={index} to={`/other-profile/${metch.id}`}>
           <img
-            src={user.photos[0]}
+            // src={metch.photos[0]}
+            src={MetchImage}
             alt="likes-image"
             className="aspect-square object-cover rounded-[20px]"
           />
 
           <div className="mt-[5px] font-bold text-xl">
-            {user.instagram_username}
+            {metch.instagram_username}
           </div>
         </Link>
       ))}

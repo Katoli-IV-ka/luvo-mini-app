@@ -205,7 +205,7 @@ export const RegistrationPage = () => {
               )}
 
               {genericError && (
-                <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 bg-gray-light rounded-2xl font-semibold text-additional-red">
+                <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 bg-gray-light rounded-2xl font-semibold text-light-red">
                   {genericError}
                 </div>
               )}

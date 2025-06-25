@@ -5,6 +5,7 @@ import { useIgnored, useLiked } from "@/api/feed";
 import BigHeart from "../../assets/icons/big-heart.svg";
 import CrossIcon from "./cross.svg";
 import HeartIcon from "./heart.svg";
+import LikesCardImage from "./likes.png";
 
 export const LikesCard = ({ card, className }) => {
   const [showHeart, setShowHeart] = useState(false);
@@ -13,8 +14,8 @@ export const LikesCard = ({ card, className }) => {
 
   const lastTap = useRef(0);
 
-  const { mutate: likeUser } = useLiked();
-  const { mutate: ignoreUser } = useIgnored();
+  const { mutate: likeUser } = useLiked(card.id);
+  const { mutate: ignoreUser } = useIgnored(card.id);
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();
@@ -30,7 +31,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleLike = () => {
-    likeUser(card.id);
+    likeUser();
 
     setShowHeart(true);
     setHeartAnim(true);
@@ -45,7 +46,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleIgnore = () => {
-    ignoreUser(card.id);
+    ignoreUser();
   };
 
   // Обработчик клика по картинке — листает фото в зависимости от стороны
@@ -84,7 +85,8 @@ export const LikesCard = ({ card, className }) => {
     >
       <div className="relative w-full h-full">
         <img
-          src={card.photos[currentPhotoIndex]}
+          // src={card.photos[currentPhotoIndex]}
+          src={LikesCardImage}
           alt="feed-image"
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
@@ -106,7 +108,7 @@ export const LikesCard = ({ card, className }) => {
 
       <div
         className={classnames(
-          "absolute top-0 left-0 w-full h-full pt-2 px-3 pb-8 flex flex-col justify-between rounded-[20px]",
+          "absolute top-0 left-0 z-50 w-full h-full pt-2 px-3 pb-8 flex flex-col justify-between rounded-[20px]",
           "bg-gradient-to-t from-[#56484E] to-[#56484E]/0"
         )}
         onClick={handleImageClick}

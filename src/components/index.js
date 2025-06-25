@@ -4,9 +4,10 @@ import { Sidebar } from "./sidebar";
 import { FeedCard } from "./feed-card";
 import { Pedestal } from "./pedestal";
 import { LikesCard } from "./likes-card";
-import { LikesList } from "./likes-list";
 import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
+import { MetchesList } from "./metches-list";
+import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
 import { AuthenticatedRoute } from "./auth-route";
 
@@ -17,9 +18,10 @@ export {
   Pedestal,
   FeedCard,
   LikesCard,
-  LikesList,
   RatingList,
   MetchModal,
+  MetchesList,
+  OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
 };
