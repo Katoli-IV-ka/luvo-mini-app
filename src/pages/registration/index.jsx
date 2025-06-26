@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateProfile } from "@/api/profile";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { useForm, FormProvider } from "react-hook-form";
 import { Input, Button, Textarea } from "@/ui";
 
@@ -40,6 +41,7 @@ export const RegistrationPage = () => {
 
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
+  const { initDataUnsafe } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -84,18 +86,7 @@ export const RegistrationPage = () => {
           formData.append(key, value);
         });
 
-        // Извлекаем Telegram username из initData (если используете initData)
-        let telegramUsername = "";
-        try {
-          const params = new URLSearchParams(initData);
-          const userRaw = params.get("user");
-          if (userRaw) {
-            const parsedUser = JSON.parse(userRaw);
-            telegramUsername = parsedUser.username || "";
-          }
-        } catch (e) {
-          console.warn("Не удалось получить Telegram username:", e);
-        }
+        const telegramUsername = initDataUnsafe?.user?.username || "";
         formData.append("telegram_username", telegramUsername);
 
         await mutateAsync(formData);
