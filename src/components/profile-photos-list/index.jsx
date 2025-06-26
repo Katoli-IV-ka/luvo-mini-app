@@ -77,7 +77,7 @@ export const ProfilePhotosList = ({ photos = [] }) => {
       </div>
 
       {genericError && (
-        <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 bg-gray-light rounded-2xl font-semibold text-light-red">
+        <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 dark:border-white/70 bg-gray-light dark:bg-transparent rounded-2xl font-semibold text-light-red">
           {genericError}
         </div>
       )}
