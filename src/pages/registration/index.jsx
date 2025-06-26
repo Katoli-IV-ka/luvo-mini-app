@@ -14,6 +14,11 @@ const stepSchemas = [
   }),
   yup.object({
     first_name: yup.string().required("Имя обязательно"),
+    birthdate: yup.string().required("Дата рождения обязательна"),
+    gender: yup
+      .string()
+      .oneOf(["male", "female"], "Укажите пол")
+      .required("Пол обязателен"),
     about: yup.string().optional(),
   }),
   yup.object({
@@ -31,6 +36,7 @@ const stepSchemas = [
 export const RegistrationPage = () => {
   const [step, setStep] = useState(0);
   const [genericError, setGenericError] = useState("");
+  const [preview, setPreview] = useState(null);
 
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
@@ -42,6 +48,8 @@ export const RegistrationPage = () => {
       instagram_username: "",
       first_name: "",
       birthdate: "",
+      gender: "",
+      about: "",
       file: null,
     },
   });
@@ -55,33 +63,28 @@ export const RegistrationPage = () => {
   } = methods;
 
   const photoFile = watch("file");
-  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     if (photoFile && photoFile instanceof File) {
       const objectUrl = URL.createObjectURL(photoFile);
       setPreview(objectUrl);
-
       return () => URL.revokeObjectURL(objectUrl);
     } else {
       setPreview(null);
     }
   }, [photoFile]);
 
-  // Обработка сабмита формы
   const onSubmit = async (data) => {
     if (step < stepSchemas.length - 1) {
-      // Если не последний шаг, переключаемся на следующий
       setStep(step + 1);
     } else {
-      // Если последний шаг, отправляем данные на сервер
       try {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
           formData.append(key, value);
         });
 
-        // Парсим telegram username из initData
+        // Извлекаем Telegram username из initData (если используете initData)
         let telegramUsername = "";
         try {
           const params = new URLSearchParams(initData);
@@ -94,12 +97,9 @@ export const RegistrationPage = () => {
           console.warn("Не удалось получить Telegram username:", e);
         }
 
-        // Добавляем в форму
         formData.append("telegram_username", telegramUsername);
-        formData.append("gender", "male");
 
         await mutateAsync(formData);
-
         navigate("/feed");
       } catch (err) {
         console.error("Ошибка регистрации", err);
@@ -117,9 +117,7 @@ export const RegistrationPage = () => {
         >
           {step === 0 && (
             <>
-              <h2 className="text-[32px] font-bold leading-none">
-                Привяжите свой Instagram профиль
-              </h2>
+              <h2 className="text-[32px] font-bold">Привяжите Instagram</h2>
 
               <Input
                 {...register("instagram_username")}
@@ -149,9 +147,40 @@ export const RegistrationPage = () => {
                   {...register("birthdate")}
                   type="date"
                   className="mt-3"
-                  placeholder="Возраст"
+                  placeholder="Дата рождения"
                   error={errors.birthdate}
                 />
+
+                <div className="mt-3">
+                  <label className="block text-sm font-medium mb-1">
+                    Ваш пол
+                  </label>
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        value="male"
+                        {...register("gender")}
+                        className="accent-primary-red"
+                      />
+                      Мужской
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        value="female"
+                        {...register("gender")}
+                        className="accent-primary-red"
+                      />
+                      Женский
+                    </label>
+                  </div>
+                  {errors.gender && (
+                    <p className="text-sm text-light-red mt-1">
+                      {errors.gender.message}
+                    </p>
+                  )}
+                </div>
 
                 <Textarea
                   {...register("about")}
