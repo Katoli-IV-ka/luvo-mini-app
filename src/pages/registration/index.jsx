@@ -96,7 +96,6 @@ export const RegistrationPage = () => {
         } catch (e) {
           console.warn("Не удалось получить Telegram username:", e);
         }
-
         formData.append("telegram_username", telegramUsername);
 
         await mutateAsync(formData);
