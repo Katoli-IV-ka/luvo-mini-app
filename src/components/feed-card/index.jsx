@@ -7,6 +7,8 @@ import FeedImage from "./feed.png";
 import HeartIcon from "./heart.svg";
 import EmptyHeartIcon from "./empty-heart.svg";
 
+const DOUBLE_TAP_DELAY = 250;
+
 export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
@@ -14,8 +16,9 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
+  const clickTimeoutRef = useRef(null);
   const { mutate: sendView } = useFeedView();
-  const { mutateAsync: likeUser } = useLiked(card.id);
+  const { mutateAsync: likeUser } = useLiked(card.user_id);
 
   const markAsViewed = () => {
     if (!viewed) {
@@ -35,8 +38,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
         setLiked(true);
         setShowHeart(true);
         setHeartAnim(true);
-        setTimeout(() => setHeartAnim(false), 1000);
-        setTimeout(() => setShowHeart(false), 1200);
+        setTimeout(() => {
+          setHeartAnim(false);
+          setShowHeart(false);
+        }, 1200);
       } catch (e) {
         console.error("Ошибка лайка:", e);
       }
@@ -48,14 +53,27 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
-    setCurrentPhotoIndex((prev) => {
-      const isPrev = clickX < rect.width / 2;
-      if (isPrev) {
-        return prev === 0 ? card.photos.length - 1 : prev - 1;
-      } else {
-        return prev === card.photos.length - 1 ? 0 : prev + 1;
-      }
-    });
+    if (clickTimeoutRef.current) {
+      // double tap detected
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+      handleLike(); // ставим лайк
+      return;
+    }
+
+    clickTimeoutRef.current = setTimeout(() => {
+      // если не было второго тапа — это одиночный клик → листаем фото
+      setCurrentPhotoIndex((prev) => {
+        const isPrev = clickX < rect.width / 2;
+        if (isPrev) {
+          return prev === 0 ? card.photos.length - 1 : prev - 1;
+        } else {
+          return prev === card.photos.length - 1 ? 0 : prev + 1;
+        }
+      });
+
+      clickTimeoutRef.current = null;
+    }, DOUBLE_TAP_DELAY);
   };
 
   const handleTouchStart = () => {
@@ -82,6 +100,11 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   useEffect(() => {
     setLiked(false);
     setCurrentPhotoIndex(0);
+    return () => {
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+      }
+    };
   }, [card.id]);
 
   return (
