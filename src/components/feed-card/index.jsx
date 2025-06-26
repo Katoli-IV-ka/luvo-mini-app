@@ -22,10 +22,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
-      sendView({ profile_id: card.id });
+      sendView({ profile_id: card.user_id });
       setViewed(true);
     }
-  }, [viewed, sendView, card.id, setViewed]);
+  }, [viewed, sendView, card.user_id, setViewed]);
 
   const triggerHeartAnimation = () => {
     setShowHeart(true);
@@ -106,7 +106,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     setLiked(false);
     setCurrentPhotoIndex(0);
     clickTimeout.current && clearTimeout(clickTimeout.current);
-  }, [card.id]);
+  }, [card.user_id]);
 
   return (
     <div

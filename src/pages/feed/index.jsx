@@ -24,13 +24,13 @@ export const FeedPage = () => {
           if (my > 0 && currentIndex > 0) {
             setCurrentIndex((prev) => {
               const nextIndex = prev - 1;
-              sendView({ profile_id: cards[nextIndex].id });
+              sendView({ profile_id: cards[nextIndex].user_id });
               return nextIndex;
             });
           } else if (my < 0 && currentIndex < cards.length - 1) {
             setCurrentIndex((prev) => {
               const nextIndex = prev + 1;
-              sendView({ profile_id: cards[nextIndex].id });
+              sendView({ profile_id: cards[nextIndex].user_id });
               return nextIndex;
             });
           }

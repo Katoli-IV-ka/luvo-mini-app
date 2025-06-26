@@ -13,8 +13,8 @@ export const LikesCard = ({ card, className }) => {
 
   const lastTap = useRef(0);
 
-  const { mutate: likeUser } = useLiked(card.id);
-  const { mutate: ignoreUser } = useIgnored(card.id);
+  const { mutate: likeUser } = useLiked(card.user_id);
+  const { mutate: ignoreUser } = useIgnored(card.user_id);
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();
@@ -37,9 +37,6 @@ export const LikesCard = ({ card, className }) => {
 
     setTimeout(() => {
       setHeartAnim(false);
-    }, 1000);
-
-    setTimeout(() => {
       setShowHeart(false);
     }, 1200);
   };

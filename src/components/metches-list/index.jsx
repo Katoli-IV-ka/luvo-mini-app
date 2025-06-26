@@ -6,7 +6,7 @@ export const MetchesList = ({ metches }) => {
   return (
     <div className="grid grid-cols-2 gap-3">
       {metches.map((metch, index) => (
-        <Link key={index} to={`/other-profile/${metch.id}`}>
+        <Link key={index} to={`/other-profile/${metch.user_id}`}>
           <img
             src={metch.photos[0]}
             alt="likes-image"
