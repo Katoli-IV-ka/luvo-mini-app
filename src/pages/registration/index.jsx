@@ -47,12 +47,12 @@ export const RegistrationPage = () => {
     mode: "onChange",
     resolver: yupResolver(stepSchemas[step]),
     defaultValues: {
-      instagram_username: "",
-      first_name: "",
-      birthdate: "",
-      gender: "",
-      about: "",
       file: null,
+      about: "",
+      gender: "",
+      birthdate: "",
+      first_name: "",
+      instagram_username: "",
     },
   });
 
