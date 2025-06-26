@@ -20,6 +20,8 @@ export const AddPhotoBlock = () => {
       const formData = new FormData();
       formData.append("photo", file);
 
+      console.log(formData, file);
+
       await addPhotoMutation(formData);
     } catch (e) {
       console.error("Ошибка при загрузке фото:", e);
