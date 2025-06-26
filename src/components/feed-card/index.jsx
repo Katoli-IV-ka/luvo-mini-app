@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import classnames from "classnames";
 import { useLiked, useFeedView } from "@/api/feed";
 
@@ -16,15 +16,25 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
-  const clickTimeoutRef = useRef(null);
+  const clickTimeout = useRef(null);
+
   const { mutate: sendView } = useFeedView();
   const { mutateAsync: likeUser } = useLiked(card.user_id);
 
-  const markAsViewed = () => {
+  const markAsViewed = useCallback(() => {
     if (!viewed) {
       sendView({ profile_id: card.id });
       setViewed(true);
     }
+  }, [viewed, sendView, card.id, setViewed]);
+
+  const triggerHeartAnimation = () => {
+    setShowHeart(true);
+    setHeartAnim(true);
+    setTimeout(() => {
+      setHeartAnim(false);
+      setShowHeart(false);
+    }, 1200);
   };
 
   const handleLike = async () => {
@@ -36,49 +46,47 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
           setIsOpen(true);
         }
         setLiked(true);
-        setShowHeart(true);
-        setHeartAnim(true);
-        setTimeout(() => {
-          setHeartAnim(false);
-          setShowHeart(false);
-        }, 1200);
-      } catch (e) {
-        console.error("Ошибка лайка:", e);
+      } catch (error) {
+        console.error("Ошибка лайка:", error);
       }
     }
+    triggerHeartAnimation();
+  };
+
+  const handleSingleTap = (clickX, containerWidth) => {
+    setCurrentPhotoIndex((prev) => {
+      const isLeft = clickX < containerWidth / 2;
+      return isLeft
+        ? prev === 0
+          ? card.photos.length - 1
+          : prev - 1
+        : prev === card.photos.length - 1
+        ? 0
+        : prev + 1;
+    });
   };
 
   const handleImageClick = (e) => {
     markAsViewed();
+
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
-    if (clickTimeoutRef.current) {
-      // double tap detected
-      clearTimeout(clickTimeoutRef.current);
-      clickTimeoutRef.current = null;
-      handleLike(); // ставим лайк
-      return;
+    if (clickTimeout.current) {
+      clearTimeout(clickTimeout.current);
+      clickTimeout.current = null;
+      handleLike();
+    } else {
+      clickTimeout.current = setTimeout(() => {
+        handleSingleTap(clickX, rect.width);
+        clickTimeout.current = null;
+      }, DOUBLE_TAP_DELAY);
     }
-
-    clickTimeoutRef.current = setTimeout(() => {
-      // если не было второго тапа — это одиночный клик → листаем фото
-      setCurrentPhotoIndex((prev) => {
-        const isPrev = clickX < rect.width / 2;
-        if (isPrev) {
-          return prev === 0 ? card.photos.length - 1 : prev - 1;
-        } else {
-          return prev === card.photos.length - 1 ? 0 : prev + 1;
-        }
-      });
-
-      clickTimeoutRef.current = null;
-    }, DOUBLE_TAP_DELAY);
   };
 
   const handleTouchStart = () => {
     const now = Date.now();
-    if (now - lastTap.current < 300) {
+    if (now - lastTap.current < DOUBLE_TAP_DELAY) {
       handleLike();
     }
     lastTap.current = now;
@@ -88,23 +96,17 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     const today = new Date();
     const birthDate = new Date(birthDateStr);
     let age = today.getFullYear() - birthDate.getFullYear();
-
-    const hasBirthdayPassed =
+    const birthdayPassed =
       today.getMonth() > birthDate.getMonth() ||
       (today.getMonth() === birthDate.getMonth() &&
         today.getDate() >= birthDate.getDate());
-
-    return hasBirthdayPassed ? age : age - 1;
+    return birthdayPassed ? age : age - 1;
   };
 
   useEffect(() => {
     setLiked(false);
     setCurrentPhotoIndex(0);
-    return () => {
-      if (clickTimeoutRef.current) {
-        clearTimeout(clickTimeoutRef.current);
-      }
-    };
+    clickTimeout.current && clearTimeout(clickTimeout.current);
   }, [card.id]);
 
   return (
@@ -122,7 +124,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
         />
-
         {showHeart && (
           <img
             src={BigHeart}
@@ -160,7 +161,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
             <h2 className="font-bold text-2xl">
               {card.first_name}, {calculateAge(card.birthdate)}
             </h2>
-
             <img
               src={liked ? HeartIcon : EmptyHeartIcon}
               alt="heart-icon"
@@ -168,7 +168,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
               onClick={handleLike}
             />
           </div>
-
           {card.about && <p className="mt-3 text-base">{card.about}</p>}
         </div>
       </div>
