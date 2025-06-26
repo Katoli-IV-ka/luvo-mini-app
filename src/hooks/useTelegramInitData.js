@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const useTelegramInitData = () => {
   const [initData, setInitData] = useState("");
   const [initDataUnsafe, setInitDataUnsafe] = useState({});
