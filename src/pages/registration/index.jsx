@@ -41,7 +41,7 @@ export const RegistrationPage = () => {
 
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
-  const { initDataUnsafe } = useTelegramInitData();
+  const { telegramUsername } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -86,8 +86,12 @@ export const RegistrationPage = () => {
           formData.append(key, value);
         });
 
-        const telegramUsername = initDataUnsafe?.user?.username || "";
         formData.append("telegram_username", telegramUsername);
+
+        if (!telegramUsername) {
+          setGenericError("Ошибка: Telegram данные не получены.");
+          return;
+        }
 
         await mutateAsync(formData);
         navigate("/feed");
