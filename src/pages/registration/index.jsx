@@ -150,32 +150,36 @@ export const RegistrationPage = () => {
                   error={errors.birthdate}
                 />
 
-                <div className="mt-3">
-                  <label className="block text-sm font-medium mb-1">
-                    Ваш пол
-                  </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        value="male"
-                        {...register("gender")}
-                        className="accent-primary-red"
-                      />
-                      Мужской
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        value="female"
-                        {...register("gender")}
-                        className="accent-primary-red"
-                      />
-                      Женский
-                    </label>
+                <div className="mt-4">
+                  <div className="flex gap-6">
+                    {["male", "female"].map((value) => {
+                      const label = value === "male" ? "Мужской" : "Женский";
+                      return (
+                        <label
+                          key={value}
+                          className="flex items-center gap-2 cursor-pointer group"
+                        >
+                          <input
+                            type="radio"
+                            value={value}
+                            {...register("gender")}
+                            className="hidden peer"
+                          />
+
+                          <div className="w-4 h-4 flex items-center justify-center rounded-full border-2 border-gray-400 peer-checked:border-primary-red">
+                            <div className="w-2 h-2 rounded-full bg-transparent peer-checked:bg-primary-red transition-all" />
+                          </div>
+
+                          <span className="transition font-semibold">
+                            {label}
+                          </span>
+                        </label>
+                      );
+                    })}
                   </div>
+
                   {errors.gender && (
-                    <p className="text-sm text-light-red mt-1">
+                    <p className="mt-2 text-light-red font-semibold">
                       {errors.gender.message}
                     </p>
                   )}
@@ -183,13 +187,13 @@ export const RegistrationPage = () => {
 
                 <Textarea
                   {...register("about")}
-                  className="mt-3"
+                  className="mt-4"
                   placeholder="О себе"
                   error={errors.about}
                 />
               </div>
 
-              <Button className="mt-3 w-full" type="submit">
+              <Button className="mt-4 w-full" type="submit">
                 Далее
               </Button>
             </>
