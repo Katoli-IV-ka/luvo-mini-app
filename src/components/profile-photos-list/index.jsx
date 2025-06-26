@@ -54,7 +54,7 @@ export const ProfilePhotosList = ({ photos = [] }) => {
                   {index >= 0 && (
                     <img
                       src={CloseIcon}
-                      alt="action-icon"
+                      alt="actions-icon"
                       className="ml-auto"
                       onClick={() => onRemovePhoto(photo.id)}
                     />
