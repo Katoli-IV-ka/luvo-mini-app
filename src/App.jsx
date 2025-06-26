@@ -7,7 +7,6 @@ import { decodeJWT } from "./utils/decode-jwt.util";
 import { LoadingPage } from "./pages";
 import { useNavigate } from "react-router-dom";
 import { useWebAppStore } from "./store";
-import { useTelegramInitData } from "./hooks/useTelegramInitData";
 
 export const App = () => {
   const navigate = useNavigate();
@@ -23,20 +22,6 @@ export const App = () => {
     isInitialized,
     setInitialized,
   } = useWebAppStore();
-  const { initData } = useTelegramInitData();
-
-  useEffect(() => {
-    if (initData) {
-      navigator.clipboard
-        .writeText(initData)
-        .then(() => {
-          alert("initData скопирован в буфер обмена");
-        })
-        .catch((err) => {
-          console.warn("Не удалось скопировать initData в буфер:", err);
-        });
-    }
-  }, [initData]);
 
   useEffect(() => {
     const root = document.documentElement;

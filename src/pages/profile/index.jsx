@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfilePhotosList } from "@/components";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
 
@@ -16,6 +17,7 @@ export const ProfilePage = () => {
   const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
   const { data: profileData, isLoading: profileIsLoading } = useProfile();
 
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateProfile();
 
   const {
@@ -32,6 +34,19 @@ export const ProfilePage = () => {
       instagram_username: "",
     },
   });
+
+  const handleInitData = () => {
+    if (initData) {
+      navigator.clipboard
+        .writeText(initData)
+        .then(() => {
+          alert("initData скопирован в буфер обмена");
+        })
+        .catch((err) => {
+          console.warn("Не удалось скопировать initData в буфер:", err);
+        });
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -111,6 +126,10 @@ export const ProfilePage = () => {
 
           <Button type="submit" className="mt-3 w-full">
             Сохранить
+          </Button>
+
+          <Button className="mt-3 w-full" onClick={handleInitData}>
+            DATA
           </Button>
         </div>
       </form>
