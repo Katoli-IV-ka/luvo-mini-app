@@ -27,12 +27,11 @@ export const RatingList = ({ data }) => {
             </div>
 
             <img
-              // src={
-              //   currentUser.photos && currentUser.photos[0]
-              //     ? currentUser.photos[0]
-              //     : RatingImage
-              // }
-              src={RatingImage}
+              src={
+                currentUser.photos && currentUser.photos[0]
+                  ? currentUser.photos[0]
+                  : RatingImage
+              }
               alt="rating-image"
               className="ml-2 size-[60px] object-cover rounded-full"
             />
@@ -61,10 +60,7 @@ export const RatingList = ({ data }) => {
             </div>
 
             <img
-              src={RatingImage}
-              // src={
-              //   item.photos && item.photos[0] ? item.photos[0] : RatingImage
-              // }
+              src={item.photos && item.photos[0] ? item.photos[0] : RatingImage}
               alt="rating-image"
               className="ml-2 size-[60px] object-cover rounded-full"
             />

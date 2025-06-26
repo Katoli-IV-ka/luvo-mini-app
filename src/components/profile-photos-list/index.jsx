@@ -4,7 +4,6 @@ import { useDeleteProfilePhotos } from "@/api/profile";
 
 // import EditIcon from "./edit.svg";
 import CloseIcon from "./close.svg";
-import LikesImage from "./likes.png";
 
 export const ProfilePhotosList = ({ photos = [] }) => {
   const [genericError, setGenericError] = useState("");
@@ -46,7 +45,7 @@ export const ProfilePhotosList = ({ photos = [] }) => {
             {photo ? (
               <>
                 <img
-                  src={LikesImage}
+                  src={photo.url}
                   alt="likes-image"
                   className="w-full h-full object-cover rounded-[20px]"
                 />

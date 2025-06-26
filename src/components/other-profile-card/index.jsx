@@ -1,8 +1,6 @@
 import { useState } from "react";
 import classnames from "classnames";
 
-import OtherProfileImage from "./other-profile.png";
-
 export const OtherProfileCard = ({ card, className }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
@@ -30,8 +28,7 @@ export const OtherProfileCard = ({ card, className }) => {
     >
       <div className="relative w-full h-full">
         <img
-          // src={card.photos[currentPhotoIndex]}
-          src={OtherProfileImage}
+          src={card.photos[currentPhotoIndex]}
           alt="feed-image"
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}

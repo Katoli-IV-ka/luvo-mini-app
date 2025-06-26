@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 
-import MetchImage from "./metch.png";
-
 export const MetchesList = ({ metches }) => {
   if (!metches) return null;
 
@@ -10,8 +8,7 @@ export const MetchesList = ({ metches }) => {
       {metches.map((metch, index) => (
         <Link key={index} to={`/other-profile/${metch.id}`}>
           <img
-            // src={metch.photos[0]}
-            src={MetchImage}
+            src={metch.photos[0]}
             alt="likes-image"
             className="aspect-square object-cover rounded-[20px]"
           />

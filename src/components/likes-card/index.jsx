@@ -5,7 +5,6 @@ import { useIgnored, useLiked } from "@/api/feed";
 import BigHeart from "../../assets/icons/big-heart.svg";
 import CrossIcon from "./cross.svg";
 import HeartIcon from "./heart.svg";
-import LikesCardImage from "./likes.png";
 
 export const LikesCard = ({ card, className }) => {
   const [showHeart, setShowHeart] = useState(false);
@@ -85,8 +84,7 @@ export const LikesCard = ({ card, className }) => {
     >
       <div className="relative w-full h-full">
         <img
-          // src={card.photos[currentPhotoIndex]}
-          src={LikesCardImage}
+          src={card.photos[currentPhotoIndex]}
           alt="feed-image"
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
