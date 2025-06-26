@@ -27,9 +27,14 @@ export const App = () => {
 
   useEffect(() => {
     if (initData) {
-      navigator.clipboard.writeText(initData).catch((err) => {
-        console.warn("Не удалось скопировать initData в буфер:", err);
-      });
+      navigator.clipboard
+        .writeText(initData)
+        .then(() => {
+          alert("initData скопирован в буфер обмена");
+        })
+        .catch((err) => {
+          console.warn("Не удалось скопировать initData в буфер:", err);
+        });
     }
   }, [initData]);
 
