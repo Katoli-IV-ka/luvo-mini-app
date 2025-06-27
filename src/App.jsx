@@ -24,15 +24,6 @@ export const App = () => {
   } = useWebAppStore();
 
   useEffect(() => {
-    const initData = window.Telegram?.WebApp;
-    if (initData) {
-      navigator.clipboard.writeText(initData).then(() => {
-        console.log("initData скопирована в буфер обмена!");
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle(THEME.DARK, theme === THEME.DARK);
   }, [theme]);

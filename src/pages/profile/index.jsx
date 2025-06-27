@@ -14,8 +14,8 @@ const schema = yup.object({
 });
 
 export const ProfilePage = () => {
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateProfile();
-  const { initDataUnsafe } = useTelegramInitData();
   const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
   const { data: profileData, isLoading: profileIsLoading } = useProfile();
 
@@ -33,19 +33,6 @@ export const ProfilePage = () => {
       instagram_username: "",
     },
   });
-
-  const handleInitData = () => {
-    if (initDataUnsafe) {
-      navigator.clipboard
-        .writeText(initDataUnsafe)
-        .then(() => {
-          alert("initData скопирован в буфер обмена");
-        })
-        .catch((err) => {
-          console.warn("Не удалось скопировать initData в буфер:", err);
-        });
-    }
-  };
 
   const onSubmit = async (data) => {
     try {
@@ -127,7 +114,15 @@ export const ProfilePage = () => {
             Сохранить
           </Button>
 
-          <Button className="mt-3 w-full" onClick={handleInitData}>
+          <Button
+            className="mt-3 w-full"
+            onClick={() => {
+              if (!initData) return alert("initData не найдена");
+              navigator.clipboard.writeText(initData).then(() => {
+                alert("initData скопирована!");
+              });
+            }}
+          >
             DATA
           </Button>
         </div>

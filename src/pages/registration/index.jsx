@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateProfile } from "@/api/profile";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { useForm, FormProvider } from "react-hook-form";
 import { Input, Button, Textarea } from "@/ui";
 
@@ -35,11 +36,12 @@ const stepSchemas = [
 
 export const RegistrationPage = () => {
   const [step, setStep] = useState(0);
-  const [genericError, setGenericError] = useState("");
   const [preview, setPreview] = useState(null);
+  const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
+  const { initData, telegramUsername } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -64,15 +66,6 @@ export const RegistrationPage = () => {
 
   const photoFile = watch("file");
 
-  const initData = window.Telegram?.WebApp?.initData;
-
-  const handleClick = () => {
-    if (!initData) return alert("initData не найдена");
-    navigator.clipboard.writeText(initData).then(() => {
-      alert("initData скопирована!");
-    });
-  };
-
   useEffect(() => {
     if (photoFile && photoFile instanceof File) {
       const objectUrl = URL.createObjectURL(photoFile);
@@ -93,19 +86,12 @@ export const RegistrationPage = () => {
           formData.append(key, value);
         });
 
-        // Извлекаем Telegram username из initData (если используете initData)
-        let telegramUsername = "";
-        try {
-          const params = new URLSearchParams(initData);
-          const userRaw = params.get("user");
-          if (userRaw) {
-            const parsedUser = JSON.parse(userRaw);
-            telegramUsername = parsedUser.username || "";
-          }
-        } catch (e) {
-          console.warn("Не удалось получить Telegram username:", e);
-        }
         formData.append("telegram_username", telegramUsername);
+
+        if (!telegramUsername) {
+          setGenericError("Ошибка: Telegram данные не получены.");
+          return;
+        }
 
         await mutateAsync(formData);
         navigate("/feed");
@@ -138,8 +124,16 @@ export const RegistrationPage = () => {
                 Далее
               </Button>
 
-              <Button className="mt-3 w-full" onClick={handleClick}>
-                data
+              <Button
+                className="mt-3 w-full"
+                onClick={() => {
+                  if (!initData) return alert("initData не найдена");
+                  navigator.clipboard.writeText(initData).then(() => {
+                    alert("initData скопирована!");
+                  });
+                }}
+              >
+                DATA
               </Button>
             </>
           )}
