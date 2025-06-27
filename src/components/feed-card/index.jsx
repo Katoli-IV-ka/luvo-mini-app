@@ -103,6 +103,15 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   };
 
   useEffect(() => {
+    if (!card.photos || card.photos.length === 0) return;
+
+    card.photos.forEach((url, index) => {
+      if (index === currentPhotoIndex) return; // текущая уже отображается
+
+      const img = new Image();
+      img.src = url;
+    });
+
     setLiked(false);
     setCurrentPhotoIndex(0);
     clickTimeout.current && clearTimeout(clickTimeout.current);
@@ -122,6 +131,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
           className="h-full w-full object-cover rounded-[20px] select-none"
           draggable={false}
         />
+
         {showHeart && (
           <img
             src={BigHeart}

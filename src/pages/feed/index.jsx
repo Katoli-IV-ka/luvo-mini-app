@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDrag } from "@use-gesture/react";
 import { FeedCard } from "@/components";
 import { useFeedView } from "@/api/feed";
@@ -12,6 +12,16 @@ export const FeedPage = () => {
   const { mutate: sendView } = useFeedView();
   const { cards, currentIndex, setCurrentIndex, isLoading } = useFeedBuffer();
   const currentCard = cards[currentIndex];
+
+  useEffect(() => {
+    const nextCard = cards[currentIndex + 1];
+    if (nextCard?.photos?.length) {
+      nextCard.photos.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+      });
+    }
+  }, [currentIndex, cards]);
 
   const [{ y }, api] = useSpring(() => ({ y: 0 }));
 
