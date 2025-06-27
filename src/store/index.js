@@ -12,7 +12,9 @@ export const useWebAppStore = create((set) => {
   const {
     user = null,
     theme = THEME.LIGHT,
+    error = null,
     webApp = null,
+    loading = false,
     initData = null,
     isInitialized = false,
   } = storedUser;
@@ -27,7 +29,9 @@ export const useWebAppStore = create((set) => {
   return {
     user,
     theme,
+    error,
     webApp,
+    loading,
     initData,
     isInitialized,
 

@@ -24,6 +24,15 @@ export const App = () => {
   } = useWebAppStore();
 
   useEffect(() => {
+    const initData = window.Telegram?.WebApp?.initData;
+    if (initData) {
+      navigator.clipboard.writeText(initData).then(() => {
+        console.log("initData скопирована в буфер обмена!");
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle(THEME.DARK, theme === THEME.DARK);
   }, [theme]);
@@ -92,7 +101,7 @@ export const App = () => {
 
   if (error)
     return (
-      <div className="flex items-center justify-center h-screen text-red-600">
+      <div className="flex items-center justify-center h-screen text-light-red">
         <p>Ошибка: {error}</p>
       </div>
     );
