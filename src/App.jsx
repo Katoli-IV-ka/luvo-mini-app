@@ -24,7 +24,7 @@ export const App = () => {
   } = useWebAppStore();
 
   useEffect(() => {
-    const initData = window.Telegram?.WebApp?.initData;
+    const initData = window.Telegram?.WebApp;
     if (initData) {
       navigator.clipboard.writeText(initData).then(() => {
         console.log("initData скопирована в буфер обмена!");
