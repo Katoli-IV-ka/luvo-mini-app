@@ -64,6 +64,15 @@ export const RegistrationPage = () => {
 
   const photoFile = watch("file");
 
+  const initData = window.Telegram?.WebApp?.initData;
+
+  const handleClick = () => {
+    if (!initData) return alert("initData не найдена");
+    navigator.clipboard.writeText(initData).then(() => {
+      alert("initData скопирована!");
+    });
+  };
+
   useEffect(() => {
     if (photoFile && photoFile instanceof File) {
       const objectUrl = URL.createObjectURL(photoFile);
@@ -127,6 +136,10 @@ export const RegistrationPage = () => {
 
               <Button className="mt-3 w-full" type="submit">
                 Далее
+              </Button>
+
+              <Button className="mt-3 w-full" onClick={handleClick}>
+                data
               </Button>
             </>
           )}
