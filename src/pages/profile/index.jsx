@@ -53,6 +53,15 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
+    if (photosData?.length) {
+      photosData.forEach((photo) => {
+        const img = new Image();
+        img.src = photo.url;
+      });
+    }
+  }, [photosData]);
+
+  useEffect(() => {
     if (profileData) {
       reset({
         instagram_username: profileData.instagram_username || "",
