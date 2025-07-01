@@ -41,7 +41,10 @@ export const RegistrationPage = () => {
 
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
-  const { initData, telegramUsername } = useTelegramInitData();
+  const {
+    //  initData,
+    telegramUsername,
+  } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -124,7 +127,7 @@ export const RegistrationPage = () => {
                 Далее
               </Button>
 
-              <Button
+              {/* <Button
                 className="mt-3 w-full"
                 onClick={() => {
                   if (!initData) return alert("initData не найдена");
@@ -134,7 +137,7 @@ export const RegistrationPage = () => {
                 }}
               >
                 DATA
-              </Button>
+              </Button> */}
             </>
           )}
 

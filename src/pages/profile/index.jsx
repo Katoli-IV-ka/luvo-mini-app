@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfilePhotosList } from "@/components";
-import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+// import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
 
@@ -14,7 +14,7 @@ const schema = yup.object({
 });
 
 export const ProfilePage = () => {
-  const { initData } = useTelegramInitData();
+  // const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateProfile();
   const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
   const { data: profileData, isLoading: profileIsLoading } = useProfile();
@@ -123,7 +123,7 @@ export const ProfilePage = () => {
             Сохранить
           </Button>
 
-          <Button
+          {/* <Button
             className="mt-3 w-full"
             onClick={() => {
               if (!initData) return alert("initData не найдена");
@@ -133,7 +133,7 @@ export const ProfilePage = () => {
             }}
           >
             DATA
-          </Button>
+          </Button> */}
         </div>
       </form>
     </div>
