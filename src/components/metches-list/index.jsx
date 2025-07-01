@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 export const MetchesList = ({ metches }) => {
-  if (!metches) return null;
-
   return (
     <div className="grid grid-cols-2 gap-3">
       {metches.map((metch, index) => (

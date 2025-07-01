@@ -40,10 +40,12 @@ export const LikesPage = () => {
 
   const onCloseModal = () => setIsOpen(false);
 
+  if (likesIsLoading || metchesIsLoading) return null;
+
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        {!likesIsLoading && likesData.length >= 1 && (
+        {likesData.length >= 1 ? (
           <div classNames="mb-10">
             <div
               className="relative"
@@ -66,9 +68,19 @@ export const LikesPage = () => {
               ))}
             </div>
           </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-center text-gray-500">У вас нет лайков</p>
+          </div>
         )}
 
-        {!metchesIsLoading && <MetchesList metches={metchesData} />}
+        {metchesData.length >= 1 ? (
+          <MetchesList metches={metchesData} />
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-center text-gray-500">У вас нет метчей</p>
+          </div>
+        )}
       </div>
 
       {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
