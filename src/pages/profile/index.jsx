@@ -37,6 +37,7 @@ export const ProfilePage = () => {
 
   const {
     reset,
+    watch,
     register,
     handleSubmit,
     formState: { errors },
