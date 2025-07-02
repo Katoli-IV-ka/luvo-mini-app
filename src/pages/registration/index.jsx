@@ -57,7 +57,7 @@ export const RegistrationPage = () => {
   const navigate = useNavigate();
   const { mutateAsync } = useCreateProfile();
   const {
-    //  initData,
+    //  webApp,
     telegramUsername,
   } = useTelegramInitData();
 
@@ -145,9 +145,9 @@ export const RegistrationPage = () => {
               {/* <Button
                 className="mt-3 w-full"
                 onClick={() => {
-                  if (!initData) return alert("initData не найдена");
-                  navigator.clipboard.writeText(initData).then(() => {
-                    alert("initData скопирована!");
+                  if (!webApp) return alert("webApp не найден");
+                  navigator.clipboard.writeText(webApp).then(() => {
+                    alert("webApp скопирован!");
                   });
                 }}
               >
