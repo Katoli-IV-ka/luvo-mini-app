@@ -30,8 +30,8 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateProfile();
-  const { initDataUnsafe } = useTelegramInitData();
   const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
   const { data: profileData, isLoading: profileIsLoading } = useProfile();
 
@@ -150,9 +150,9 @@ export const ProfilePage = () => {
           <Button
             className="mt-3 w-full"
             onClick={() => {
-              if (!initDataUnsafe) return alert("initDataUnsafe не найден");
-              navigator.clipboard.writeText(initDataUnsafe).then(() => {
-                alert("initDataUnsafe скопирован!");
+              if (!initData) return alert("initData не найден");
+              navigator.clipboard.writeText(initData).then(() => {
+                alert("initData скопирован!");
               });
             }}
           >

@@ -55,7 +55,7 @@ export const ProfilePhotosList = ({ photos = [] }) => {
                     <img
                       src={CloseIcon}
                       alt="actions-icon"
-                      className="ml-auto"
+                      className="ml-auto cursor-pointer"
                       onClick={() => onRemovePhoto(photo.id)}
                     />
                   )}

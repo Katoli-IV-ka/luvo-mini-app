@@ -93,9 +93,7 @@ export const LikesCard = ({ card, className }) => {
             alt="big-heart"
             className={classnames(
               "absolute top-1/2 left-1/2 z-20 size-32 -translate-x-1/2 -translate-y-1/2",
-              {
-                "animate-like-heart": heartAnim,
-              }
+              { "animate-like-heart": heartAnim }
             )}
           />
         )}
