@@ -1,11 +1,32 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { CalendarDays } from "lucide-react";
 import { ProfilePhotosList } from "@/components";
-import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { Controller, useForm } from "react-hook-form";
+// import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
+
+const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
+  <button
+    ref={ref}
+    type="button"
+    onClick={onClick}
+    className="mt-3 w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light dark:bg-transparent"
+  >
+    <div
+      className={`w-full text-left ${
+        value ? "text-gray-800" : "text-gray-400"
+      }`}
+    >
+      {value || "Дата рождения"}
+    </div>
+
+    <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
+  </button>
+));
 
 const schema = yup.object({
   about: yup.string().optional(),
@@ -30,14 +51,14 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
-  const { initData } = useTelegramInitData();
+  // const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateProfile();
   const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
   const { data: profileData, isLoading: profileIsLoading } = useProfile();
 
   const {
     reset,
-    watch,
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -120,20 +141,24 @@ export const ProfilePage = () => {
               error={errors.first_name}
             />
 
-            <div className="relative mt-3">
-              <Input
-                {...register("birthdate")}
-                type="date"
-                className="peer"
-                error={errors.birthdate}
-              />
-
-              {!watch("birthdate") && (
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-all peer-focus:opacity-0 peer-focus:-translate-y-4 peer-focus:scale-90">
-                  Дата рождения
-                </span>
+            <Controller
+              name="birthdate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  selected={field.value ? new Date(field.value) : null}
+                  onChange={(date) => field.onChange(date)}
+                  customInput={<CustomDateInput />}
+                  dateFormat="dd.MM.yyyy"
+                  wrapperClassName="w-full"
+                  maxDate={new Date()}
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                />
               )}
-            </div>
+            />
 
             <Textarea
               {...register("about")}
@@ -147,7 +172,7 @@ export const ProfilePage = () => {
             Сохранить
           </Button>
 
-          <Button
+          {/* <Button
             className="mt-3 w-full"
             onClick={() => {
               if (!initData) return alert("initData не найден");
@@ -157,7 +182,7 @@ export const ProfilePage = () => {
             }}
           >
             DATA
-          </Button>
+          </Button> */}
         </div>
       </form>
     </div>

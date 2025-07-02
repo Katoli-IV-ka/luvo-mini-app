@@ -1,13 +1,34 @@
-import { useState, useEffect } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import * as yup from "yup";
+import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { CalendarDays } from "lucide-react";
 import { useCreateProfile } from "@/api/profile";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
-import { useForm, FormProvider } from "react-hook-form";
 import { Input, Button, Textarea } from "@/ui";
+import { Controller, useForm, FormProvider } from "react-hook-form";
 
 import CameraIcon from "../../assets/icons/camera.svg";
+
+const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
+  <button
+    ref={ref}
+    type="button"
+    onClick={onClick}
+    className="mt-3 w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light dark:bg-transparent"
+  >
+    <div
+      className={`w-full text-left ${
+        value ? "text-gray-800" : "text-gray-400"
+      }`}
+    >
+      {value || "Дата рождения"}
+    </div>
+
+    <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
+  </button>
+));
 
 const stepSchemas = [
   yup.object({
@@ -76,6 +97,7 @@ export const RegistrationPage = () => {
 
   const {
     watch,
+    control,
     register,
     setValue,
     handleSubmit,
@@ -167,20 +189,24 @@ export const RegistrationPage = () => {
                   error={errors.first_name}
                 />
 
-                <div className="relative mt-3">
-                  <Input
-                    {...register("birthdate")}
-                    type="date"
-                    className="peer"
-                    error={errors.birthdate}
-                  />
-
-                  {!watch("birthdate") && (
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-all peer-focus:opacity-0 peer-focus:-translate-y-4 peer-focus:scale-90">
-                      Дата рождения
-                    </span>
+                <Controller
+                  name="birthdate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      selected={field.value ? new Date(field.value) : null}
+                      onChange={(date) => field.onChange(date)}
+                      customInput={<CustomDateInput />}
+                      dateFormat="dd.MM.yyyy"
+                      wrapperClassName="w-full"
+                      maxDate={new Date()}
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                    />
                   )}
-                </div>
+                />
 
                 <div className="mt-4">
                   <div className="flex gap-6">
