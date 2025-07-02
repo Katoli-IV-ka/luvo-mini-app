@@ -70,7 +70,7 @@ export const LikesPage = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
-            <p className="text-center text-gray-500">У вас нет лайков</p>
+            <p className="text-center">У вас нет лайков</p>
           </div>
         )}
 
@@ -78,7 +78,7 @@ export const LikesPage = () => {
           <MetchesList metches={metchesData} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
-            <p className="text-center text-gray-500">У вас нет метчей</p>
+            <p className="text-center">У вас нет метчей</p>
           </div>
         )}
       </div>

@@ -34,8 +34,23 @@ const stepSchemas = [
   }),
 ];
 
+const aboutPlaceholders = [
+  `📍 Город: Москва\n🎯 Цель: Найти друзей\n🎲 Интересы: Кино, спорт\n📎 О себе:\nРаботаю в IT, люблю путешествовать`,
+  `📍 Город: Санкт-Петербург\n🎯 Цель: Общение\n🎲 Интересы: Музыка, книги\n📎 О себе:\nМаркетолог, обожаю кофе и прогулки`,
+  `📍 Город: Казань\n🎯 Цель: Вдохновиться\n🎲 Интересы: Искусство, йога\n📎 О себе:\nРаботаю дизайнером, ищу единомышленников`,
+  `📍 Город: Новосибирск\n🎯 Цель: Найти любовь\n🎲 Интересы: Путешествия, настолки\n📎 О себе:\nУчусь в университете, люблю активный отдых`,
+  `📍 Город: Екатеринбург\n🎯 Цель: Развиваться\n🎲 Интересы: Фотография, бег\n📎 О себе:\nРаботаю в сфере образования, ценю искренность`,
+];
+
+const getRandomAboutPlaceholder = () => {
+  return aboutPlaceholders[
+    Math.floor(Math.random() * aboutPlaceholders.length)
+  ];
+};
+
 export const RegistrationPage = () => {
   const [step, setStep] = useState(0);
+  const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
   const [preview, setPreview] = useState(null);
   const [genericError, setGenericError] = useState("");
 
@@ -152,13 +167,20 @@ export const RegistrationPage = () => {
                   error={errors.first_name}
                 />
 
-                <Input
-                  {...register("birthdate")}
-                  type="date"
-                  className="mt-3"
-                  placeholder="Дата рождения"
-                  error={errors.birthdate}
-                />
+                <div className="relative mt-3">
+                  <Input
+                    {...register("birthdate")}
+                    type="date"
+                    className="peer"
+                    error={errors.birthdate}
+                  />
+
+                  {!watch("birthdate") && (
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-all peer-focus:opacity-0 peer-focus:-translate-y-4 peer-focus:scale-90">
+                      Дата рождения
+                    </span>
+                  )}
+                </div>
 
                 <div className="mt-4">
                   <div className="flex gap-6">
@@ -198,7 +220,7 @@ export const RegistrationPage = () => {
                 <Textarea
                   {...register("about")}
                   className="mt-4"
-                  placeholder="О себе"
+                  placeholder={aboutPlaceholder}
                   error={errors.about}
                 />
               </div>
