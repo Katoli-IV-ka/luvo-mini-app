@@ -45,7 +45,7 @@ export const LikesPage = () => {
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
       <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        {likesData.length >= 1 ? (
+        {likesData && likesData.length >= 1 ? (
           <div classNames="mb-10">
             <div
               className="relative"
@@ -69,15 +69,15 @@ export const LikesPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="py-10 flex items-center justify-center">
             <p className="text-center">У вас нет лайков</p>
           </div>
         )}
 
-        {metchesData.length >= 1 ? (
+        {metchesData && metchesData.length >= 1 ? (
           <MetchesList metches={metchesData} />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="py-10 flex items-center justify-center">
             <p className="text-center">У вас нет метчей</p>
           </div>
         )}
