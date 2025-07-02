@@ -29,7 +29,7 @@ export const Textarea = React.forwardRef(
         <div className="relative flex items-center rounded-[30px] bg-white/10">
           <textarea
             ref={ref}
-            rows={4}
+            rows={5}
             type={type}
             value={value}
             onChange={onChange}

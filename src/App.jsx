@@ -98,7 +98,7 @@ export const App = () => {
     );
 
   return (
-    <Layout className="flex flex-col items-center justify-start bg-white text-black dark:bg-black dark:text-white">
+    <Layout className="flex flex-col items-center justify-start bg-white text-black dark:bg-black dark:text-white scrollbar-hidden">
       <Router />
     </Layout>
   );

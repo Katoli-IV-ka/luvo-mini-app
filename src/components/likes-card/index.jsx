@@ -76,7 +76,7 @@ export const LikesCard = ({ card, className }) => {
     <div
       className={classnames(
         className,
-        "relative w-full max-h-[500px] h-full rounded-[20px] text-white overflow-hidden"
+        "relative w-full h-[500px] rounded-[20px] text-white overflow-hidden"
       )}
     >
       <div className="relative w-full h-full">
