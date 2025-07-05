@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const MetchesList = ({ metches }) => {
   return (
-    <div className="mt-10 grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3">
       {metches.map((metch, index) => (
         <Link key={index} to={`/other-profile/${metch.user_id}`}>
           <img

@@ -83,7 +83,7 @@ export const LikesPage = () => {
           <>
             {hasLikes && (
               <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                   Лайки ({likesData.length})
                 </h2>
 
@@ -116,7 +116,7 @@ export const LikesPage = () => {
 
             {hasMatches && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                   Взаимные симпатии ({metchesData.length})
                 </h2>
 
