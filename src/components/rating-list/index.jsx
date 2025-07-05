@@ -51,7 +51,7 @@ export const RatingList = ({ data }) => {
 
       {data.map((item, index) => (
         <div
-          key={item.id}
+          key={index}
           className="mt-3 first:mt-0 flex items-center justify-between"
         >
           <div className="flex items-center">

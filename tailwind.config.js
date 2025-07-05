@@ -24,9 +24,9 @@ export default {
         "orange-light": "#FFE3AC",
         "light-red": "#DB324D",
       },
-    },
-    animation: {
-      insta: "instaHeart 800ms ease",
+      animation: {
+        insta: "instaHeart 800ms ease",
+      },
     },
     keyframes: {
       instaHeart: {
@@ -37,5 +37,5 @@ export default {
       },
     },
   },
-  plagins: [],
+  plugins: [],
 };

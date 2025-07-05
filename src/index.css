@@ -71,3 +71,9 @@ body {
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
