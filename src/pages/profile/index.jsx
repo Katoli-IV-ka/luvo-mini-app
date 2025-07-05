@@ -7,7 +7,7 @@ import { ProfilePhotosList } from "@/components";
 import { Controller, useForm } from "react-hook-form";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
-import { useProfile, useUpdateProfile, useProfilePhotos } from "@/api/profile";
+import { useUser, useUpdateUser, useUserPhotos } from "@/api/user";
 
 const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
   <button
@@ -52,9 +52,10 @@ export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
   const { initData } = useTelegramInitData();
-  const { mutateAsync } = useUpdateProfile();
-  const { data: photosData, isLoading: photosIsLoading } = useProfilePhotos();
-  const { data: profileData, isLoading: profileIsLoading } = useProfile();
+  const { mutateAsync } = useUpdateUser();
+  const { data: userData, isLoading: userIsLoading } = useUser();
+  const { data: userPhotosData, isLoading: userPhotosIsLoading } =
+    useUserPhotos();
 
   const {
     reset,
@@ -91,26 +92,26 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (photosData?.length) {
-      photosData.forEach((photo) => {
+    if (userPhotosData?.length) {
+      userPhotosData.forEach((photo) => {
         const img = new Image();
         img.src = photo.url;
       });
     }
-  }, [photosData]);
+  }, [userPhotosData]);
 
   useEffect(() => {
-    if (profileData) {
+    if (userData) {
       reset({
-        instagram_username: profileData.instagram_username || "",
-        first_name: profileData.first_name || "",
-        about: profileData.about || "",
-        birthdate: profileData.birthdate || "",
+        instagram_username: userData.instagram_username || "",
+        first_name: userData.first_name || "",
+        about: userData.about || "",
+        birthdate: userData.birthdate || "",
       });
     }
-  }, [profileData, reset]);
+  }, [userData, reset]);
 
-  if (profileIsLoading || photosIsLoading) return null;
+  if (userIsLoading || userPhotosIsLoading) return null;
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
@@ -118,7 +119,7 @@ export const ProfilePage = () => {
         className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ProfilePhotosList photos={photosData} />
+        <ProfilePhotosList photos={userPhotosData} />
 
         <div className="mt-10">
           <h2 className="text-2xl font-bold leading-none">Инстаграм</h2>

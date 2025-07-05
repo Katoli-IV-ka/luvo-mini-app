@@ -13,8 +13,8 @@ export const LikesCard = ({ card, className }) => {
 
   const lastTap = useRef(0);
 
-  const { mutate: likeUser } = useLiked(card.user_id);
-  const { mutate: ignoreUser } = useIgnored(card.user_id);
+  const { mutate: likeUserMutation } = useLiked();
+  const { mutate: ignoreUserMutation } = useIgnored();
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();
@@ -30,7 +30,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleLike = () => {
-    likeUser();
+    likeUserMutation(card.user_id);
 
     setShowHeart(true);
     setHeartAnim(true);
@@ -42,7 +42,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleIgnore = () => {
-    ignoreUser();
+    ignoreUserMutation(card.user_id);
   };
 
   // Обработчик клика по картинке — листает фото в зависимости от стороны

@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useLogin = () =>
   useMutation({
-    mutationFn: (body) => axios.post(`${API_URL}/auth/`, body),
+    mutationFn: (body) => axios.post(`${API_URL}/auth/login`, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["login"] });
     },

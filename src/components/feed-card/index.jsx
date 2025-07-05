@@ -17,15 +17,15 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
   const lastTap = useRef(0);
   const clickTimeout = useRef(null);
 
-  const { mutate: sendView } = useFeedView();
-  const { mutateAsync: likeUser } = useLiked(card.user_id);
+  const { mutate: sendViewMutation } = useFeedView();
+  const { mutateAsync: likeUserMutation } = useLiked();
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
-      sendView({ profile_id: card.user_id });
+      sendViewMutation(card.user_id);
       setViewed(true);
     }
-  }, [viewed, sendView, card.user_id, setViewed]);
+  }, [viewed, sendViewMutation, card.user_id, setViewed]);
 
   const triggerHeartAnimation = () => {
     setShowHeart(true);
@@ -40,7 +40,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     markAsViewed();
     if (!liked) {
       try {
-        const { data } = await likeUser();
+        const { data } = await likeUserMutation(card.user_id);
         if (data.matched) {
           setIsOpen(true);
         }

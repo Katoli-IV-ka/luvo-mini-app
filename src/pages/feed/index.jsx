@@ -9,7 +9,7 @@ export const FeedPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewed, setViewed] = useState(false);
 
-  const { mutate: sendView } = useFeedView();
+  const { mutate: sendViewMutation } = useFeedView();
   const { cards, currentIndex, setCurrentIndex, isLoading } = useFeedBuffer();
   const currentCard = cards[currentIndex];
 
@@ -34,13 +34,13 @@ export const FeedPage = () => {
           if (my > 0 && currentIndex > 0) {
             setCurrentIndex((prev) => {
               const nextIndex = prev - 1;
-              sendView({ profile_id: cards[nextIndex].user_id });
+              sendViewMutation(cards[nextIndex].user_id);
               return nextIndex;
             });
           } else if (my < 0 && currentIndex < cards.length - 1) {
             setCurrentIndex((prev) => {
               const nextIndex = prev + 1;
-              sendView({ profile_id: cards[nextIndex].user_id });
+              sendViewMutation(cards[nextIndex].user_id);
               return nextIndex;
             });
           }

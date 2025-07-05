@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useOtherProfile } from "@/api/profile";
+import { useOtherUser } from "@/api/user";
 import { OtherProfileCard } from "@/components";
 
 // import TelegramIcon from "./telegram.png";
@@ -7,7 +7,7 @@ import InstragramIcon from "./instagram.png";
 
 export const OtherProfilePage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useOtherProfile(id);
+  const { data, isLoading } = useOtherUser(id);
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();

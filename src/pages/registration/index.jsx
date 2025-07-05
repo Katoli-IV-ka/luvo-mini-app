@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
-import { useCreateProfile } from "@/api/profile";
+import { useCreateUser } from "@/api/user";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { Controller, useForm, FormProvider } from "react-hook-form";
@@ -76,11 +76,8 @@ export const RegistrationPage = () => {
   const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
-  const { mutateAsync } = useCreateProfile();
-  const {
-    //  initData,
-    telegramUsername,
-  } = useTelegramInitData();
+  const { initData } = useTelegramInitData();
+  const { mutateAsync } = useCreateUser();
 
   const methods = useForm({
     mode: "onChange",
@@ -126,11 +123,11 @@ export const RegistrationPage = () => {
           formData.append(key, value);
         });
 
-        formData.append("telegram_username", telegramUsername);
-
-        if (!telegramUsername) {
-          setGenericError("Ошибка: Telegram данные не получены.");
-          return;
+        if (data.birthdate) {
+          formData.append(
+            "birthdate",
+            new Date(data.birthdate).toISOString().split("T")[0]
+          );
         }
 
         await mutateAsync(formData);
@@ -164,7 +161,7 @@ export const RegistrationPage = () => {
                 Далее
               </Button>
 
-              {/* <Button
+              <Button
                 className="mt-3 w-full"
                 onClick={() => {
                   if (!initData) return alert("initData не найден");
@@ -174,7 +171,7 @@ export const RegistrationPage = () => {
                 }}
               >
                 DATA
-              </Button> */}
+              </Button>
             </>
           )}
 
@@ -189,24 +186,32 @@ export const RegistrationPage = () => {
                   error={errors.first_name}
                 />
 
-                <Controller
-                  name="birthdate"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      selected={field.value ? new Date(field.value) : null}
-                      onChange={(date) => field.onChange(date)}
-                      customInput={<CustomDateInput />}
-                      dateFormat="dd.MM.yyyy"
-                      wrapperClassName="w-full"
-                      maxDate={new Date()}
-                      showMonthDropdown
-                      showYearDropdown
-                      dropdownMode="select"
-                    />
+                <div>
+                  <Controller
+                    name="birthdate"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        selected={field.value ? new Date(field.value) : null}
+                        onChange={(date) => field.onChange(date)}
+                        customInput={<CustomDateInput />}
+                        dateFormat="dd.MM.yyyy"
+                        wrapperClassName="w-full"
+                        maxDate={new Date()}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
+
+                  {errors.birthdate && (
+                    <p className="mt-2 font-semibold text-light-red">
+                      {errors.birthdate.message}
+                    </p>
                   )}
-                />
+                </div>
 
                 <div className="mt-4">
                   <div className="flex gap-6">

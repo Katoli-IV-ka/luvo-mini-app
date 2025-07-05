@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AddPhotoBlock } from "./add-photo-block";
-import { useDeleteProfilePhotos } from "@/api/profile";
+import { useDeleteUserPhoto } from "@/api/user";
 
 // import EditIcon from "./edit.svg";
 import CloseIcon from "./close.svg";
@@ -14,11 +14,11 @@ export const ProfilePhotosList = ({ photos = [] }) => {
     ...Array(6 - safePhotos.length).fill(null),
   ].slice(0, 6);
 
-  const { mutateAsync: detelePhotoMutation } = useDeleteProfilePhotos();
+  const { mutateAsync: deteleUserPhotoMutation } = useDeleteUserPhoto();
 
   const onRemovePhoto = async (id) => {
     try {
-      await detelePhotoMutation(id);
+      await deteleUserPhotoMutation(id);
     } catch (e) {
       console.error(e);
       setGenericError(e?.response?.data?.detail);

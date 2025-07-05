@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import { useCreateProfilePhotos } from "@/api/profile";
+import { useCreateUserPhoto } from "@/api/user";
 
 import CameraIcon from "./camera.svg";
 
 export const AddPhotoBlock = () => {
   const inputRef = useRef(null);
 
-  const { mutateAsync: addPhotoMutation } = useCreateProfilePhotos();
+  const { mutateAsync } = useCreateUserPhoto();
 
   const triggerUpload = () => {
     inputRef.current?.click();
@@ -20,7 +20,7 @@ export const AddPhotoBlock = () => {
       const formData = new FormData();
       formData.append("photo", file);
 
-      await addPhotoMutation(formData);
+      await mutateAsync(formData);
     } catch (e) {
       console.error("Ошибка при загрузке фото:", e);
     } finally {

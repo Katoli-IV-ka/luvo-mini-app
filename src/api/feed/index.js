@@ -3,17 +3,19 @@ import { queryClient } from "@/main";
 import { axiosInstance } from "@/utils/axios.util";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export const useLiked = (id) =>
+export const useLiked = () =>
   useMutation({
-    mutationFn: (body) => axiosInstance.post(`${API_URL}/like/${id}`, body),
+    mutationFn: (userId) =>
+      axiosInstance.post(`${API_URL}/interactions/like/${userId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
     },
   });
 
-export const useIgnored = (id) =>
+export const useIgnored = () =>
   useMutation({
-    mutationFn: (body) => axiosInstance.post(`${API_URL}/ignore/${id}`, body),
+    mutationFn: (userId) =>
+      axiosInstance.post(`${API_URL}/interactions/ignore/${userId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
     },
@@ -33,7 +35,8 @@ export const useFeeds = (skip = 0, limit = 5) => {
 
 export const useFeedView = () =>
   useMutation({
-    mutationFn: (body) => axiosInstance.post(`${API_URL}/feed/view`, body),
+    mutationFn: (userId) =>
+      axiosInstance.post(`${API_URL}/interactions/view/${userId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
     },
