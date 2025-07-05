@@ -10,6 +10,10 @@ import { MetchesList } from "./metches-list";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
 import { AuthenticatedRoute } from "./auth-route";
+import { EmptyState } from "./empty-state";
+import { LikesSection } from "./likes-section";
+import { MatchesSection } from "./matches-section";
+import { Spinner } from "./spinner";
 
 export {
   Layout,
@@ -24,4 +28,8 @@ export {
   OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
+  EmptyState,
+  LikesSection,
+  MatchesSection,
+  Spinner,
 };

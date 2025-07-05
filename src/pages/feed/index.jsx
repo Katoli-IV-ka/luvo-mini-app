@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import { FeedCard } from "@/components";
 import { useFeedView } from "@/api/feed";
 import { useFeedBuffer } from "@/hooks/useFeedBuffer";
+import { FeedCard, Spinner } from "@/components";
 import { useSpring, animated } from "@react-spring/web";
 
 export const FeedPage = () => {
@@ -57,7 +57,13 @@ export const FeedPage = () => {
     setIsOpen(false);
   };
 
-  if (isLoading || !currentCard) return null;
+  if (isLoading || !currentCard) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen flex items-center justify-center overflow-hidden">

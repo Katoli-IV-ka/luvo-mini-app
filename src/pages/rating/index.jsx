@@ -1,5 +1,5 @@
 import { useRating } from "@/api/rating";
-import { Pedestal, RatingList } from "@/components";
+import { Pedestal, RatingList, Spinner } from "@/components";
 
 export const RatingPage = () => {
   const { data, isLoading } = useRating();
@@ -7,7 +7,13 @@ export const RatingPage = () => {
   const sortByLikesDesc = (users) =>
     [...users].sort((a, b) => b.likes_count - a.likes_count);
 
-  if (isLoading || !data.length) return null;
+  if (isLoading || !data.length) {
+    return (
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">

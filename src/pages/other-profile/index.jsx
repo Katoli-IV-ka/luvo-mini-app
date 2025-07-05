@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useOtherUser } from "@/api/user";
-import { OtherProfileCard } from "@/components";
+import { OtherProfileCard, Spinner } from "@/components";
 
 // import TelegramIcon from "./telegram.png";
 import InstragramIcon from "./instagram.png";
@@ -20,7 +20,13 @@ export const OtherProfilePage = () => {
     return isBirthdayPassed ? age : age - 1;
   };
 
-  if (isLoading) return null;
+  if (isLoading) {
+    return (
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">

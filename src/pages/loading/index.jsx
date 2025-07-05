@@ -1,7 +1,6 @@
 import { useEffect } from "react";
+import { Spinner } from "@/components";
 import { useWebAppStore } from "@/store";
-
-import SpinnerIcon from "./spinner.svg";
 
 export const LoadingPage = () => {
   const { init, error } = useWebAppStore();
@@ -20,7 +19,7 @@ export const LoadingPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <img src={SpinnerIcon} alt="spinner-icon" className="animate-spin" />
+      <Spinner size="xl" />
     </div>
   );
 };

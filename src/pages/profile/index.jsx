@@ -3,10 +3,10 @@ import * as yup from "yup";
 import DatePicker from "react-datepicker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
-import { ProfilePhotosList } from "@/components";
 import { Controller, useForm } from "react-hook-form";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
+import { ProfilePhotosList, Spinner } from "@/components";
 import { useUser, useUpdateUser, useUserPhotos } from "@/api/user";
 
 const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
@@ -111,7 +111,13 @@ export const ProfilePage = () => {
     }
   }, [userData, reset]);
 
-  if (userIsLoading || userPhotosIsLoading) return null;
+  if (userIsLoading || userPhotosIsLoading) {
+    return (
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
