@@ -1,6 +1,7 @@
 import { Layout } from "./layout";
 import { Header } from "./header";
 import { Sidebar } from "./sidebar";
+import { Spinner } from "./spinner";
 import { FeedCard } from "./feed-card";
 import { Pedestal } from "./pedestal";
 import { LikesCard } from "./likes-card";
@@ -10,14 +11,11 @@ import { MetchesList } from "./metches-list";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
 import { AuthenticatedRoute } from "./auth-route";
-import { EmptyState } from "./empty-state";
-import { LikesSection } from "./likes-section";
-import { MatchesSection } from "./matches-section";
-import { Spinner } from "./spinner";
 
 export {
   Layout,
   Header,
+  Spinner,
   Sidebar,
   Pedestal,
   FeedCard,
@@ -28,8 +26,4 @@ export {
   OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
-  EmptyState,
-  LikesSection,
-  MatchesSection,
-  Spinner,
 };
