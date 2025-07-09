@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
 import { useCreateUser } from "@/api/user";
-// import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { Controller, useForm, FormProvider } from "react-hook-form";
 
@@ -76,7 +76,7 @@ export const RegistrationPage = () => {
   const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
-  // const { initData } = useTelegramInitData();
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useCreateUser();
 
   const methods = useForm({
@@ -162,7 +162,7 @@ export const RegistrationPage = () => {
                 Далее
               </Button>
 
-              {/* <Button
+              <Button
                 className="mt-3 w-full"
                 onClick={() => {
                   if (!initData) return alert("initData не найден");
@@ -172,7 +172,7 @@ export const RegistrationPage = () => {
                 }}
               >
                 DATA
-              </Button> */}
+              </Button>
             </>
           )}
 
