@@ -117,6 +117,7 @@ export const useWebAppStore = create((set) => {
         user: null,
         webApp: null,
         initData: null,
+        isInitialized: false,
       });
     },
   };
