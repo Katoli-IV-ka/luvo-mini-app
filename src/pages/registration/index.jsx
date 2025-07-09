@@ -129,6 +129,7 @@ export const RegistrationPage = () => {
             new Date(data.birthdate).toISOString().split("T")[0]
           );
         }
+        formData.append("init_data", initData);
 
         await mutateAsync(formData);
         navigate("/feed");
