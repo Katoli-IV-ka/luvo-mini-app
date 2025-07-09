@@ -178,7 +178,7 @@ export const ProfilePage = () => {
           <Button type="submit" className="mt-3 w-full">
             Сохранить
           </Button>
-          {/* 
+
           <Button
             className="mt-3 w-full"
             onClick={() => {
@@ -189,7 +189,7 @@ export const ProfilePage = () => {
             }}
           >
             DATA
-          </Button> */}
+          </Button>
         </div>
       </form>
     </div>
