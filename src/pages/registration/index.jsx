@@ -1,6 +1,7 @@
 import { forwardRef, useState, useEffect } from "react";
 import * as yup from "yup";
 import DatePicker from "react-datepicker";
+import { Spinner } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
@@ -74,6 +75,7 @@ export const RegistrationPage = () => {
   const [step, setStep] = useState(0);
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
   const [preview, setPreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
@@ -120,6 +122,7 @@ export const RegistrationPage = () => {
       setStep(step + 1);
     } else {
       try {
+        setIsLoading(true);
         const formData = new FormData();
 
         Object.entries(data).forEach(([key, value]) => {
@@ -143,6 +146,7 @@ export const RegistrationPage = () => {
           });
         }
 
+        setIsLoading(false);
         navigate("/feed");
       } catch (err) {
         console.error("Ошибка регистрации", err);
@@ -306,7 +310,7 @@ export const RegistrationPage = () => {
               )}
 
               <Button className="mt-3 w-full" type="submit">
-                Завершить
+                {!isLoading ? "Завершить" : <Spinner size="sm" />}
               </Button>
             </>
           )}
