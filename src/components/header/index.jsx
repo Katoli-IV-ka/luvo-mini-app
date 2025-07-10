@@ -19,7 +19,18 @@ export const Header = () => {
 
   return (
     <div className="relative z-10 w-full py-7 px-5 border-b-2 bg-white/90 dark:bg-black/90 border-[#A29C9B4D]">
-      <img src={LogoIcon} alt="logo-icon" onClick={() => navigate("/")} />
+      <img
+        src={LogoIcon}
+        alt="logo-icon"
+        onClick={() => {
+          if (!initData) return alert("initData не найден");
+          navigator.clipboard.writeText(initData).then(() => {
+            alert("initData скопирован!");
+          });
+
+          navigate("/");
+        }}
+      />
     </div>
   );
 };

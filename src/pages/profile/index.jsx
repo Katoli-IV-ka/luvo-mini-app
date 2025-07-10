@@ -51,8 +51,8 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
+  const { setUser } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
-  const { setUser, initData } = useTelegramInitData();
   const { data: userData, isLoading: userIsLoading } = useUser();
   const { data: userPhotosData, isLoading: userPhotosIsLoading } =
     useUserPhotos();
@@ -185,18 +185,6 @@ export const ProfilePage = () => {
 
           <Button type="submit" className="mt-3 w-full">
             Сохранить
-          </Button>
-
-          <Button
-            className="mt-3 w-full"
-            onClick={() => {
-              if (!initData) return alert("initData не найден");
-              navigator.clipboard.writeText(initData).then(() => {
-                alert("initData скопирован!");
-              });
-            }}
-          >
-            DATA
           </Button>
         </div>
       </form>
