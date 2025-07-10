@@ -43,16 +43,14 @@ const stepSchemas = [
       .required("Пол обязателен"),
     about: yup.string().optional(),
   }),
-  // yup.object({
-  //   file: yup
-  //     .mixed()
-  //     .required("Фото обязательно")
-  //     .test(
-  //       "fileSize",
-  //       "Файл слишком большой",
-  //       (file) => !file || file.size < 5000000
-  //     ),
-  // }),
+  yup.object({
+    file: yup.mixed().required("Фото обязательно"),
+    // .test(
+    //   "fileSize",
+    //   "Файл слишком большой",
+    //   (file) => !file || file.size < 5000000
+    // ),
+  }),
 ];
 
 const aboutPlaceholders = [
@@ -173,18 +171,6 @@ export const RegistrationPage = () => {
 
               <Button className="mt-3 w-full" type="submit">
                 Далее
-              </Button>
-
-              <Button
-                className="mt-3 w-full"
-                onClick={() => {
-                  if (!initData) return alert("initData не найден");
-                  navigator.clipboard.writeText(initData).then(() => {
-                    alert("initData скопирован!");
-                  });
-                }}
-              >
-                DATA
               </Button>
             </>
           )}
@@ -307,11 +293,11 @@ export const RegistrationPage = () => {
                 )}
               </div>
 
-              {/* {errors.file && (
+              {errors.file && (
                 <p className="mt-2 text-light-red text-sm">
                   {errors.file.message}
                 </p>
-              )} */}
+              )}
 
               {genericError && (
                 <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 dark:border-white/70 bg-gray-light dark:bg-transparent rounded-2xl font-semibold text-light-red">
