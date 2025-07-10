@@ -104,6 +104,7 @@ export const useWebAppStore = create((set) => {
             webApp: null,
             initData,
           });
+
           return initData;
         }
 

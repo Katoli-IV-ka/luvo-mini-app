@@ -2,7 +2,6 @@ import axios from "axios";
 import { decodeJWT } from "./decode-jwt.util";
 import { useWebAppStore } from "../store";
 import { getAccessToken } from "./get-auth-tokens.util";
-import { loginByInitData } from "./login-by-init-data.util";
 import { checkTokenExpiration } from "./check-token.util";
 
 export const axiosInstance = axios.create({
@@ -75,16 +74,17 @@ axiosInstance.interceptors.response.use(
 
         if (!access_token) throw new Error("Токен отсутствует");
 
-        const { user_id, exp } = decodeJWT(access_token);
+        const { exp, user_id } = decodeJWT(access_token);
         setUser({
           id: user_id,
-          accessToken: access_token,
-          isRegister: has_profile,
           exp,
+          isRegister: has_profile,
+          accessToken: access_token,
         });
 
         processQueue(null, access_token);
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
+
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
