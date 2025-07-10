@@ -52,8 +52,13 @@ const stepSchemas = [
       .required("Фото обязательно")
       .test(
         "fileSize",
-        "Файл слишком большой",
-        (file) => !file || file.size < 5000000
+        "Файл слишком большой (макс. 3MB)",
+        (file) => !file || file.size <= 3000000 // Уменьшите лимит для мобильных
+      )
+      .test(
+        "fileType",
+        "Неподдерживаемый формат",
+        (file) => !file || ["image/jpeg", "image/png"].includes(file.type)
       ),
   }),
 ];
@@ -113,38 +118,73 @@ export const RegistrationPage = () => {
   const onSubmit = async (data) => {
     if (step < stepSchemas.length - 1) {
       setStep(step + 1);
-    } else {
-      try {
-        setIsLoading(true);
-        const formData = new FormData();
+      return;
+    }
 
-        Object.entries(data).forEach(([key, value]) => {
-          if (key === "birthdate" && value instanceof Date) {
-            formData.append("birthdate", value.toISOString().split("T")[0]);
-          } else {
-            formData.append(key, value);
-          }
-        });
-        formData.append("init_data", initData);
+    setIsLoading(true);
+    try {
+      setGenericError("");
 
-        const response = await mutateAsync(formData);
-        const { user_id, exp, has_profile, access_token } = response.data;
+      const formData = new FormData();
 
-        if (access_token) {
-          setUser({
-            id: user_id,
-            exp: exp,
-            isRegister: has_profile,
-            accessToken: access_token,
-          });
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "birthdate" && value instanceof Date) {
+          formData.append("birthdate", value.toISOString().split("T")[0]);
+        } else {
+          formData.append(key, value);
         }
+      });
 
-        setIsLoading(false);
-        navigate("/feed");
-      } catch (err) {
-        console.error("Ошибка регистрации", err);
-        setGenericError(err?.response?.data?.detail || "Что-то пошло не так");
+      if (!initData) {
+        setGenericError("Отсутствуют данные инициализации Telegram");
       }
+      formData.append("init_data", initData);
+
+      const response = await mutateAsync(formData).catch((err) => {
+        if (err.response) {
+          setGenericError(
+            err.response.data?.detail ||
+              err.response.data?.message ||
+              "Ошибка сервера при регистрации"
+          );
+        } else if (err.request) {
+          setGenericError(
+            "Нет ответа от сервера. Проверьте подключение к интернету"
+          );
+        } else {
+          setGenericError("Ошибка при отправке запроса");
+        }
+      });
+
+      if (!response?.data) {
+        setGenericError("Некорректный ответ от сервера");
+      }
+
+      const { user_id, exp, has_profile, access_token } = response.data;
+
+      if (!access_token) {
+        setGenericError("Отсутствует токен доступа в ответе сервера");
+      }
+
+      setUser({
+        id: user_id,
+        exp: exp,
+        isRegister: has_profile,
+        accessToken: access_token,
+      });
+
+      navigate("/feed");
+    } catch (err) {
+      console.error("Registration error:", err);
+
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Произошла неизвестная ошибка при регистрации";
+
+      setGenericError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -267,12 +307,19 @@ export const RegistrationPage = () => {
                 <input
                   type="file"
                   accept="image/*"
+                  capture="environment" // Для мобильных камер
                   className="absolute inset-0 opacity-0 cursor-pointer rounded-[20px]"
-                  onChange={(e) =>
-                    setValue("file", e.target.files?.[0], {
-                      shouldValidate: true,
-                    })
-                  }
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      // Проверка типа файла для мобильных устройств
+                      if (!file.type.startsWith("image/")) {
+                        setGenericError("Пожалуйста, выберите изображение");
+                        return;
+                      }
+                      setValue("file", file, { shouldValidate: true });
+                    }
+                  }}
                 />
 
                 {preview ? (
