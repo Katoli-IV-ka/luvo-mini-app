@@ -6,7 +6,12 @@ export const useTelegramInitData = () => {
   const [telegramUsername, setTelegramUsername] = useState("");
 
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
+    const isDev = import.meta.env.DEV;
+
+    if (isDev) {
+      const fakeInitData = import.meta.env.VITE_FAKE_INIT_DATA;
+      setInitData(fakeInitData);
+    } else if (window.Telegram?.WebApp) {
       setInitData(window.Telegram.WebApp.initData);
       const unsafe = window.Telegram.WebApp.initDataUnsafe;
       setInitDataUnsafe(unsafe);

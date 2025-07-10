@@ -70,7 +70,6 @@ export const App = () => {
       loginSuccess(token, isRegister);
     } catch (e) {
       console.error("Ошибка инициализации:", e);
-      navigate("/registration");
     }
   };
 
@@ -84,7 +83,7 @@ export const App = () => {
         accessToken: token,
       });
       setInitialized(true);
-      navigate(isRegister ? "/feed" : "/registration");
+      navigate("/feed");
     } catch (error) {
       console.error("Error during login process:", error);
     }

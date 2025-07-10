@@ -2,6 +2,7 @@ import { HomeIcon } from "./home.jsx";
 import { UserIcon } from "./user.jsx";
 import { HeartIcon } from "./heart.jsx";
 import { BarChartIcon } from "./bar-chart.jsx";
+import { useWebAppStore } from "@/store/index.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const excludedPaths = [
@@ -21,7 +22,9 @@ const sidebarData = [
 export const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useWebAppStore();
 
+  if (!user?.isRegister) return null;
   if (excludedPaths.includes(location.pathname.substring(1))) return null;
 
   return (
@@ -42,13 +45,6 @@ export const Sidebar = () => {
               }`}
             />
           </button>
-
-          // <img
-          //   key={index}
-          //   src={item.icon}
-          //   alt="sidebar-icon"
-          //   onClick={() => navigate(`/${item.url}`)}
-          // />
         );
       })}
     </div>

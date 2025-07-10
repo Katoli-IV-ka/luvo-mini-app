@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
 import { useCreateUser } from "@/api/user";
+import { useWebAppStore } from "@/store";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { Controller, useForm, FormProvider } from "react-hook-form";
@@ -44,12 +45,14 @@ const stepSchemas = [
     about: yup.string().optional(),
   }),
   yup.object({
-    file: yup.mixed().required("Фото обязательно"),
-    // .test(
-    //   "fileSize",
-    //   "Файл слишком большой",
-    //   (file) => !file || file.size < 5000000
-    // ),
+    file: yup
+      .mixed()
+      .required("Фото обязательно")
+      .test(
+        "fileSize",
+        "Файл слишком большой",
+        (file) => !file || file.size < 5000000
+      ),
   }),
 ];
 
@@ -74,8 +77,9 @@ export const RegistrationPage = () => {
   const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
+  const { setUser } = useWebAppStore();
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useCreateUser();
-  const { setUser, initData } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -120,12 +124,11 @@ export const RegistrationPage = () => {
 
         Object.entries(data).forEach(([key, value]) => {
           if (key === "birthdate" && value instanceof Date) {
-            formData.append("birthdate", value.toISOString().split("T")[0]); // yyyy-mm-dd
+            formData.append("birthdate", value.toISOString().split("T")[0]);
           } else {
             formData.append(key, value);
           }
         });
-
         formData.append("init_data", initData);
 
         const response = await mutateAsync(formData);
@@ -145,7 +148,7 @@ export const RegistrationPage = () => {
         console.log(err);
 
         console.error("Ошибка регистрации", err);
-        setGenericError(err?.response?.data?.detail);
+        setGenericError(err?.response?.data?.detail || "Что-то пошло не так");
       }
     }
   };
