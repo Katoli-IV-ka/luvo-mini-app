@@ -36,7 +36,7 @@ const stepSchemas = [
   }),
   yup.object({
     first_name: yup.string().required("Имя обязательно"),
-    birthdate: yup.string().required("Дата рождения обязательна"),
+    birthdate: yup.date().required("Дата рождения обязательна"),
     gender: yup
       .string()
       .oneOf(["male", "female"], "Укажите пол")
@@ -84,7 +84,7 @@ export const RegistrationPage = () => {
       file: null,
       about: "",
       gender: "",
-      birthdate: "",
+      birthdate: null,
       first_name: "",
       instagram_username: "",
     },
@@ -117,16 +117,15 @@ export const RegistrationPage = () => {
     } else {
       try {
         const formData = new FormData();
+
         Object.entries(data).forEach(([key, value]) => {
-          formData.append(key, value);
+          if (key === "birthdate" && value instanceof Date) {
+            formData.append("birthdate", value.toISOString().split("T")[0]); // yyyy-mm-dd
+          } else {
+            formData.append(key, value);
+          }
         });
 
-        if (data.birthdate) {
-          formData.append(
-            "birthdate",
-            new Date(data.birthdate).toISOString().split("T")[0]
-          );
-        }
         formData.append("init_data", initData);
 
         const response = await mutateAsync(formData);
