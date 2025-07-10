@@ -3,6 +3,7 @@ import * as yup from "yup";
 import DatePicker from "react-datepicker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
+import { ABOUT_PLACEHOLDER } from "@/constants";
 import { Controller, useForm } from "react-hook-form";
 import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
@@ -34,17 +35,9 @@ const schema = yup.object({
   instagram_username: yup.string().required("Введите имя пользователя"),
 });
 
-const aboutPlaceholders = [
-  `📍 Город: Москва\n🎯 Цель: Найти друзей\n🎲 Интересы: Кино, спорт\n📎 О себе:\nРаботаю в IT, люблю путешествовать`,
-  `📍 Город: Санкт-Петербург\n🎯 Цель: Общение\n🎲 Интересы: Музыка, книги\n📎 О себе:\nМаркетолог, обожаю кофе и прогулки`,
-  `📍 Город: Казань\n🎯 Цель: Вдохновиться\n🎲 Интересы: Искусство, йога\n📎 О себе:\nРаботаю дизайнером, ищу единомышленников`,
-  `📍 Город: Новосибирск\n🎯 Цель: Найти любовь\n🎲 Интересы: Путешествия, настолки\n📎 О себе:\nУчусь в университете, люблю активный отдых`,
-  `📍 Город: Екатеринбург\n🎯 Цель: Развиваться\n🎲 Интересы: Фотография, бег\n📎 О себе:\nРаботаю в сфере образования, ценю искренность`,
-];
-
 const getRandomAboutPlaceholder = () => {
-  return aboutPlaceholders[
-    Math.floor(Math.random() * aboutPlaceholders.length)
+  return ABOUT_PLACEHOLDER[
+    Math.floor(Math.random() * ABOUT_PLACEHOLDER.length)
   ];
 };
 
