@@ -9,7 +9,6 @@ export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-// — Добавляем accessToken в каждый запрос
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
