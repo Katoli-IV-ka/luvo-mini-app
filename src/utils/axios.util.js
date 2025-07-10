@@ -31,7 +31,6 @@ axiosInstance.interceptors.response.use(
       const { logout } = useWebAppStore.getState();
       logout();
       window.location.href = "/registration";
-      return Promise.reject(error);
     }
 
     if (
@@ -50,7 +49,6 @@ axiosInstance.interceptors.response.use(
 
         const data = await loginByInitData(initData);
         const { access_token, has_profile } = data;
-
         if (!access_token) throw new Error("Токен отсутствует");
 
         const { exp, user_id } = decodeJWT(access_token);
@@ -64,6 +62,7 @@ axiosInstance.interceptors.response.use(
         processQueue(null, access_token);
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
 
+        window.location.href = "/";
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
