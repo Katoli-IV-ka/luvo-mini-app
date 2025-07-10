@@ -58,9 +58,11 @@ export const useWebAppStore = create((set) => {
     setInitialized: (isInitialized) => set(() => ({ isInitialized })),
     init: async () => {
       set({ loading: true, error: null });
+
       try {
         const tg = window.Telegram?.WebApp;
-        const isTelegram = tg && tg.initData && tg.initDataUnsafe?.user;
+        const isTelegram = tg && tg.initData;
+        // const isTelegram = tg && tg.initData && tg.initDataUnsafe?.user;
         const isDev = import.meta.env.DEV;
         const mockEnabled = isMockMode();
 
@@ -79,10 +81,11 @@ export const useWebAppStore = create((set) => {
           });
 
           set({
-            webApp: tg,
             user: tg.initDataUnsafe.user,
+            webApp: tg,
             initData: tg.initData,
           });
+
           return tg.initData;
         }
 
@@ -90,16 +93,18 @@ export const useWebAppStore = create((set) => {
           const decoded = decodeURIComponent(
             import.meta.env.VITE_FAKE_INIT_DATA
           );
+          const initData = import.meta.env.VITE_FAKE_INIT_DATA;
           const params = new URLSearchParams(decoded);
           const userJson = params.get("user");
           if (!userJson) throw new Error("Нет user в VITE_FAKE_INIT_DATA");
           const user = JSON.parse(userJson);
+
           set({
-            webApp: null,
             user,
-            initData: decoded,
+            webApp: null,
+            initData,
           });
-          return decoded;
+          return initData;
         }
 
         throw new Error("Telegram WebApp не доступен");
