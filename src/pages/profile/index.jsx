@@ -182,7 +182,7 @@ export const ProfilePage = () => {
           </div>
 
           <Button type="submit" className="mt-3 w-full">
-            {isLoading ? "Сохранить" : <Spinner size="sm" />}
+            {!isLoading ? "Сохранить" : <Spinner size="sm" />}
           </Button>
         </div>
       </form>
