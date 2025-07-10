@@ -50,6 +50,7 @@ const getRandomAboutPlaceholder = () => {
 
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setUser } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
@@ -75,6 +76,8 @@ export const ProfilePage = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true);
+
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
         formData.append(key, value);
@@ -93,6 +96,8 @@ export const ProfilePage = () => {
           accessToken: access_token,
         });
       }
+
+      setIsLoading(false);
     } catch (err) {
       console.error("Ошибка создания профиля", err);
       setGenericError(err?.response?.data?.detail || "Что-то пошло не так");
@@ -184,7 +189,7 @@ export const ProfilePage = () => {
           </div>
 
           <Button type="submit" className="mt-3 w-full">
-            Сохранить
+            {isLoading ? "Сохранить" : <Spinner size="sm" />}
           </Button>
         </div>
       </form>
