@@ -133,7 +133,6 @@ export const RegistrationPage = () => {
 
         const response = await mutateAsync(formData);
         const { user_id, exp, has_profile, access_token } = response;
-        console.log("Ответ сервера:", response);
 
         if (access_token) {
           setUser({
@@ -144,7 +143,7 @@ export const RegistrationPage = () => {
           });
         }
 
-        navigate("/feed");
+        navigate("/");
       } catch (err) {
         console.log(err);
 
