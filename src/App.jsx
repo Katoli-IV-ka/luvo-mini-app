@@ -59,6 +59,7 @@ export const App = () => {
       if (!initData) return;
 
       const { data } = await mutateAsync({ init_data: initData });
+      // THIS SHIT MOMENT WHEN WE NEED REGISTER PROFILE
       const { access_token: token, has_profile: isRegister } = data || {};
 
       if (!token) {
@@ -69,6 +70,7 @@ export const App = () => {
       loginSuccess(token, isRegister);
     } catch (e) {
       console.error("Ошибка инициализации:", e);
+      navigate("/registration");
     }
   };
 

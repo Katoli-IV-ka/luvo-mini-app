@@ -51,8 +51,8 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
-  const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
+  const { setUser, initData } = useTelegramInitData();
   const { data: userData, isLoading: userIsLoading } = useUser();
   const { data: userPhotosData, isLoading: userPhotosIsLoading } =
     useUserPhotos();
@@ -79,14 +79,22 @@ export const ProfilePage = () => {
       Object.entries(data).forEach(([key, value]) => {
         formData.append(key, value);
       });
-
       formData.append("gender", "male");
 
-      await mutateAsync(formData);
+      const response = await mutateAsync(formData);
+
+      if (response?.access_token) {
+        setUser({
+          id: response.user_id,
+          exp: response.exp,
+          isRegister: response.has_profile,
+          accessToken: response.access_token,
+        });
+      }
 
       navigate("/feed");
     } catch (err) {
-      console.error("Ошибка регистрации", err);
+      console.error("Ошибка создания профиля", err);
       setGenericError(err?.response?.data?.detail);
     }
   };

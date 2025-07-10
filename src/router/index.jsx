@@ -16,10 +16,10 @@ import {
 export const Router = () => {
   return (
     <Routes>
+      <Route path="/registration" element={<RegistrationPage />} />
+
       <Route element={<AuthenticatedRoute />}>
         <Route path="/feed" element={<FeedPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
-
         <Route path="/likes" element={<LikesPage />} />
         <Route path="/rating" element={<RatingPage />} />
         <Route path="/loading" element={<LoadingPage />} />

@@ -3,15 +3,13 @@ import classnames from "classnames";
 import { Header, Sidebar } from "@/components";
 
 export const Layout = ({ children, className = "" }) => {
-  const [isTelegramWebApp, setIsTelegramWebApp] = useState(false);
   const [viewportHeight, setViewportHeight] = useState("100vh");
+  const [isTelegramWebApp, setIsTelegramWebApp] = useState(false);
 
   useEffect(() => {
-    // Проверяем, запущено ли приложение в Telegram WebApp
     const tg = window.Telegram?.WebApp;
     setIsTelegramWebApp(!!tg);
 
-    // Устанавливаем высоту viewport с учетом мобильных браузеров
     const setHeight = () => {
       const vh = window.innerHeight * 0.01;
       setViewportHeight(`${vh}px`);

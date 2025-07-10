@@ -22,45 +22,24 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-let isRefreshing = false;
-let failedQueue = [];
-
-function processQueue(error, token = null) {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (token) {
-      resolve(token);
-    } else {
-      reject(error);
-    }
-  });
-  failedQueue = [];
-}
-
-// — Перехватчик ошибок
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    if (error.response && error.response.status === 403) {
+      const { logout } = useWebAppStore.getState();
+      logout();
+      window.location.href = "/registration";
+      return Promise.reject(error);
+    }
 
     if (
       error.response &&
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({
-            resolve: (token) => {
-              originalRequest.headers.Authorization = token;
-              resolve(axiosInstance(originalRequest));
-            },
-            reject: (err) => reject(err),
-          });
-        });
-      }
-
       originalRequest._retry = true;
-      isRefreshing = true;
 
       try {
         const { logout, init, setUser } = useWebAppStore.getState();
@@ -89,8 +68,6 @@ axiosInstance.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
       }
     }
 

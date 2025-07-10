@@ -6,12 +6,12 @@ export const AuthenticatedRoute = () => {
   const { user, logout } = useWebAppStore();
 
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/registration" replace />;
   }
 
   if (!checkTokenExpiration()) {
     logout();
-    return <Navigate to="/" replace />;
+    return <Navigate to="/registration" replace />;
   }
 
   return <Outlet />;

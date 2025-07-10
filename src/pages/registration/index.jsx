@@ -76,8 +76,8 @@ export const RegistrationPage = () => {
   const [genericError, setGenericError] = useState("");
 
   const navigate = useNavigate();
-  const { initData } = useTelegramInitData();
   const { mutateAsync } = useCreateUser();
+  const { setUser, initData } = useTelegramInitData();
 
   const methods = useForm({
     mode: "onChange",
@@ -131,9 +131,23 @@ export const RegistrationPage = () => {
         }
         formData.append("init_data", initData);
 
-        await mutateAsync(formData);
+        const response = await mutateAsync(formData);
+        const { user_id, exp, has_profile, access_token } = response;
+        console.log("Ответ сервера:", response);
+
+        if (access_token) {
+          setUser({
+            id: user_id,
+            exp: exp,
+            isRegister: has_profile,
+            accessToken: access_token,
+          });
+        }
+
         navigate("/feed");
       } catch (err) {
+        console.log(err);
+
         console.error("Ошибка регистрации", err);
         setGenericError(err?.response?.data?.detail);
       }
