@@ -2,7 +2,7 @@ import axios from "axios";
 import { decodeJWT } from "./decode-jwt.util";
 import { useWebAppStore } from "../store";
 import { getAccessToken } from "./get-auth-tokens.util";
-import { checkTokenExpiration } from "./check-token.util";
+// import { checkTokenExpiration } from "./check-token.util";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -12,9 +12,6 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
     if (token) {
-      if (!checkTokenExpiration()) {
-        return Promise.reject(new Error("Token expired"));
-      }
       config.headers.Authorization = token;
     }
     return config;
@@ -30,7 +27,6 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 403) {
       const { logout } = useWebAppStore.getState();
       logout();
-      window.location.href = "/registration";
     }
 
     if (
@@ -41,14 +37,16 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const { logout, init, setUser } = useWebAppStore.getState();
+        const { init, logout, setUser } = useWebAppStore.getState();
         logout();
 
         const initData = await init();
+
         if (!initData) throw new Error("initData не получен");
 
         const data = await loginByInitData(initData);
         const { access_token, has_profile } = data;
+
         if (!access_token) throw new Error("Токен отсутствует");
 
         const { exp, user_id } = decodeJWT(access_token);

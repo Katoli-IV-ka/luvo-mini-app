@@ -1,3 +1,4 @@
+import axios from "axios";
 import { API_URL } from "@/constants";
 import { queryClient } from "@/main";
 import { axiosInstance } from "@/utils/axios.util";
@@ -6,7 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 export const useCreateUser = () =>
   useMutation({
     mutationFn: (body) =>
-      axiosInstance.post(`${API_URL}/users/`, body, {
+      axios.post(`${API_URL}/users/`, body, {
         headers: { "Content-Type": "multipart/form-data" },
       }),
     onSuccess: () => {

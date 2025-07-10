@@ -10,7 +10,7 @@ import { MetchModal } from "./metch-modal";
 import { MetchesList } from "./metches-list";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
-import { AuthenticatedRoute } from "./auth-route";
+import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
 
 export {
   Layout,
@@ -26,4 +26,5 @@ export {
   OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
+  UnauthenticatedRoute,
 };

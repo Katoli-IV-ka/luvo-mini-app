@@ -81,21 +81,21 @@ export const ProfilePage = () => {
       });
       formData.append("gender", "male");
 
-      const response = await mutateAsync(formData);
+      const { exp, user_id, has_profile, access_token } = await mutateAsync(
+        formData
+      );
 
-      if (response?.access_token) {
+      if (access_token) {
         setUser({
-          id: response.user_id,
-          exp: response.exp,
-          isRegister: response.has_profile,
-          accessToken: response.access_token,
+          id: user_id,
+          exp: exp,
+          isRegister: has_profile,
+          accessToken: access_token,
         });
       }
-
-      navigate("/feed");
     } catch (err) {
       console.error("Ошибка создания профиля", err);
-      setGenericError(err?.response?.data?.detail);
+      setGenericError(err?.response?.data?.detail || "Что-то пошло не так");
     }
   };
 
@@ -111,10 +111,10 @@ export const ProfilePage = () => {
   useEffect(() => {
     if (userData) {
       reset({
-        instagram_username: userData.instagram_username || "",
-        first_name: userData.first_name || "",
         about: userData.about || "",
         birthdate: userData.birthdate || "",
+        first_name: userData.first_name || "",
+        instagram_username: userData.instagram_username || "",
       });
     }
   }, [userData, reset]);

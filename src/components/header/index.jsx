@@ -1,5 +1,6 @@
 import { THEME } from "@/constants";
 import { useWebAppStore } from "@/store";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import LogoDarkIcon from "./logo-dark.svg";
@@ -11,6 +12,7 @@ export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useWebAppStore();
+  const { initData } = useTelegramInitData();
 
   const isDark = theme === THEME.DARK;
   const LogoIcon = isDark ? LogoLightIcon : LogoDarkIcon;

@@ -1,8 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import {
-  AuthenticatedRoute,
-  //  UnauthenticatedRoute
-} from "../components";
+import { AuthenticatedRoute, UnauthenticatedRoute } from "../components";
 import {
   FeedPage,
   LikesPage,
@@ -16,7 +13,9 @@ import {
 export const Router = () => {
   return (
     <Routes>
-      <Route path="/registration" element={<RegistrationPage />} />
+      <Route element={<UnauthenticatedRoute />}>
+        <Route path="/registration" element={<RegistrationPage />} />
+      </Route>
 
       <Route element={<AuthenticatedRoute />}>
         <Route path="/feed" element={<FeedPage />} />
@@ -27,7 +26,6 @@ export const Router = () => {
         <Route path="/other-profile/:id" element={<OtherProfilePage />} />
 
         <Route path="*" element={<Navigate to="/feed" replace />} />
-        {/* <Route element={<UnauthenticatedRoute />}></Routes> */}
       </Route>
     </Routes>
   );
