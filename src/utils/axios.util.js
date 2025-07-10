@@ -1,9 +1,9 @@
 import axios from "axios";
 import { decodeJWT } from "./decode-jwt.util";
 import { useWebAppStore } from "../store";
+import { getAccessToken } from "./get-auth-tokens.util";
 import { loginByInitData } from "./login-by-init-data.util";
 import { checkTokenExpiration } from "./check-token.util";
-import { getAccessToken, saveTokens } from "./get-auth-tokens.util";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -83,8 +83,6 @@ axiosInstance.interceptors.response.use(
           isRegister: has_profile,
           exp,
         });
-
-        saveTokens({ access_token });
 
         processQueue(null, access_token);
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
