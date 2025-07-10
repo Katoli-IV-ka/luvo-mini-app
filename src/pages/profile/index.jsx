@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CalendarDays } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
-// import { useTelegramInitData } from "@/hooks/useTelegramInitData";
+import { useTelegramInitData } from "@/hooks/useTelegramInitData";
 import { Input, Button, Textarea } from "@/ui";
 import { ProfilePhotosList, Spinner } from "@/components";
 import { useUser, useUpdateUser, useUserPhotos } from "@/api/user";
@@ -51,7 +51,7 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
 
-  // const { initData } = useTelegramInitData();
+  const { initData } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
   const { data: userData, isLoading: userIsLoading } = useUser();
   const { data: userPhotosData, isLoading: userPhotosIsLoading } =
