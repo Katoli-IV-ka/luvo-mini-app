@@ -62,7 +62,6 @@ export const useWebAppStore = create((set) => {
       try {
         const tg = window.Telegram?.WebApp;
         const isTelegram = tg && tg.initData;
-        // const isTelegram = tg && tg.initData && tg.initDataUnsafe?.user;
         const isDev = import.meta.env.DEV;
         const mockEnabled = isMockMode();
 

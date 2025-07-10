@@ -51,7 +51,7 @@ export const ProfilePhotosList = ({ photos = [] }) => {
                 />
 
                 <div className="w-full h-full pb-1.5 absolute top-0 left-0 flex flex-col items-center justify-between bg-gradient-to-t from-[#56484E] to-[#56484E]/0 rounded-[20px]">
-                  {index >= 0 && (
+                  {paddedPhotos.length > 1 && (
                     <img
                       src={CloseIcon}
                       alt="actions-icon"
@@ -59,10 +59,9 @@ export const ProfilePhotosList = ({ photos = [] }) => {
                       onClick={() => onRemovePhoto(photo.photo_id)}
                     />
                   )}
-                  {/* <img src={EditIcon} alt="action-icon" className="ml-auto" /> */}
 
                   {index == 0 && (
-                    <div className="font-bold text-[10px] text-white">
+                    <div className="mt-auto font-bold text-[10px] text-white">
                       Главное фото
                     </div>
                   )}

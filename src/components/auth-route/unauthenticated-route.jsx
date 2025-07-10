@@ -3,5 +3,5 @@ import { Outlet, Navigate } from "react-router-dom";
 
 export const UnauthenticatedRoute = () => {
   const { user } = useWebAppStore();
-  return !user || !user?.isRegister ? <Outlet /> : <Navigate to="/feed" />;
+  return !user || !user?.isRegister ? <Outlet /> : <Navigate to="/" />;
 };

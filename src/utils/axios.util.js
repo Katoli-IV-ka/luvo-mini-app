@@ -2,7 +2,6 @@ import axios from "axios";
 import { decodeJWT } from "./decode-jwt.util";
 import { useWebAppStore } from "../store";
 import { getAccessToken } from "./get-auth-tokens.util";
-// import { checkTokenExpiration } from "./check-token.util";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -26,6 +25,14 @@ axiosInstance.interceptors.response.use(
 
     if (error.response && error.response.status === 403) {
       const { logout } = useWebAppStore.getState();
+
+      const errorDetail = error.response.data?.detail;
+      if (errorDetail === "Аккаунт не создан") {
+        if (window.location.pathname !== "/registration") {
+          window.location.href = "/registration";
+        }
+        return;
+      }
       logout();
     }
 
@@ -34,6 +41,19 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
+      const errorDetail = error.response.data?.detail;
+
+      if (
+        errorDetail === "User not found" ||
+        errorDetail === "Invalid token" ||
+        errorDetail === "Token expired"
+      ) {
+        const { logout } = useWebAppStore.getState();
+        logout();
+        window.location.href = "/";
+        return;
+      }
+
       originalRequest._retry = true;
 
       try {
@@ -41,7 +61,6 @@ axiosInstance.interceptors.response.use(
         logout();
 
         const initData = await init();
-
         if (!initData) throw new Error("initData не получен");
 
         const data = await loginByInitData(initData);
@@ -60,7 +79,6 @@ axiosInstance.interceptors.response.use(
         processQueue(null, access_token);
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
 
-        window.location.href = "/";
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);

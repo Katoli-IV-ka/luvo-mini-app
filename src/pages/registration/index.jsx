@@ -132,7 +132,7 @@ export const RegistrationPage = () => {
         formData.append("init_data", initData);
 
         const response = await mutateAsync(formData);
-        const { user_id, exp, has_profile, access_token } = response;
+        const { user_id, exp, has_profile, access_token } = response.data;
 
         if (access_token) {
           setUser({
@@ -143,10 +143,8 @@ export const RegistrationPage = () => {
           });
         }
 
-        navigate("/");
+        navigate("/feed");
       } catch (err) {
-        console.log(err);
-
         console.error("Ошибка регистрации", err);
         setGenericError(err?.response?.data?.detail || "Что-то пошло не так");
       }
@@ -155,7 +153,7 @@ export const RegistrationPage = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="w-full min-h-[calc(100vh-88px)] flex flex-col items-center justify-center">
+      <div className="w-full min-h-screen -mt-[89px] flex flex-col items-center justify-center">
         <form
           className="container mx-auto max-w-md p-5"
           onSubmit={handleSubmit(onSubmit)}
