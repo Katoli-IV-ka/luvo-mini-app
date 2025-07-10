@@ -55,7 +55,8 @@ export const App = () => {
 
   const initializeApp = async () => {
     try {
-      const initData = await init();
+      // const initData = await init();
+      const initData = window.Telegram?.WebApp.initData;
       if (!initData) return;
 
       const { data } = await mutateAsync({ init_data: initData });
