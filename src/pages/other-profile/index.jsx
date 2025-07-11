@@ -1,13 +1,16 @@
-import { useParams } from "react-router-dom";
 import { useOtherUser } from "@/api/user";
 import { OtherProfileCard, Spinner } from "@/components";
+import { useParams, useSearchParams } from "react-router-dom";
 
-// import TelegramIcon from "./telegram.png";
+import TelegramIcon from "./telegram.png";
 import InstragramIcon from "./instagram.png";
 
 export const OtherProfilePage = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useOtherUser(id);
+  const params = useParams();
+  const [searchParams] = useSearchParams();
+
+  const { data, isLoading } = useOtherUser(params.id);
+  const isMetch = searchParams.get("isMetch") === "true";
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();
@@ -55,14 +58,14 @@ export const OtherProfilePage = () => {
             </div>
           )}
 
-          {/* {data.telegram_username && (
+          {isMetch && data.telegram_username && (
             <div className="mt-3 flex">
               <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
               <div className="ml-2 font-bold text-2xl">
                 @{data.telegram_username}
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </div>
