@@ -26,12 +26,8 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 403) {
       const { logout } = useWebAppStore.getState();
 
-      const errorDetail = error.response.data?.detail;
-      if (errorDetail === "Аккаунт не создан") {
-        if (window.location.pathname !== "/registration") {
-          window.location.href = "/registration";
-        }
-        return;
+      if (window.location.pathname !== "/registration") {
+        window.location.href = "/registration";
       }
       logout();
     }
@@ -42,7 +38,6 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry
     ) {
       const errorDetail = error.response.data?.detail;
-
       if (
         errorDetail === "User not found" ||
         errorDetail === "Invalid token" ||
