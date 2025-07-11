@@ -25,11 +25,9 @@ export const Header = () => {
         src={LogoIcon}
         alt="logo-icon"
         onClick={() => {
-          if (!initData) return alert("initData не найден");
-          navigator.clipboard.writeText(initData).then(() => {
-            alert("initData скопирован!");
-          });
-
+          if (initData) {
+            navigator.clipboard.writeText(initData);
+          }
           navigate("/");
         }}
       />
