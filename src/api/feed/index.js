@@ -21,12 +21,12 @@ export const useIgnored = () =>
     },
   });
 
-export const useFeeds = (skip = 0, limit = 5) => {
+export const useFeeds = (limit = 5, offset = 0) => {
   return useQuery({
-    queryKey: ["feeds", skip, limit],
+    queryKey: ["feeds", offset, limit],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`${API_URL}/feed/`, {
-        params: { skip, limit },
+        params: { limit, offset },
       });
       return data;
     },
