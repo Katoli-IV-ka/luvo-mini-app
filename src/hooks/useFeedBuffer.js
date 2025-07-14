@@ -1,35 +1,27 @@
 import { useState, useEffect } from "react";
 import { useFeeds } from "../api/feed";
 
-const BATCH_SIZE = 5;
-const PRELOAD_THRESHOLD = 2;
+const BATCH_SIZE = 10;
 
 export const useFeedBuffer = () => {
-  const [skip, setSkip] = useState(0);
   const [cards, setCards] = useState([]);
+  const [offset, setOffset] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { data, isLoading, isFetching } = useFeeds(skip, BATCH_SIZE);
+  const { data, isLoading, isFetching } = useFeeds(BATCH_SIZE, offset);
 
-  // When receiving a new pack, add it to the general array
   useEffect(() => {
-    if (data && data.length > 0) {
-      setCards((prev) => {
-        // To avoid duplication, you can filter
-        const newIds = new Set(prev.map((c) => c.id));
-        const filteredNew = data.filter((c) => !newIds.has(c.id));
-        return [...prev, ...filteredNew];
-      });
+    if (data?.length) {
+      setCards((prev) => [...prev, ...data]);
     }
   }, [data]);
 
-  // Load the next batch when the index reaches the end
   useEffect(() => {
-    if (cards.length === 0) return;
-    if (currentIndex >= cards.length - PRELOAD_THRESHOLD && !isFetching) {
-      setSkip((prev) => prev + BATCH_SIZE);
+    const isAtEnd = currentIndex === cards.length - 1;
+    if (isAtEnd && !isFetching) {
+      setOffset((prev) => prev + BATCH_SIZE);
     }
-  }, [currentIndex, cards, isFetching]);
+  }, [currentIndex, cards.length, isFetching]);
 
   return {
     cards,
