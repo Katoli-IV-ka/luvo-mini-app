@@ -8,7 +8,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root")).render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <App />
