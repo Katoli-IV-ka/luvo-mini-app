@@ -10,27 +10,38 @@ import { Input, Button, Textarea } from "@/ui";
 import { ProfilePhotosList, Spinner } from "@/components";
 import { useUser, useUpdateUser, useUserPhotos } from "@/api/user";
 
-const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
-  <button
-    ref={ref}
-    type="button"
-    onClick={onClick}
-    className="mt-3 w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 border-primary-gray/30 bg-gray-light dark:bg-transparent"
-  >
-    <div
-      className={`w-full text-left ${
-        value ? "text-gray-800" : "text-gray-400"
-      }`}
-    >
-      {value || "Дата рождения"}
+const CustomDateInput = forwardRef(({ value, onClick, error }, ref) => (
+  <div className="w-full">
+    <div className="relative flex items-center rounded-[30px] bg-white/10">
+      <button
+        ref={ref}
+        type="button"
+        onClick={onClick}
+        className={`w-full py-[18px] px-4 flex justify-between rounded-[30px] leading-5 text-xl border-2 ${
+          error ? "border-light-red" : "border-primary-gray/30"
+        } bg-gray-light text-black dark:bg-transparent dark:text-white`}
+      >
+        <div
+          className={`w-full text-left ${
+            value ? "text-black dark:text-white" : "text-gray-400"
+          }`}
+        >
+          {value || "Дата рождения"}
+        </div>
+
+        <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
+      </button>
     </div>
 
-    <CalendarDays className="w-4 h-4 ml-2 opacity-60" />
-  </button>
+    {error && (
+      <p className="mt-2 font-semibold text-light-red">{error.message}</p>
+    )}
+  </div>
 ));
 
 const schema = yup.object({
   about: yup.string().optional(),
+  birthdate: yup.date().optional(),
   first_name: yup.string().required("Имя обязательно"),
   instagram_username: yup.string().required("Введите имя пользователя"),
 });
@@ -164,18 +175,20 @@ export const ProfilePage = () => {
               name="birthdate"
               control={control}
               render={({ field }) => (
-                <DatePicker
-                  {...field}
-                  selected={field.value}
-                  onChange={(date) => field.onChange(date)}
-                  customInput={<CustomDateInput />}
-                  dateFormat="dd.MM.yyyy"
-                  wrapperClassName="w-full"
-                  maxDate={new Date()}
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                />
+                <div className="mt-3">
+                  <DatePicker
+                    {...field}
+                    selected={field.value}
+                    onChange={(date) => field.onChange(date)}
+                    customInput={<CustomDateInput error={errors.birthdate} />}
+                    dateFormat="dd.MM.yyyy"
+                    wrapperClassName="w-full"
+                    maxDate={new Date()}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode="select"
+                  />
+                </div>
               )}
             />
 
