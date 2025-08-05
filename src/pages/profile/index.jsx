@@ -44,6 +44,7 @@ const getRandomAboutPlaceholder = () => {
 export const ProfilePage = () => {
   const [aboutPlaceholder] = useState(getRandomAboutPlaceholder());
   const [isLoading, setIsLoading] = useState(false);
+  const [genericError, setGenericError] = useState("");
 
   const { setUser } = useTelegramInitData();
   const { mutateAsync } = useUpdateUser();
@@ -73,7 +74,11 @@ export const ProfilePage = () => {
 
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value);
+        if (key === "birthdate" && value instanceof Date) {
+          formData.append(key, value.toISOString().split("T")[0]);
+        } else {
+          formData.append(key, value);
+        }
       });
       formData.append("gender", "male");
 
@@ -90,6 +95,7 @@ export const ProfilePage = () => {
         });
       }
 
+      setGenericError("");
       setIsLoading(false);
     } catch (err) {
       console.error("Ошибка создания профиля", err);
@@ -110,7 +116,7 @@ export const ProfilePage = () => {
     if (userData) {
       reset({
         about: userData.about || "",
-        birthdate: userData.birthdate || "",
+        birthdate: userData.birthdate ? new Date(userData.birthdate) : null,
         first_name: userData.first_name || "",
         instagram_username: userData.instagram_username || "",
       });
@@ -160,7 +166,7 @@ export const ProfilePage = () => {
               render={({ field }) => (
                 <DatePicker
                   {...field}
-                  selected={field.value ? new Date(field.value) : null}
+                  selected={field.value}
                   onChange={(date) => field.onChange(date)}
                   customInput={<CustomDateInput />}
                   dateFormat="dd.MM.yyyy"
@@ -180,6 +186,12 @@ export const ProfilePage = () => {
               error={errors.about}
             />
           </div>
+
+          {genericError && (
+            <div className="mt-4 w-full p-4 border-2 border-primary-gray/30 dark:border-white/70 bg-gray-light dark:bg-transparent rounded-2xl font-semibold text-light-red">
+              {genericError}
+            </div>
+          )}
 
           <Button type="submit" className="mt-3 w-full">
             {!isLoading ? "Сохранить" : <Spinner size="sm" />}
