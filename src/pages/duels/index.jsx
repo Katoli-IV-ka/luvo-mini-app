@@ -135,21 +135,23 @@ export const DuelsPage = () => {
   }
 
   return (
-    <div className="w-full h-screen p-5 dark:from-gray-900 dark:to-gray-800 text-center pt-[50%]">
-      <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-        <span className="text-3xl">⚔️</span>
+    <div className="w-full h-screen p-5 dark:from-gray-900 dark:to-gray-800 text-center flex flex-col justify-center">
+      <div className="transform -translate-y-[10%]">
+        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+          <span className="text-3xl">⚔️</span>
+        </div>
+
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+          Скоро начнутся дуэли!
+        </h2>
+
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
+          за более привлекательных пользователей!
+        </p>
+
+        {nextMonday && <CountdownTimer targetDate={nextMonday} />}
       </div>
-
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-        Скоро начнутся дуэли!
-      </h2>
-
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
-        Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
-        за более привлекательных пользователей!
-      </p>
-
-      {nextMonday && <CountdownTimer targetDate={nextMonday} />}
     </div>
   );
 };
