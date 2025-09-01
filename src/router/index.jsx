@@ -3,6 +3,7 @@ import { AuthenticatedRoute, UnauthenticatedRoute } from "../components";
 import {
   FeedPage,
   LikesPage,
+  DuelsPage,
   RatingPage,
   LoadingPage,
   ProfilePage,
@@ -20,6 +21,7 @@ export const Router = () => {
       <Route element={<AuthenticatedRoute />}>
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/likes" element={<LikesPage />} />
+        <Route path="/duels" element={<DuelsPage />} />
         <Route path="/rating" element={<RatingPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/user-profile" element={<ProfilePage />} />
