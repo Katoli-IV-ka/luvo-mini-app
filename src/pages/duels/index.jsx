@@ -127,7 +127,7 @@ export const DuelsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
         <Spinner size="lg" />
       </div>
     );

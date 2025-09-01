@@ -59,7 +59,7 @@ export const FeedPage = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
         <Spinner size="lg" />
       </div>
     );
@@ -67,7 +67,7 @@ export const FeedPage = () => {
 
   if (!currentCard || !cards.length) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
         <div className="py-16 flex flex-col items-center justify-center">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6">
             <svg
@@ -97,7 +97,7 @@ export const FeedPage = () => {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center overflow-hidden">
+    <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center overflow-hidden">
       <div className="relative w-full h-full max-w-md">
         <animated.div
           {...bind()}
