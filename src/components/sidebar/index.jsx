@@ -1,6 +1,7 @@
 import { HomeIcon } from "./home.jsx";
 import { UserIcon } from "./user.jsx";
 import { HeartIcon } from "./heart.jsx";
+import { SwordsIcon } from "./swords.jsx";
 import { BarChartIcon } from "./bar-chart.jsx";
 import { useWebAppStore } from "@/store/index.js";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,6 +16,7 @@ const excludedPaths = [
 const sidebarData = [
   { icon: HomeIcon, url: "feed" },
   { icon: HeartIcon, url: "likes" },
+  { icon: SwordsIcon, url: "duels" },
   { icon: BarChartIcon, url: "rating" },
   { icon: UserIcon, url: "user-profile" },
 ];
