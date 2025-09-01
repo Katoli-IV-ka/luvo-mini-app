@@ -117,7 +117,6 @@ export const DuelsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Имитируем загрузку вычисления времени
     const timer = setTimeout(() => {
       setNextMonday(getNextMonday());
       setIsLoading(false);
