@@ -47,19 +47,7 @@ const stepSchemas = [
     about: yup.string().optional(),
   }),
   yup.object({
-    file: yup
-      .mixed()
-      .required("Фото обязательно")
-      .test(
-        "fileSize",
-        "Файл слишком большой (макс. 3MB)",
-        (file) => !file || file.size <= 3000000 // Уменьшите лимит для мобильных
-      )
-      .test(
-        "fileType",
-        "Неподдерживаемый формат",
-        (file) => !file || ["image/jpeg", "image/png"].includes(file.type)
-      ),
+    file: yup.mixed().required("Фото обязательно"),
   }),
 ];
 
