@@ -36,20 +36,32 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     }, 1200);
   };
 
+  const triggerUnlikeAnimation = () => {
+    // Можно добавить анимацию для отмены лайка, если нужно
+    // Пока просто обновляем состояние
+  };
+
   const handleLike = async () => {
     markAsViewed();
-    if (!liked) {
-      try {
-        const { data } = await likeUserMutation(card.user_id);
+
+    try {
+      const { data } = await likeUserMutation(card.user_id);
+
+      if (liked) {
+        // Отменяем лайк
+        setLiked(false);
+        triggerUnlikeAnimation();
+      } else {
+        // Ставим лайк
         if (data.matched) {
           setIsOpen(true);
         }
         setLiked(true);
-      } catch (error) {
-        console.error("Ошибка лайка:", error);
+        triggerHeartAnimation();
       }
+    } catch (error) {
+      console.error("Ошибка лайка:", error);
     }
-    triggerHeartAnimation();
   };
 
   const handleSingleTap = (clickX, containerWidth) => {
