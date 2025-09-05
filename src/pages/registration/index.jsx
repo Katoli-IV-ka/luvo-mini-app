@@ -154,6 +154,10 @@ export const RegistrationPage = () => {
             <>
               <h2 className="text-[32px] font-bold">Привяжите Instagram</h2>
 
+              <p className="text-lg text-gray-400">
+                Первое впечатление начинается здесь!
+              </p>
+
               <Input
                 {...register("instagram_username")}
                 className="mt-10"

@@ -144,12 +144,17 @@ export const DuelsPage = () => {
           Скоро начнутся дуэли!
         </h2>
 
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
-          Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
-          за более привлекательных пользователей!
+        <p className="text-gray-500 dark:text-gray-300 mb-10">
+          Нас пускают по внешности? Нет.
+          <br /> Будут ли нас судить по внешности? Да.
         </p>
 
         {nextMonday && <CountdownTimer targetDate={nextMonday} />}
+
+        <p className="text-gray-500 dark:text-gray-300 mt-4">
+          Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
+          за более привлекательных пользователей!
+        </p>
       </div>
     </div>
   );
