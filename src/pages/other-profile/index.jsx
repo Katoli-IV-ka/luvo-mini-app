@@ -32,41 +32,35 @@ export const OtherProfilePage = () => {
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-169px)] flex flex-col items-center">
-      <div className="container mx-auto max-w-md p-5 overflow-y-auto scrollbar-hidden">
-        <OtherProfileCard card={data} />
+    <div className="w-full p-5 min-h-[calc(100vh-169px)] overflow-y-auto scrollbar-hidden">
+      <OtherProfileCard card={data} />
 
-        <div className="mt-10">
-          <h2 className="font-bold text-2xl">
-            {data.first_name}, {calculateAge(data.birthdate)}
-          </h2>
+      <div className="mt-10">
+        <h2 className="font-bold text-2xl">
+          {data.first_name}, {calculateAge(data.birthdate)}
+        </h2>
 
-          {data.about && <div className="mt-3 text-base">{data.about}</div>}
-        </div>
+        {data.about && <div className="mt-3 text-base">{data.about}</div>}
+      </div>
 
-        <div className="mt-10">
-          {data.instagram_username && (
-            <div className="flex">
-              <img
-                src={InstragramIcon}
-                alt="instagram-icon"
-                className="size-8"
-              />
-              <div className="ml-2 font-bold text-2xl">
-                @{data.instagram_username}
-              </div>
+      <div className="mt-10">
+        {data.instagram_username && (
+          <div className="flex">
+            <img src={InstragramIcon} alt="instagram-icon" className="size-8" />
+            <div className="ml-2 font-bold text-2xl">
+              @{data.instagram_username}
             </div>
-          )}
+          </div>
+        )}
 
-          {isMetch && data.telegram_username && (
-            <div className="mt-3 flex">
-              <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
-              <div className="ml-2 font-bold text-2xl">
-                @{data.telegram_username}
-              </div>
+        {isMetch && data.telegram_username && (
+          <div className="mt-3 flex">
+            <img src={TelegramIcon} alt="telegram-icon" className="size-8" />
+            <div className="ml-2 font-bold text-2xl">
+              @{data.telegram_username}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
