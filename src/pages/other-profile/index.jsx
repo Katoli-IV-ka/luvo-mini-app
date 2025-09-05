@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useOtherUser } from "@/api/user";
-import { OtherProfileCard, Spinner } from "@/components";
+import { OtherProfileCard, Spinner, MetchModal } from "@/components";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import TelegramIcon from "./telegram.png";
@@ -8,6 +9,8 @@ import InstragramIcon from "./instagram.png";
 export const OtherProfilePage = () => {
   const params = useParams();
   const [searchParams] = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const [viewed, setViewed] = useState(false);
 
   const { data, isLoading } = useOtherUser(params.id);
   const isMetch = searchParams.get("isMetch") === "true";
@@ -31,9 +34,18 @@ export const OtherProfilePage = () => {
     );
   }
 
+  const onCloseModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="w-full p-5 min-h-[calc(100vh-169px)] overflow-y-auto scrollbar-hidden">
-      <OtherProfileCard card={data} />
+      <OtherProfileCard
+        card={data}
+        viewed={viewed}
+        setViewed={setViewed}
+        setIsOpen={setIsOpen}
+      />
 
       <div className="mt-10">
         <h2 className="font-bold text-2xl">
@@ -62,6 +74,8 @@ export const OtherProfilePage = () => {
           </div>
         )}
       </div>
+
+      {isOpen && <MetchModal isOpen={isOpen} onClose={onCloseModal} />}
     </div>
   );
 };
