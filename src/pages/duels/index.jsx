@@ -66,7 +66,7 @@ const CountdownTimer = ({ targetDate }) => {
   }
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-8">
+    <div className="flex justify-center items-center gap-2 mt-6">
       <div className="text-center">
         <div className="text-3xl font-bold text-primary-red bg-white/90 dark:bg-black/90 rounded-lg px-4 py-2 min-w-[80px]">
           {timeLeft.days.toString().padStart(2, "0")}
@@ -134,28 +134,18 @@ export const DuelsPage = () => {
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-169px)] p-5 dark:from-gray-900 dark:to-gray-800 text-center flex flex-col justify-center">
-      <div className="transform -translate-y-[10%]">
-        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-          <span className="text-3xl">⚔️</span>
-        </div>
+    <div className="w-full min-h-[calc(100vh-169px)] p-5 dark:from-gray-900 dark:to-gray-800 text-center">
+      <h3 className="text-md text-gray-500 dark:text-gray-300">
+        Нас пускают по внешности? Нет.
+        <br /> Будут ли нас судить по внешности? Да.
+      </h3>
 
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-          Скоро начнутся дуэли!
-        </h2>
+      {nextMonday && <CountdownTimer targetDate={nextMonday} />}
 
-        <p className="text-gray-500 dark:text-gray-300 mb-10">
-          Нас пускают по внешности? Нет.
-          <br /> Будут ли нас судить по внешности? Да.
-        </p>
-
-        {nextMonday && <CountdownTimer targetDate={nextMonday} />}
-
-        <p className="text-gray-500 dark:text-gray-300 mt-4">
-          Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
-          за более привлекательных пользователей!
-        </p>
-      </div>
+      <p className="text-gray-500 dark:text-gray-300 mt-4">
+        Новый функционал откроется в понедельник. Вы сможете голосовать за более
+        привлекательных пользователей!
+      </p>
     </div>
   );
 };
