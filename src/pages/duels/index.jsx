@@ -1,129 +1,35 @@
-import { useState, useEffect } from "react";
-import { Spinner } from "@/components";
-
-// Функция для вычисления времени до следующего понедельника
-const getNextMonday = () => {
-  const now = new Date();
-  const dayOfWeek = now.getDay(); // 0 = воскресенье, 1 = понедельник, ..., 6 = суббота
-  const daysUntilMonday = dayOfWeek === 0 ? 1 : 8 - dayOfWeek; // Если воскресенье, то до понедельника 1 день
-
-  const nextMonday = new Date(now);
-  nextMonday.setDate(now.getDate() + daysUntilMonday);
-  nextMonday.setHours(0, 0, 0, 0); // Устанавливаем начало дня
-
-  return nextMonday;
-};
-
-// Компонент отсчета времени
-const CountdownTimer = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    // Сначала вычисляем начальное время
-    const calculateTime = () => {
-      const now = new Date().getTime();
-      const target = new Date(targetDate).getTime();
-      const difference = target - now;
-
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (difference % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        setTimeLeft({ days, hours, minutes, seconds });
-      } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
-    };
-
-    // Сразу устанавливаем начальное время
-    calculateTime();
-    setIsInitialized(true);
-
-    // Затем запускаем интервал
-    const timer = setInterval(calculateTime, 1000);
-
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  if (!isInitialized) {
-    return (
-      <div className="flex justify-center items-center mt-8">
-        <Spinner size="sm" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex justify-center items-center gap-2 mt-8">
-      <div className="text-center">
-        <div className="text-3xl font-bold text-primary-red bg-white/90 dark:bg-black/90 rounded-lg px-4 py-2 min-w-[80px]">
-          {timeLeft.days.toString().padStart(2, "0")}
-        </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          дней
-        </div>
-      </div>
-
-      <div className="text-2xl font-bold text-primary-red">:</div>
-
-      <div className="text-center">
-        <div className="text-3xl font-bold text-primary-red bg-white/90 dark:bg-black/90 rounded-lg px-4 py-2 min-w-[80px]">
-          {timeLeft.hours.toString().padStart(2, "0")}
-        </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          часов
-        </div>
-      </div>
-
-      <div className="text-2xl font-bold text-primary-red">:</div>
-
-      <div className="text-center">
-        <div className="text-3xl font-bold text-primary-red bg-white/90 dark:bg-black/90 rounded-lg px-4 py-2 min-w-[80px]">
-          {timeLeft.minutes.toString().padStart(2, "0")}
-        </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          минут
-        </div>
-      </div>
-
-      <div className="text-2xl font-bold text-primary-red">:</div>
-
-      <div className="text-center">
-        <div className="text-3xl font-bold text-primary-red bg-white/90 dark:bg-black/90 rounded-lg px-4 py-2 min-w-[80px]">
-          {timeLeft.seconds.toString().padStart(2, "0")}
-        </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          секунд
-        </div>
-      </div>
-    </div>
-  );
-};
+import { useState } from "react";
+import { Button } from "@/ui";
+import { Spinner, DuelCard } from "@/components";
+import { useDuelUsers, useDuelVote } from "@/api/duels";
 
 export const DuelsPage = () => {
-  const [nextMonday, setNextMonday] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setNextMonday(getNextMonday());
-      setIsLoading(false);
-    }, 1000);
+  const { mutate: voteDuel, isPending: isVoting } = useDuelVote();
+  const { data: duelData, isLoading, error, refetch } = useDuelUsers();
 
-    return () => clearTimeout(timer);
-  }, []);
+  const handleUserSelect = (userId) => {
+    if (isVoting) return;
+    setSelectedUserId((prev) => (prev === userId ? null : userId));
+  };
+
+  const handleConfirm = () => {
+    if (!duelData?.users || !selectedUserId || isVoting) return;
+
+    const loserId = duelData.users.find((u) => u.id !== selectedUserId)?.id;
+    if (!loserId) return;
+
+    voteDuel(
+      { winnerId: selectedUserId, loserId },
+      {
+        onSuccess: () => {
+          setSelectedUserId(null);
+          refetch();
+        },
+      }
+    );
+  };
 
   if (isLoading) {
     return (
@@ -133,28 +39,109 @@ export const DuelsPage = () => {
     );
   }
 
-  return (
-    <div className="w-full min-h-[calc(100vh-169px)] p-5 dark:from-gray-900 dark:to-gray-800 text-center flex flex-col justify-center">
-      <div className="transform -translate-y-[10%]">
-        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-          <span className="text-3xl">⚔️</span>
+  if (error) {
+    return (
+      <div className="w-full flex items-center justify-center overflow-y-auto scrollbar-hidden">
+        <div className="w-20 h-20 mx-auto mb-6 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+          <span className="text-3xl">⚠️</span>
         </div>
 
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-          Скоро начнутся дуэли!
+          Ошибка загрузки
         </h2>
 
-        <p className="text-gray-500 dark:text-gray-300 mb-10">
-          Нас пускают по внешности? Нет.
-          <br /> Будут ли нас судить по внешности? Да.
+        <p className="text-gray-500 dark:text-gray-300 mb-6">
+          Не удалось загрузить пользователей для дуэли
         </p>
 
-        {nextMonday && <CountdownTimer targetDate={nextMonday} />}
+        <button
+          onClick={() => refetch()}
+          className="bg-primary-red text-white px-6 py-3 rounded-lg font-bold hover:bg-red-600 transition-colors"
+        >
+          Попробовать снова
+        </button>
+      </div>
+    );
+  }
 
-        <p className="text-gray-500 dark:text-gray-300 mt-4">
-          Новый функционал дуэлей откроется в понедельник. Вы сможете голосовать
-          за более привлекательных пользователей!
-        </p>
+  if (!duelData?.users || duelData.users.length < 2) {
+    return (
+      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+            <span className="text-3xl">👥</span>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            Недостаточно пользователей
+          </h2>
+
+          <p className="text-gray-500 dark:text-gray-300">
+            Для проведения дуэли нужно минимум 2 пользователя
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const [user1, user2] = duelData.users;
+
+  return (
+    <div className="w-full p-5 overflow-y-auto scrollbar-hidden">
+      {/* Заголовок */}
+      <h1 className="text-md sm:text-3xl font-medium mb-6 text-gray-500 dark:text-gray-300 text-center">
+        Нас пускают по внешности? Нет.
+        <br /> Будут ли нас судить по внешности? Да.
+      </h1>
+
+      {/* Карточки пользователей */}
+      <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 max-w-full px-2 flex-nowrap max-[360px]:flex-col">
+        <div className="animate-fade-in-left">
+          <DuelCard
+            user={user1}
+            onSelect={handleUserSelect}
+            isSelected={selectedUserId === user1.id}
+            isWinner={false}
+            isLoser={false}
+            disabled={isVoting}
+          />
+        </div>
+
+        <div className="animate-fade-in-right">
+          <DuelCard
+            user={user2}
+            onSelect={handleUserSelect}
+            isSelected={selectedUserId === user2.id}
+            isWinner={false}
+            isLoser={false}
+            disabled={isVoting}
+          />
+        </div>
+      </div>
+
+      {/* Кнопки действий */}
+      <div className="text-center mt-8 space-y-4">
+        <Button
+          className="mt-3 w-full"
+          type="button"
+          styleType="secondary"
+          onClick={() => {
+            setSelectedUserId(null);
+            refetch();
+          }}
+          disabled={isVoting}
+        >
+          {!isLoading ? "Новая дуэль" : <Spinner size="sm" />}
+        </Button>
+
+        <Button
+          className="mt-3 w-full"
+          type="button"
+          onClick={handleConfirm}
+          disabled={!selectedUserId || isVoting}
+        >
+          {isVoting ? <Spinner size="sm" /> : "Выбрать"}
+        </Button>
       </div>
     </div>
   );

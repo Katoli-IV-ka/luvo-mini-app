@@ -2,6 +2,7 @@ import { Layout } from "./layout";
 import { Header } from "./header";
 import { Sidebar } from "./sidebar";
 import { Spinner } from "./spinner";
+import { DuelCard } from "./duel-card";
 import { FeedCard } from "./feed-card";
 import { Pedestal } from "./pedestal";
 import { LikesCard } from "./likes-card";
@@ -19,6 +20,7 @@ export {
   Sidebar,
   Pedestal,
   FeedCard,
+  DuelCard,
   LikesCard,
   RatingList,
   MetchModal,

@@ -21,7 +21,7 @@ export const Button = ({
         {
           "bg-primary-red hover:bg-primary-red/80 active:bg-primary-red/60 text-white":
             styleType === "primary",
-          "bg-white/10 hover:bg-white/16 active:bg-white/24 text-white":
+          "bg-gray-100 hover:bg-gray-300 active:bg-gray-400 text-black dark:text-white":
             styleType === "secondary",
           "": disabled,
         }
