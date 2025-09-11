@@ -6,28 +6,30 @@ export const DuelsPage = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [cardSize, setCardSize] = useState(300);
 
-  const { data: pairData, isLoading, error, refetch } = useDuelPair();
   const { mutate: nextPair, isPending: isVoting } = useDuelNextPair();
+  const { data: pairData, isLoading, error, refetch } = useDuelPair();
 
   const containerRef = useRef(null);
-  const headerTextRef = useRef(null);
 
   useEffect(() => {
-    const el = containerRef.current;
-    const headerEl = headerTextRef.current;
-    if (!el) return;
-
-    const ro = new ResizeObserver(() => {
-      const rect = el.getBoundingClientRect();
-      const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
-      const availableH = Math.max(rect.height - headerH - 12, 0);
+    const recalc = () => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      const width = rect?.width || window.innerWidth;
+      const STATIC_PX = 270; // постоянный контент
+      const availableH = Math.max(window.innerHeight - STATIC_PX, 0);
       const perCardMax = availableH / 2;
-      const width = rect.width;
       const size = Math.floor(Math.max(0, Math.min(perCardMax, width)));
       setCardSize(size);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
+    };
+
+    recalc();
+    const ro = new ResizeObserver(recalc);
+    if (containerRef.current) ro.observe(containerRef.current);
+    window.addEventListener("resize", recalc);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", recalc);
+    };
   }, []);
 
   const handleSelectAndVote = (winnerId) => {
@@ -98,8 +100,8 @@ export const DuelsPage = () => {
       className="w-full h-[calc(100vh-169px)] px-4 pb-4 overflow-hidden flex flex-col"
     >
       {/* Текст фиксированной высоты */}
-      <div ref={headerTextRef} className="shrink-0 py-3 text-center">
-        <h1 className="text-md sm:text-3xl font-medium text-gray-500 dark:text-gray-300">
+      <div className="shrink-0 py-3 text-center">
+        <h1 className="text-md font-medium text-gray-500 dark:text-gray-300">
           Нас пускают по внешности? Нет.
           <br /> Будут ли нас судить по внешности? Да.
         </h1>
@@ -125,7 +127,6 @@ export const DuelsPage = () => {
         <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center">
           <div className="inline-flex items-center gap-2 bg-black/40 text-white rounded-full px-3 py-1">
             <Spinner size="sm" />
-
             <span>Отправляем...</span>
           </div>
         </div>
