@@ -3,8 +3,8 @@ import { Spinner, DuelCard } from "@/components";
 import { useDuelPair, useDuelNextPair } from "@/api/duels";
 
 export const DuelsPage = () => {
-  const [selectedUserId, setSelectedUserId] = useState(null);
   const [cardSize, setCardSize] = useState(300);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   const { mutate: nextPair, isPending: isVoting } = useDuelNextPair();
   const { data: pairData, isLoading, error, refetch } = useDuelPair();
