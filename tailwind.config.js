@@ -27,6 +27,10 @@ export default {
       animation: {
         insta: "instaHeart 800ms ease",
       },
+      screens: {
+        xs: "360px",
+        ms: "480px",
+      },
     },
     keyframes: {
       instaHeart: {
