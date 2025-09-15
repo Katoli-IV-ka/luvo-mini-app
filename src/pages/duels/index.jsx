@@ -117,13 +117,20 @@ export const DuelsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setNextMonday(getNextMonday());
-      setIsLoading(false);
-    }, 1000);
+  const timer = setTimeout(() => {
+    const now = new Date();
+    let targetYear = now.getFullYear();
+    const targetDate = new Date(`${targetYear}-10-05T00:00:00`);
 
-    return () => clearTimeout(timer);
-  }, []);
+
+
+    setNextMonday(targetDate);
+    setIsLoading(false);
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}, []);
+
 
   if (isLoading) {
     return (
