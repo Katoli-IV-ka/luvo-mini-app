@@ -10,11 +10,11 @@ export const RatingList = ({ data }) => {
   const { user } = useWebAppStore();
 
   const findCurrentUser = (users, currentUserId) => {
-    return users.find((item) => item.user_id === currentUserId);
+    return users.find((item) => item.id === currentUserId);
   };
 
   useEffect(() => {
-    setCurrentUser(findCurrentUser(data, user.user_id));
+    setCurrentUser(findCurrentUser(data, user.id));
   }, []);
 
   return (
@@ -23,7 +23,7 @@ export const RatingList = ({ data }) => {
         <div className="mt-3 first:mt-0 flex items-center justify-between">
           <div className="flex items-center">
             <div className="h-10 w-10 flex items-center justify-center bg-[#F7FAFF] border-2 border-primary-gray/30 font-bold text-black rounded-xl">
-              {currentUser.user_id}
+              {currentUser.id}
             </div>
 
             <img

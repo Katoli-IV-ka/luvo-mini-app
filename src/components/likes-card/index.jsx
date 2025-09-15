@@ -30,7 +30,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleLike = () => {
-    likeUserMutation(card.user_id);
+    likeUserMutation(card.id);
 
     setShowHeart(true);
     setHeartAnim(true);
@@ -42,7 +42,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   const handleIgnore = () => {
-    ignoreUserMutation(card.user_id);
+    ignoreUserMutation(card.id);
   };
 
   // Обработчик клика по картинке — листает фото в зависимости от стороны

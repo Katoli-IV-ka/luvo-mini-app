@@ -22,10 +22,10 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
-      sendViewMutation(card.user_id);
+      sendViewMutation(card.id);
       setViewed(true);
     }
-  }, [viewed, sendViewMutation, card.user_id, setViewed]);
+  }, [viewed, sendViewMutation, card.id, setViewed]);
 
   const triggerHeartAnimation = () => {
     setShowHeart(true);
@@ -45,7 +45,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     markAsViewed();
 
     try {
-      const { data } = await likeUserMutation(card.user_id);
+      const { data } = await likeUserMutation(card.id);
 
       if (liked) {
         // Отменяем лайк
@@ -127,7 +127,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     setLiked(false);
     setCurrentPhotoIndex(0);
     clickTimeout.current && clearTimeout(clickTimeout.current);
-  }, [card.user_id]);
+  }, [card.id]);
 
   return (
     <div

@@ -20,16 +20,16 @@ export const OtherProfileCard = ({
 
   const markAsViewed = useCallback(() => {
     if (!viewed) {
-      sendViewMutation(card.user_id);
+      sendViewMutation(card.id);
       setViewed(true);
     }
-  }, [viewed, sendViewMutation, card.user_id, setViewed]);
+  }, [viewed, sendViewMutation, card.id, setViewed]);
 
   const handleLike = async () => {
     markAsViewed();
 
     try {
-      const { data } = await likeUserMutation(card.user_id);
+      const { data } = await likeUserMutation(card.id);
 
       if (liked) {
         // Отменяем лайк
