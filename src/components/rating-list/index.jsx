@@ -14,8 +14,8 @@ export const RatingList = ({ data }) => {
   };
 
   useEffect(() => {
-    setCurrentUser(findCurrentUser(data, user.user_id));
-  }, []);
+    setCurrentUser(findCurrentUser(data, user.id));
+  }, [data, user.id]);
 
   return (
     <div className="mt-10 w-full">
@@ -23,7 +23,8 @@ export const RatingList = ({ data }) => {
         <div className="mt-3 first:mt-0 flex items-center justify-between">
           <div className="flex items-center">
             <div className="h-10 w-10 flex items-center justify-center bg-[#F7FAFF] border-2 border-primary-gray/30 font-bold text-black rounded-xl">
-              {currentUser.user_id}
+              {data.findIndex((item) => item.user_id === currentUser.user_id) +
+                1}
             </div>
 
             <img
@@ -51,7 +52,7 @@ export const RatingList = ({ data }) => {
 
       {data.map((item, index) => (
         <div
-          key={index}
+          key={item.user_id}
           className="mt-3 first:mt-0 flex items-center justify-between"
         >
           <div className="flex items-center">
