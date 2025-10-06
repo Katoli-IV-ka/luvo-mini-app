@@ -5,16 +5,18 @@ import { useIgnored, useLiked } from "@/api/feed";
 import BigHeart from "../../assets/icons/big-heart.svg";
 import CrossIcon from "./cross.svg";
 import HeartIcon from "./heart.svg";
+import EmptyHeartIcon from "./empty-heart.svg";
 
-export const LikesCard = ({ card, className }) => {
+export const LikesCard = ({ card }) => {
+  const [liked, setLiked] = useState(false);
   const [showHeart, setShowHeart] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const lastTap = useRef(0);
 
-  const { mutate: likeUserMutation } = useLiked();
   const { mutate: ignoreUserMutation } = useIgnored();
+  const { mutateAsync: likeUserMutation } = useLiked();
 
   const calculateAge = (birthDateStr) => {
     const today = new Date();
@@ -29,20 +31,34 @@ export const LikesCard = ({ card, className }) => {
     return isBirthdayPassed ? age : age - 1;
   };
 
-  const handleLike = () => {
-    likeUserMutation(card.user_id);
-
+  const triggerHeartAnimation = () => {
     setShowHeart(true);
     setHeartAnim(true);
-
     setTimeout(() => {
       setHeartAnim(false);
       setShowHeart(false);
     }, 1200);
   };
 
+  const handleLike = async () => {
+    try {
+      const { data } = await likeUserMutation(card.id);
+
+      if (liked) {
+        // Отменяем лайк
+        setLiked(false);
+      } else {
+        // Ставим лайк
+        setLiked(true);
+        triggerHeartAnimation();
+      }
+    } catch (error) {
+      console.error("Ошибка лайка:", error);
+    }
+  };
+
   const handleIgnore = () => {
-    ignoreUserMutation(card.user_id);
+    ignoreUserMutation(card.id);
   };
 
   // Обработчик клика по картинке — листает фото в зависимости от стороны
@@ -73,12 +89,7 @@ export const LikesCard = ({ card, className }) => {
   };
 
   return (
-    <div
-      className={classnames(
-        className,
-        "relative w-full h-[500px] rounded-[20px] text-white overflow-hidden"
-      )}
-    >
+    <div className="relative w-full h-[500px] rounded-[20px] text-white overflow-hidden">
       <div className="relative w-full h-full">
         <img
           src={card.photos[currentPhotoIndex]}
@@ -135,7 +146,7 @@ export const LikesCard = ({ card, className }) => {
             />
 
             <img
-              src={HeartIcon}
+              src={liked ? HeartIcon : EmptyHeartIcon}
               alt="heart-icon"
               className="size-8 cursor-pointer"
               onClick={handleLike}

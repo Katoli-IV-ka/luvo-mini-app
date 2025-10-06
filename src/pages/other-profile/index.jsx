@@ -40,12 +40,7 @@ export const OtherProfilePage = () => {
 
   return (
     <div className="w-full p-5 min-h-[calc(100vh-169px)] overflow-y-auto scrollbar-hidden">
-      <OtherProfileCard
-        card={data}
-        viewed={viewed}
-        setViewed={setViewed}
-        setIsOpen={setIsOpen}
-      />
+      <OtherProfileCard card={data} viewed={viewed} setViewed={setViewed} />
 
       <div className="mt-10">
         <h2 className="font-bold text-2xl">

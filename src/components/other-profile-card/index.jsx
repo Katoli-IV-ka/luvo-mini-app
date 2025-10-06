@@ -1,54 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import classnames from "classnames";
-import { useLiked, useFeedView } from "@/api/feed";
 
-import HeartIcon from "./heart.svg";
-import EmptyHeartIcon from "./empty-heart.svg";
-
-export const OtherProfileCard = ({
-  card,
-  viewed,
-  className,
-  setViewed,
-  setIsOpen,
-}) => {
-  const [liked, setLiked] = useState(false);
+export const OtherProfileCard = ({ card }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
-  const { mutate: sendViewMutation } = useFeedView();
-  const { mutateAsync: likeUserMutation } = useLiked();
-
-  const markAsViewed = useCallback(() => {
-    if (!viewed) {
-      sendViewMutation(card.user_id);
-      setViewed(true);
-    }
-  }, [viewed, sendViewMutation, card.user_id, setViewed]);
-
-  const handleLike = async () => {
-    markAsViewed();
-
-    try {
-      const { data } = await likeUserMutation(card.user_id);
-
-      if (liked) {
-        // Отменяем лайк
-        setLiked(false);
-      } else {
-        // Ставим лайк
-        if (data.matched) {
-          setIsOpen(true);
-        }
-        setLiked(true);
-      }
-    } catch (error) {
-      console.error("Ошибка лайка:", error);
-    }
-  };
-
   const handleImageClick = (e) => {
-    markAsViewed();
-
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
 
@@ -64,12 +20,7 @@ export const OtherProfileCard = ({
   };
 
   return (
-    <div
-      className={classnames(
-        className,
-        "relative w-full max-h-[500px] h-full rounded-[20px] text-white overflow-hidden"
-      )}
-    >
+    <div className="relative w-full max-h-[500px] h-full rounded-[20px] text-white overflow-hidden">
       <div className="relative w-full h-full">
         <img
           src={card.photos[currentPhotoIndex]}
@@ -96,15 +47,6 @@ export const OtherProfileCard = ({
               )}
             ></div>
           ))}
-        </div>
-
-        <div className="flex justify-end">
-          <img
-            src={liked ? HeartIcon : EmptyHeartIcon}
-            alt="heart-icon"
-            className="size-8 cursor-pointer"
-            onClick={handleLike}
-          />
         </div>
       </div>
     </div>
