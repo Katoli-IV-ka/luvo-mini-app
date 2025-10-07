@@ -9,6 +9,7 @@ import { LikesCard } from "./likes-card";
 import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
 import { MetchesList } from "./metches-list";
+import { DuelInfoModal } from "./duels-info-modal";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
 import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
@@ -25,6 +26,7 @@ export {
   RatingList,
   MetchModal,
   MetchesList,
+  DuelInfoModal,
   OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
