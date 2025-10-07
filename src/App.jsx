@@ -7,6 +7,7 @@ import { decodeJWT } from "./utils/decode-jwt.util";
 import { LoadingPage } from "./pages";
 import { useNavigate } from "react-router-dom";
 import { useWebAppStore } from "./store";
+import { useTelegramFullscreen } from "./hooks/useTelegramFullscreen";
 
 export const App = () => {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export const App = () => {
     isInitialized,
     setInitialized,
   } = useWebAppStore();
+
+  useTelegramFullscreen();
 
   useEffect(() => {
     const root = document.documentElement;

@@ -67,13 +67,6 @@ export const useWebAppStore = create((set) => {
 
         if (isTelegram && !mockEnabled) {
           tg.ready();
-          tg.expand();
-
-          if (tg.requestFullscreen) {
-            tg.requestFullscreen();
-          } else {
-            console.log("Fullscreen API пока не поддерживается в этом клиенте");
-          }
 
           const theme =
             tg.colorScheme === THEME.DARK ? THEME.DARK : THEME.LIGHT;
