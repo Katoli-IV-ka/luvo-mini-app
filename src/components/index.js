@@ -10,6 +10,7 @@ import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
 import { MetchesList } from "./metches-list";
 import { DuelInfoModal } from "./duels-info-modal";
+import { DuelProgressBar } from "./duel-progress-bar";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
 import { AuthenticatedRoute, UnauthenticatedRoute } from "./auth-route";
@@ -27,6 +28,7 @@ export {
   MetchModal,
   MetchesList,
   DuelInfoModal,
+  DuelProgressBar,
   OtherProfileCard,
   ProfilePhotosList,
   AuthenticatedRoute,
