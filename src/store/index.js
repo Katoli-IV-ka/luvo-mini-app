@@ -69,7 +69,11 @@ export const useWebAppStore = create((set) => {
           tg.ready();
           tg.expand();
 
-          console.log("EXPANDED");
+          if (tg.requestFullscreen) {
+            tg.requestFullscreen();
+          } else {
+            console.log("Fullscreen API пока не поддерживается в этом клиенте");
+          }
 
           const theme =
             tg.colorScheme === THEME.DARK ? THEME.DARK : THEME.LIGHT;
