@@ -4,7 +4,6 @@ import { Router } from "./router";
 import { Layout } from "./components";
 import { useLogin } from "./api/auth";
 import { decodeJWT } from "./utils/decode-jwt.util";
-import { LoadingPage } from "./pages";
 import { useNavigate } from "react-router-dom";
 import { useWebAppStore } from "./store";
 import { useTelegramFullscreen } from "./hooks/useTelegramFullscreen";
@@ -33,20 +32,15 @@ export const App = () => {
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-
     if (tg?.onEvent) {
       const handler = () => {
         const newTheme =
           tg.colorScheme === THEME.DARK ? THEME.DARK : THEME.LIGHT;
         setTheme(newTheme);
       };
-
       handler();
       tg.onEvent("themeChanged", handler);
-
-      return () => {
-        tg.offEvent?.("themeChanged", handler);
-      };
+      return () => tg.offEvent?.("themeChanged", handler);
     }
   }, [setTheme]);
 
@@ -60,16 +54,12 @@ export const App = () => {
     try {
       const initData = await init();
       if (!initData) return;
-
       const { data } = await mutateAsync({ init_data: initData });
-      // THIS SHIT MOMENT WHEN WE NEED REGISTER PROFILE
       const { access_token: token, has_profile: isRegister } = data || {};
-
       if (!token) {
         console.warn("Token not found in login response.");
         return;
       }
-
       loginSuccess(token, isRegister);
     } catch (e) {
       console.error("Ошибка инициализации:", e);
@@ -92,7 +82,19 @@ export const App = () => {
     }
   };
 
-  if (loading) return <LoadingPage />;
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-center px-6">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900 dark:border-white mb-4" />
+        <h2 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
+          Загружаем приложение...
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm max-w-xs">
+          Пожалуйста, подождите пару секунд — мы готовим данные и настраиваем
+          интерфейс.
+        </p>
+      </div>
+    );
 
   if (error)
     return (
