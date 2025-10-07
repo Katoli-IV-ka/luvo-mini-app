@@ -69,6 +69,8 @@ export const useWebAppStore = create((set) => {
           tg.ready();
           tg.expand();
 
+          console.log("EXPANDED");
+
           const theme =
             tg.colorScheme === THEME.DARK ? THEME.DARK : THEME.LIGHT;
           set({ theme });
