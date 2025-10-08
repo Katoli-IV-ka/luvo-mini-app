@@ -1,6 +1,7 @@
 import { API_URL } from "@/constants";
-import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "@/main";
 import { axiosInstance } from "@/utils/axios.util";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useLikes = () => {
   return useQuery({
@@ -23,3 +24,12 @@ export const useMatches = () => {
     },
   });
 };
+
+export const useIgnored = () =>
+  useMutation({
+    mutationFn: (userId) =>
+      axiosInstance.post(`${API_URL}/interactions/ignore/${userId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["likes"] });
+    },
+  });

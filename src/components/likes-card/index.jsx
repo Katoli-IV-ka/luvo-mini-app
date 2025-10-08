@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import classnames from "classnames";
-import { useIgnored, useLiked } from "@/api/feed";
+import { useLiked } from "@/api/feed";
+import { useIgnored } from "@/api/likes";
 
 import BigHeart from "../../assets/icons/big-heart.svg";
 import CrossIcon from "./cross.svg";
@@ -42,7 +43,7 @@ export const LikesCard = ({ card }) => {
 
   const handleLike = async () => {
     try {
-      const { data } = await likeUserMutation(card.id);
+      await likeUserMutation(card.id);
 
       if (liked) {
         // Отменяем лайк

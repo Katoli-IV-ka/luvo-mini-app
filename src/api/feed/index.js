@@ -12,15 +12,6 @@ export const useLiked = () =>
     },
   });
 
-export const useIgnored = () =>
-  useMutation({
-    mutationFn: (userId) =>
-      axiosInstance.post(`${API_URL}/interactions/ignore/${userId}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feeds"] });
-    },
-  });
-
 export const useFeeds = (limit = 5, offset = 0) => {
   return useQuery({
     queryKey: ["feeds", offset, limit],

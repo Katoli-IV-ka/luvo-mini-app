@@ -68,11 +68,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
     }, 1200);
   };
 
-  const triggerUnlikeAnimation = () => {
-    // Можно добавить анимацию для отмены лайка, если нужно
-    // Пока просто обновляем состояние
-  };
-
   const handleLike = async () => {
     markAsViewed();
 
@@ -82,7 +77,6 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
       if (liked) {
         // Отменяем лайк
         setLiked(false);
-        triggerUnlikeAnimation();
       } else {
         // Ставим лайк
         if (data.matched) {
@@ -239,6 +233,7 @@ export const FeedCard = ({ card, viewed, setViewed, className, setIsOpen }) => {
             <h2 className="font-bold text-2xl">
               {card.first_name}, {calculateAge(card.birthdate)}
             </h2>
+
             <img
               src={liked ? HeartIcon : EmptyHeartIcon}
               alt="heart-icon"

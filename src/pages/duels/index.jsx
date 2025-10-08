@@ -151,7 +151,7 @@ export const DuelsPage = () => {
         </div>
 
         <div className="w-full flex justify-center">
-          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[400px]">
+          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px] lg:max-w-[360px]">
             <DuelCard
               user={pairData.opponent}
               onSelect={handleSelectAndVote}
