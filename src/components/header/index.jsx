@@ -20,10 +20,11 @@ export const Header = () => {
   if (excludedPaths.includes(location.pathname.substring(1))) return null;
 
   return (
-    <div className="relative z-10 w-full py-7 px-5 border-b-2 bg-white/90 dark:bg-black/90 border-[#A29C9B4D]">
+    <div className="relative z-10 w-full pt-10 pb-2 flex justify-center border-b-1 bg-white/90 dark:bg-black/90 border-[#A29C9B4D]">
       <img
         src={LogoIcon}
         alt="logo-icon"
+        width={60}
         onClick={() => {
           if (initData) {
             navigator.clipboard.writeText(initData);
