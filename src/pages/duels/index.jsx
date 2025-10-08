@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDuelProgressStore } from "@/store/duelProgressStore";
 import { useDuelPair, useDuelNextPair } from "@/api/duels";
-import { Spinner, DuelCard, DuelProgressBar } from "@/components";
+import {
+  Spinner,
+  DuelCard,
+  CountdownTimer,
+  DuelProgressBar,
+} from "@/components";
 
 export const DuelsPage = () => {
   const [showHelpModal, setShowHelpModal] = useState(false);
-  const [showLimitModal, setShowLimitModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const { mutate: nextPair, isPending: isVoting } = useDuelNextPair();
   const { data: pairData, isLoading, error, refetch } = useDuelPair();
 
   // store
-  const { total, increment, isBlocked, limitUntil, refreshFromStorage } =
+  const { increment, isBlocked, limitUntil, refreshFromStorage } =
     useDuelProgressStore();
 
   // show help modal first time
@@ -24,17 +28,8 @@ export const DuelsPage = () => {
   // refresh progress store from storage on mount
   useEffect(() => {
     refreshFromStorage();
-    // open limit modal if already blocked on load
-    if (useDuelProgressStore.getState().isBlocked) {
-      setShowLimitModal(true);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // if blocked becomes true -> show limit modal
-  useEffect(() => {
-    if (isBlocked) setShowLimitModal(true);
-  }, [isBlocked]);
 
   // remaining time for limit modal (local state auto-updates)
   const [remainingTime, setRemainingTime] = useState(
@@ -55,7 +50,6 @@ export const DuelsPage = () => {
       if (diff <= 0) {
         // refresh store after expiry
         useDuelProgressStore.getState().refreshFromStorage();
-        setShowLimitModal(false);
       }
     };
     tick();
@@ -137,15 +131,6 @@ export const DuelsPage = () => {
 
   return (
     <div className="w-full min-h-[calc(100vh-169px)] flex flex-col overflow-hidden relative">
-      {/* Заголовок */}
-      <div className="shrink-0 py-4 px-4 text-center">
-        <h1 className="text-sm text-gray-500 leading-tight">
-          Нас пускают по внешности? Нет.
-          <br />
-          Будут ли нас судить по внешности? Да.
-        </h1>
-      </div>
-
       {/* Прогрессбар (над карточками) */}
       <DuelProgressBar />
 
@@ -156,7 +141,7 @@ export const DuelsPage = () => {
         }`}
       >
         <div className="w-full flex justify-center">
-          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[400px]">
+          <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px] lg:max-w-[360px]">
             <DuelCard
               user={pairData.user}
               onSelect={handleSelectAndVote}
@@ -201,11 +186,15 @@ export const DuelsPage = () => {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center">
             <h2 className="text-xl font-bold mb-4">Как работает дуэль?</h2>
-            <p className="text-gray-600 text-sm mb-6">
-              Перед тобой два профиля. Просто выбери того, кто тебе кажется
-              симпатичнее. После выбора автоматически загрузится следующая пара.
-              Так мы создаём рейтинг привлекательности среди участников 💫
-            </p>
+
+            <div className="shrink-0 mb-6 text-center">
+              <h1 className="text-sm text-gray-500 leading-tight">
+                Нас пускают по внешности? Нет.
+                <br />
+                Будут ли нас судить по внешности? Да 💫
+              </h1>
+            </div>
+
             <div className="flex gap-3">
               <button
                 onClick={handleOkHelp}
@@ -218,33 +207,19 @@ export const DuelsPage = () => {
         </div>
       )}
 
-      {/* Модалка лимита */}
-      {showLimitModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center">
-            <h2 className="text-xl font-bold mb-4">На сегодня хватит 💫</h2>
-            <p className="text-gray-600 text-sm mb-4">
-              Ты провёл {total} сравнений. Новые дуэли станут доступны через:
-            </p>
-            <div className="mb-4 text-lg font-medium">
-              {formatRemainingTime(remainingTime)}
-            </div>
-            <button
-              onClick={() => setShowLimitModal(false)}
-              className="w-full bg-primary-red text-white py-2 rounded-lg hover:bg-red-600 transition"
-            >
-              Хорошо
-            </button>
-          </div>
-        </div>
-      )}
+      {isBlocked && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-black/40 backdrop-blur-sm p-6">
+          <div className="bg-white/90 dark:bg-black/80 rounded-2xl shadow-lg px-6 py-8 max-w-sm w-full text-center border border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              Ты достиг лимита сравнений 😌
+            </h2>
 
-      {/* Наложение блокировки (если нужно) */}
-      {isBlocked && !showLimitModal && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="bg-white/90 p-4 rounded-lg text-center text-gray-600">
-            Новые дуэли будут доступны через{" "}
-            {formatRemainingTime(remainingTime)}
+            {limitUntil && <CountdownTimer targetDate={new Date(limitUntil)} />}
+
+            <p className="text-gray-600 dark:text-gray-400 mt-6 text-sm leading-snug">
+              Сегодня вы встретились,
+              <br />а завтра всё может измениться 💫
+            </p>
           </div>
         </div>
       )}

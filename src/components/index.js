@@ -10,6 +10,7 @@ import { RatingList } from "./rating-list";
 import { MetchModal } from "./metch-modal";
 import { MetchesList } from "./metches-list";
 import { DuelInfoModal } from "./duels-info-modal";
+import { CountdownTimer } from "./countdown-timer";
 import { DuelProgressBar } from "./duel-progress-bar";
 import { OtherProfileCard } from "./other-profile-card";
 import { ProfilePhotosList } from "./profile-photos-list";
@@ -28,6 +29,7 @@ export {
   MetchModal,
   MetchesList,
   DuelInfoModal,
+  CountdownTimer,
   DuelProgressBar,
   OtherProfileCard,
   ProfilePhotosList,
