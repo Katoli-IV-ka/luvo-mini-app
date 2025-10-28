@@ -167,6 +167,12 @@ const BattleProfileCard = ({ profile, onSelect, disabled, isProcessing }) => {
             Фото отсутствует
           </div>
         )}
+
+        {instagram && (
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+            <p className="text-2xl font-bold text-white">@{instagram}</p>
+          </div>
+        )}
       </div>
 
       <div className="mt-4">
@@ -178,10 +184,6 @@ const BattleProfileCard = ({ profile, onSelect, disabled, isProcessing }) => {
             </span>
           )}
         </p>
-
-        {instagram && (
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">@{instagram}</p>
-        )}
 
         {profile.about && (
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{profile.about}</p>
