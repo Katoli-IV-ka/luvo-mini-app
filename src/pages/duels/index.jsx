@@ -93,11 +93,12 @@ export const DuelsPage = () => {
 
       try {
         const data = await loadPair(winnerId);
+        const nextStage = data?.stage ?? null;
         const receivedProfiles = Array.isArray(data?.profiles)
           ? data.profiles
           : [];
 
-        setStage(data?.stage ?? null);
+        setStage(nextStage);
         setProfiles(receivedProfiles);
 
         if (!receivedProfiles.length) {
