@@ -250,7 +250,7 @@ export const DuelsPage = () => {
         </p>
       </div>
 
-      <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto">
+      <div className="flex-1 p-4 grid grid-cols-2 gap-4">
         <ProfileCard
           profile={profile1}
           onClick={() => handleProfileClick(profile1.id, profile1.first_name)}
