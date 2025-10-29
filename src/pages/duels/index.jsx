@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useBattlePair, useBattleVote } from "@/api/battle";
 import { Spinner } from "@/components";
 
 // Функция для вычисления времени до следующего понедельника
@@ -112,47 +113,161 @@ const CountdownTimer = ({ targetDate }) => {
   );
 };
 
+const normalizeUsername = (username) => {
+  if (!username) return null;
+  return username.startsWith("@") ? username.slice(1) : username;
+};
+
+const BattleProfileCard = ({ profile, onSelect, disabled, isProcessing }) => {
+  const instagram = normalizeUsername(profile.instagram_username);
+  const photo = profile.photos?.[0];
+
+  const handleClick = () => {
+    if (disabled) return;
+    onSelect(profile.id);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={disabled}
+      className={`group flex w-full flex-col rounded-3xl border border-white/40 bg-white/95 p-3 text-left shadow-xl transition-transform duration-200 dark:border-white/10 dark:bg-black/70 sm:p-4 ${
+        disabled ? "cursor-not-allowed opacity-80" : "hover:-translate-y-1 hover:shadow-2xl"
+      } ${isProcessing ? "border-primary-red shadow-2xl" : ""}`}
+    >
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-800">
+        {photo ? (
+          <img
+            src={photo}
+            alt={profile.first_name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-sm text-gray-500 dark:text-gray-400">
+            Фото отсутствует
+          </div>
+        )}
+
+        {instagram && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+            <p className="text-xl font-bold text-white sm:text-2xl">@{instagram}</p>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-5">
+        <span className="inline-flex w-full items-center justify-center rounded-2xl bg-primary-red px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors duration-200 group-hover:bg-primary-red/90 sm:text-base">
+          {isProcessing ? "Голосуем..." : "Голосовать"}
+        </span>
+      </div>
+    </button>
+  );
+};
+
 export const DuelsPage = () => {
-  const [nextMonday, setNextMonday] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const nextBattleDate = useMemo(() => getNextMonday(), []);
+  const { data, isError, isLoading, refetch } = useBattlePair();
+  const { mutate: sendVote, isPending: isVotePending } = useBattleVote();
+
+  const [pendingWinnerId, setPendingWinnerId] = useState(null);
+  const [voteError, setVoteError] = useState(null);
 
   useEffect(() => {
-  const timer = setTimeout(() => {
-    const now = new Date();
-    let targetYear = now.getFullYear();
-    const targetDate = new Date(`${targetYear}-10-05T00:00:00`);
+    if (!data?.profiles?.length) return;
 
+    data.profiles.forEach((profile) => {
+      profile.photos?.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+      });
+    });
+  }, [data]);
 
-
-    setNextMonday(targetDate);
-    setIsLoading(false);
-  }, 1000);
-
-  return () => clearTimeout(timer);
-}, []);
-
-
-  if (isLoading) {
+  if (isLoading && !data) {
     return (
-      <div className="w-full min-h-[calc(100vh-169px)] flex items-center justify-center">
+      <div className="flex min-h-screen w-full items-center justify-center">
         <Spinner size="lg" />
       </div>
     );
   }
 
+  const hasPair = data?.profiles?.length === 2;
+
+  const handleVote = (winnerId) => {
+    if (!winnerId || isVotePending) return;
+
+    setVoteError(null);
+    setPendingWinnerId(winnerId);
+
+    sendVote(winnerId, {
+      onError: () => {
+        setVoteError("Не удалось отправить голос. Попробуйте ещё раз.");
+      },
+      onSettled: () => {
+        setPendingWinnerId(null);
+      },
+    });
+  };
+
   return (
-    <div className="w-full min-h-[calc(100vh-169px)] p-5 dark:from-gray-900 dark:to-gray-800 text-center">
-      <h3 className="text-md text-gray-500 dark:text-gray-300">
+    <div className="min-h-screen w-full px-4 pb-10 pt-6 text-center">
+      <h3 className="text-sm text-gray-500 dark:text-gray-300">
         Нас пускают по внешности? Нет.
         <br /> Будут ли нас судить по внешности? Да.
       </h3>
 
-      {nextMonday && <CountdownTimer targetDate={nextMonday} />}
+      {isError ? (
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <p className="text-sm text-red-500">
+            Не удалось загрузить дуэль. Попробуйте обновить страницу.
+          </p>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            className="rounded-xl bg-primary-red px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-red/90"
+          >
+            Обновить
+          </button>
+        </div>
+      ) : hasPair ? (
+        <>
+          <div className="mt-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+              Этап {data.stage ?? "-"}
+            </p>
+            <p className="mt-2 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+              Выберите, кто проходит дальше
+            </p>
+          </div>
 
-      <p className="text-gray-500 dark:text-gray-300 mt-4">
-        Новый функционал откроется в понедельник. Вы сможете голосовать за более
-        привлекательных пользователей!
-      </p>
+          <div className="mx-auto mt-6 grid max-w-4xl grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-6">
+            {data.profiles.map((profile) => (
+              <BattleProfileCard
+                key={profile.id}
+                profile={profile}
+                onSelect={handleVote}
+                disabled={isVotePending}
+                isProcessing={isVotePending && pendingWinnerId === profile.id}
+              />
+            ))}
+          </div>
+
+          {voteError && (
+            <p className="mt-4 text-sm text-red-500">{voteError}</p>
+          )}
+        </>
+      ) : (
+        <>
+          {nextBattleDate && <CountdownTimer targetDate={nextBattleDate} />}
+
+          <p className="text-gray-500 dark:text-gray-300 mt-4">
+            Новый функционал откроется в понедельник. Вы сможете голосовать за более
+            привлекательных пользователей!
+          </p>
+        </>
+      )}
     </div>
   );
 };
